@@ -1,0 +1,328 @@
+#!/usr/bin/perl -w
+
+use strict;
+use POSIX qw(ceil floor);
+use Getopt::Std;
+use File::Basename;
+use Parallel::ForkManager;
+
+BEGIN {
+	$SIG{__WARN__} = sub {
+		print "[1;31m", @_, "[0m";
+	};
+}
+
+my $max_threads = 8;
+my $untiled_levels = 2;
+my $save_path = "/tmp/tiles";
+my $tmp_path = "/tmp/tiles";
+
+my $quality = 80;
+my $padding = 8;
+my @tile_size = (32,32);
+my $unsharp_mask = '0.5x0.5+1.0+0.03';
+
+# get filename
+
+	die "Filename required.\n" unless @ARGV;
+	my $filename = quotemeta $ARGV[0];
+	die "$filename: $!\n" unless -e $ARGV[0];
+
+	# (the *_unquoted variation is needed in the place(s) we don't use the shell)
+	my ($basename_unquoted) = fileparse($ARGV[0], qr/\.[^.]*/);
+	my $basename = quotemeta $basename_unquoted;
+
+
+# verify save and tmp paths
+
+	-e $save_path or mkdir $save_path or die "Save path ($save_path) does not exist; unable to create it: $!\n";
+	-e $tmp_path or mkdir $tmp_path or die "Temporary file path ($tmp_path) does not exist; unable to create it: $!\n";
+	-w $save_path or die "Unable to write to save path ($save_path).\n";
+	-w $tmp_path or die "Unable to write to temporary file path ($tmp_path).\n";
+
+
+# force convert to be single threaded (affects ImageMagick compiled with OpenMP support)
+
+	$ENV{OMP_NUM_THREADS} = 1;
+
+# get image dimensions
+
+	# TODO: re-add options
+	# TODO: re-add time elapsed
+	# my $output = `identify -format '%f: %wx%h' $filename`;
+	my $output = `header $filename`;
+	# my $output = "54321x12345";
+	die "Error getting image dimensions" if $?;
+	my ($image_width, $image_height) = $output =~ /(\d+)x(\d+)/;
+
+	my $levels = ceil(log($image_width * $image_height / 72000) / log 4) + 1;
+
+	print "width($image_width) height($image_height) levels($levels)\n";
+
+
+my ($stripe, $last_stripe);
+my $level = 0;
+my ($width, $height) = ($image_width, $image_height);
+my $stripe_size = $tile_size[1] * 2; # this might perform better if dynamically set (based on memory or something)
+
+my $pm = new Parallel::ForkManager($max_threads);
+{
+	# TODO: set this correctly
+	my ($completed, $expected) = (0, 41 + 11 + 3 + 1);
+	# could also use this to monitor exit signals for failures (disk full, etc.)
+	$pm->run_on_finish(sub { printf "[ %3.2f%% complete ]\n", ++$completed*100/$expected });
+}
+
+while ($level < $levels - $untiled_levels) {
+	# level
+	print "[1;32m";
+	printf "[%d] --- %d processes\n", $level, ceil($height/$stripe_size);
+	print "[0m";
+	$last_stripe = ceil($height/$stripe_size) - 1;
+
+	last if $last_stripe == 0;
+
+	# stripe
+	foreach $stripe (0 .. $last_stripe) {
+		# start thread
+		$pm->start and next;
+
+		# offset_y = stripe * stripe_size
+		my $offset_y = $stripe * $stripe_size;
+
+		# scene = ceil(width/tile_width) * ceil(offset_y/tile_height)
+		my $scene_number = ceil($width/$tile_size[0]) * ceil($offset_y/$tile_size[1]);
+
+		# offset_y: offset from top of image to top of stripe
+		# stripe_height: height of stripe (padding_top + stripe_size + padding_bottom
+		# top of stripe = offset_y - padding_top
+		my $padding_top = $stripe == 0 ? 0 : $padding;
+
+		# need to be sure that this never exceeds the height
+		# and for the second-to-last stripe, if the final stripe is less than $padding, that could happen
+		my $padding_bottom = $stripe == $last_stripe ? 0 : $padding; # this needs to be smarter (next-to-last case)
+
+		# stripe_height = padding_top + stripe_size + padding_bottom
+		my $stripe_height = $padding_top + ($stripe == $last_stripe ? $height % $stripe_size : $stripe_size) + $padding_bottom;
+
+		# I think there's still a problem with $start
+		my $start = 4 * $stripe - ($stripe > 0);
+		my $end = floor(4 * ($offset_y - $padding_top + $stripe_height)/$stripe_size);
+		# printf "[1;34mStart: %d[0m\n", $start;
+		# printf "[1;34mEnd  : %d[0m = floor(4 * (%d - %d + %d)/%d)\n", $end, $offset_y, $padding_top, $stripe_height, $stripe_size;
+
+		my (@input_files, $skip_bytes);
+
+		if ($level == 0) {
+
+			@input_files = ($filename);
+			$skip_bytes = 64 + 3 * $width * ($offset_y - $padding_top);
+
+		} else {
+
+			@input_files = map sprintf("%s/%s-%02d-%03d.raw", $tmp_path, $basename, $level, $_), ($start .. $end);
+			# ensure intermediate source files exist before proceeding
+			for (@input_files) {
+				sleep 4 until (-e $_);
+			}
+			$skip_bytes = $stripe == 0 ? 0 : $stripe_size/4 - $padding;
+		}
+
+		# might play with bs/count to optimize performance
+
+		my $command = sprintf "cat @input_files"
+							. " | dd iflag=skip_bytes,fullblock skip=%d bs=%d count=%d"
+							. " | convert -depth 8 -size %dx%d rgb:- -strip -quality %d -scene %d"
+							. " \\( +clone -unsharp %s -crop %dx%d+0+%d +repage -crop %dx%d -write %s/%s,%d,%%04d.jpg -delete 0--1 \\)"
+							. " -resize 50%% -crop %dx%d+0+%d +repage rgb:%s/.writing-%s-%02d-%03d.raw",
+			# skip bytes
+			$skip_bytes,
+			# ^^^ this line is wrong for other than level-0
+			# after level-0, we need to skip only the non-padding of the first row
+
+			# block size
+			$width * 3,
+
+			# block count ($stripe_height)
+			$stripe_height,
+
+			# -size
+			$width,
+			$stripe_height,
+
+			$quality,
+			$scene_number,
+			$unsharp_mask,
+			# this step crops away padding used to eliminate edge effects during unsharp masking
+			$width, $stripe_size, $padding_top,
+			# tile crop
+			$tile_size[0], $tile_size[1],
+			$save_path,
+			$basename,
+			$level,
+			# this step crops away padding used to eliminate edge effects during resize
+			# but image dimensions are 1/2 after resize 50%
+			round($width/2), $stripe_size/2, $padding_top/2,
+			$tmp_path,
+			$basename,
+			$level + 1,
+			$stripe;
+
+		print "$command\n";
+		my $output = `$command`;
+		print "$output\n" if $output;
+		rename sprintf("%s/.writing-%s-%02d-%03d.raw", $tmp_path, $basename, $level + 1, $stripe), sprintf("%s/%s-%02d-%03d.raw", $tmp_path, $basename, $level + 1, $stripe);
+		printf "%1\$s/.writing-%2\$s-%3\$02d-%4\$03d.raw -> %s/%s-%02d-%03d.raw\n", $tmp_path, $basename, $level + 1, $stripe;
+
+		print "$level $stripe/$last_stripe\n";
+
+		# end child process
+		# TODO: return exit code
+		$pm->finish;
+	}
+
+	$width = round($width/2);
+	$height = round($height/2);
+	# since the width of the image has halved, increase stripe height to keep amount of data input about the same
+	$stripe_size *= 2;
+	$level++;
+}
+
+$pm->wait_all_children;
+
+# what if $basename needs quoting?
+my $input_files = $level == 0
+	? $filename
+	: sprintf "%s/%s-%02d-*.raw", $tmp_path, $basename, $level;
+
+my $command = sprintf "cat %s | dd iflag=skip_bytes,fullblock skip=%d bs=%d count=%d | convert -depth 8 -size %dx%d rgb:- -quality %d",
+	$input_files,
+	$level == 0 ? 64 : 0,
+	$width * 3,
+	$height,
+	$width, $height,
+	$quality;
+
+# single process levels (last_stripe == 0)
+# this is going to be wrong if untiled_levels = 0 (or 1?) but untiled_levels should never be < 1
+
+	while ($level < $levels - $untiled_levels) {
+			$command .= sprintf " \\( +clone -unsharp %s -crop %dx%d -write %s/%s,%d,%%d.jpg -delete 0--1 \\) -resize 50%%",
+				$unsharp_mask,
+				@tile_size,
+				$save_path,
+				$basename,
+				$level++;
+	}
+
+# thumbnail
+
+	$command .= sprintf " \\( +clone -thumbnail 12500@ -unsharp %s -write %s/%s-preview.jpg +delete \\) -interlace Line", $unsharp_mask, $save_path, $basename;
+
+# untiled levels
+
+	while ($level < $levels - 1) {
+		$command .= sprintf " \\( +clone -unsharp %s -write %s/%s,%d,0.jpg +delete \\) -resize 50%%", $unsharp_mask, $save_path, $basename, $level++;
+	}
+
+# final level
+
+	$command .= sprintf " -unsharp %s %s/%s,%d,0.jpg", $unsharp_mask, $save_path, $basename, $level;
+
+# re-enable OpenMP
+
+	delete $ENV{OMP_NUM_THREADS};
+
+# run command
+
+print "$command\n";
+$output = `$command`;
+print "$output\n" if $output;
+exit;
+
+# Subroutines
+sub min { my ($a, $b) = @_; return $a < $b ? $a : $b }
+sub max { my ($a, $b) = @_; return $a > $b ? $a : $b }
+sub round { return ($_[0] - int $_[0]) >= 0.5 ? 1 + int $_[0] : int $_[0] }
+sub get_size {
+	my ($level, $width, $height) = @_;
+	for (my $i = 0; $i < $level; $i++) {
+		$width = round($width/2);
+		$height = round($height/2);
+	}
+	return sprintf '%dx%d\\!', $width, $height;
+}
+
+<<COMMENT;
+# if $level == 0:
+#	if file_is_raw:
+dd if=<input_file> skip=64 iflags=skip_bytes bs=<width*3> count=<lines> | convert -depth 8 -size <widthxheight+padding> rgb:- ...
+#	else:
+stream -map rgb -storage-type char -extract %dx%d+0+%d %s\'[0]\' -
+
+# if $level > 0:
+convert <files.mpc>[m-n] -append -crop <padding> +repage ...
+
+# both:
+... -quality 80 -scene <n> \( +clone -unsharp <USM> -crop <remove padding> +repage -crop <tile> -write <outfiles> -delete 0--1 \) -resize 50%# -crop <padding> +repage <outfile>
+
+# single-thread mode:
+convert <file(s)> -thumbnail 12500@ -unsharp <USM> <outfile>
+convert <file(s)> -quality 80 -interlace Line -unsharp <USM> <outfile>
+convert <file(s)> -quality 80 -interlace Line -resize 50% -unsharp <USM> <outfile>
+
+
+
+
+dd if=[ INPUT_FILE ] skip=[ 64 + offset_y ] iflags=skip_bytes bs=[ width*3 ] count=[ STRIPE_HEIGHT+padding ] | convert -depth 8 -size [ WIDTH ]x[ STRIPE_HEIGHT + padding ] rgb:- ...
+stream -map rgb -storage-type char -extract [ width ]x[ STRIPE_HEIGHT + padding ]+0+[ offset_y ] [ input_filename ]\'[0]\' -
+convert <files.mpc>[m-n] -append -crop [ width ]x[ stripe_height + padding ]+0+[ ??? ] +repage ...
+... -quality [ QUALITY ] -scene [ starting_tile ] \( +clone -unsharp [ USM ] -crop <remove padding> +repage -crop [ tile_width ]x[ tile_height ] -write [ tile_filename_pattern ] -delete 0--1 \) -resize 50% -crop <padding> +repage <outfile>
+convert <file(s)> -thumbnail 12500@ -unsharp [ USM ] <outfile>
+convert <file(s)> -quality [ QUALITY ] -interlace Line -unsharp [ USM ] <outfile>
+convert <file(s)> -quality [ QUALITY ] -interlace Line -resize 50% -unsharp [ USM ] <outfile>
+
+Creating/concatenating raw RGB files:
+
+	- read w/dd
+	- how to signify finished write?  create symlink/hardlink?  (symlink/link)
+		~file_id-level-stripe.raw
+		~27277-01-000.raw
+		~27277-01-001.raw -> ~27277-01-000.raw
+		~27277-01-002.raw -> ~27277-01-000.raw
+
+		dd if=~27277-01-002.raw iflags=skip_bytes skip=%d bs=%d count%d | convert -depth 8 -size %dx%d rgb:- ...
+
+	- wait... that's not going to work; how are we going to append to an existing file?!
+		>> ?
+		convert ... raw:- >> ~27277-01-000.raw
+		Yes, that should work.
+		...but how are we going to be sure that the previous thread has finished writing?  Existence of [sym]link?
+		I think this will actually hurt parallelism since writes can't occur in parallel
+
+	- is writing raw RGB or mpc faster?
+	- no reason we couldn't do cat \@input_files | convert ...
+	  *or* cat raw_input_files | dd ... | convert
+
+	- it'd be nice to break out of the loop when stripes == 1 and run the remaining processes in parallel.
+	  *or* I could reset OMP_NUM_THREADS and run the remaining processes as a single thread?
+	  running processes in parallel from the same source(s) might not work due to resize rounding (using 25%, 6.25%, etc instead of 50% -> 50% -> 50%)
+	  ...unless we set resize using geometry instead of %; it'd probably be best to use WxH\! to be sure dimensions are met.
+
+	- return exit code on pm->finish; check it on run_on_finish
+	- if any of the commands could be modified to run w/o pipes/shell characters, it might be more efficient.
+		- what about using Perl for this?!
+
+
+	generic command:
+
+		cat \@input_files | dd iflags=skip_bytes skip=%d bs=%d count=% | convert ...
+
+	generic process:
+
+		calculate input_files
+		wait for input_files to exist
+		run command
+		rename output file (always, or just if intended for consumption?)
+
+COMMENT

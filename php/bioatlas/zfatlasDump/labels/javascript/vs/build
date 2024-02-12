@@ -1,0 +1,98 @@
+#!/bin/bash
+
+# compiler.jar is Google's Closure compiler (https://developers.google.com/closure/compiler/)
+
+OUTFILE=${OUTFILE:-vs.js}
+COMPILER=/usr/local/bin/compiler.jar
+
+# Add git commit hash that last affected files under javascript/vs/
+if [ "$(git rev-parse --is-inside-work-tree)" == "true" ]; then
+	LAST_COMMIT=$(git log -n1 --pretty=%h -- .)
+	OUTPUT_WRAPPER="/* ${LAST_COMMIT} */(function(){%output%})();"
+fi
+
+# List JavaScript input files here; order may be important
+JS_INPUT_FILES=( \
+	base.js \
+	property-map.js \
+	core/keys.js \
+	core/slide.js \
+	core/viewer.js \
+	core/viewerwidget.js \
+	core/viewerlink.js \
+	core/labels.js \
+	core/touch.js \
+	widget/thumbnail.js \
+	widget/hyperlink.js \
+	widget/scalebar.js \
+	widget/zoom.js \
+	widget/touch-zoom.js \
+	widget/iterator.js \
+	widget/ajax-iterator.js \
+	widget/slidelabel.js \
+	widget/labels.js \
+	local.js \
+	widget/zf-ruler.js \
+	widget/zf-hyperlink.js \
+	widget/zf-thumbnail.js \
+	widget/zf-slidelabel.js \
+	widget/zf-iterator.js \
+	widget/zf-series-navigator.js \
+	widget/zf-label-search.js \
+	ui/hover.js \
+	ui/zf-inset.js \
+	ui/zf-keys.js \
+	ui/zf-sliding-panel.js \
+	ui/zf-help.js \
+	app/comparison.js \
+	app/zf-fullscreen.js \
+	app/zf-comparison.js \
+	app/zf-reference.js \
+)
+
+CUSTOM_EXTERNS=( \
+	lib/externs/w3c_{dom[123],css,xml,range,event}.js \
+	lib/externs/ie_{dom,event}.js \
+	lib/externs/gecko_{dom,event}.js \
+	lib/externs/window.js \
+	lib/externs/es3.js \
+	lib/externs/es5.js \
+	lib/externs/deprecated.js \
+	lib/externs/fileapi.js \
+	lib/externs/html5.js \
+	lib/externs/webstorage.js \
+	externs.js \
+)
+
+# Backup previous compilation result
+if [ -e "${OUTFILE}" ]; then
+	mv "${OUTFILE}" "${OUTFILE}.previous"
+fi
+
+# Compile JavaScript into $OUTFILE
+/usr/bin/java -XX:+TieredCompilation -jar ${COMPILER} \
+	--compilation_level ADVANCED_OPTIMIZATIONS \
+	--jscomp_off checkRegExp \
+	--warning_level VERBOSE \
+	--summary_detail_level 3 \
+	--define "IN_DEVELOPMENT=false" \
+	--property_map_output_file vs_properties.out \
+	--use_only_custom_externs \
+	${CUSTOM_EXTERNS[@]/#/--externs } \
+	${JS_INPUT_FILES[@]/#/--js } \
+	--js exports.js \
+	--output_wrapper "${OUTPUT_WRAPPER:-(function()\{%output%\})();}" \
+	--js_output_file "${OUTFILE}"
+
+retval=$?
+# Print a summary (on successful compilation)
+if [ $? -eq 0 ]; then
+	COMPILED_SIZE=$(cat "${OUTFILE}" | wc -c)
+	UNCOMPILED_SIZE=$(cat ${JS_INPUT_FILES[@]} | wc -c)
+	COMPRESSION_RATIO=$(echo 100*\(${UNCOMPILED_SIZE}-${COMPILED_SIZE}\)/${UNCOMPILED_SIZE} | bc -l)
+
+	echo "Uncompiled size: $(printf '%7d' ${UNCOMPILED_SIZE})"
+	echo "  Compiled size: $(printf '%7d (%3.2f%% compression)' ${COMPILED_SIZE} ${COMPRESSION_RATIO})"
+fi
+
+exit $retval

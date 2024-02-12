@@ -1,0 +1,7 @@
+##########################################
+# Files to retrieve from zfatlas.psu.edu #
+##########################################
+
+# Flat file databases:
+/comments.txt
+/search.log

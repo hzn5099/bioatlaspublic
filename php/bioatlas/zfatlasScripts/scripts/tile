@@ -1,0 +1,365 @@
+#!/usr/bin/perl -w
+# Parallelizer for ImageMagick/pyramidal tiling
+# Revision 9,  2012/01
+
+# This script creates n-levels of tiles with a 50% reduction in size for each level.
+# The final level is always an interlaced, single image.
+# It does this by extracting strips from images too large to load into memory.
+# In order to take advantage of multiple processors, this script runs concurrent child processes.
+
+# NOTE:  Imagemagick throws segmentation faults when attempting to tile TIFFs produced by
+# vips.  It *looks* almost like stream reads in the whole image and outputs it "stretched."
+# You need to output to VIPS format (*.v) and convert to TIFF using raw2tiff(64).
+use strict;
+use POSIX;
+use Getopt::Std;
+use File::Basename;
+
+# force convert to be single threaded
+$ENV{OMP_NUM_THREADS} = 1;
+
+# User-defined values
+
+	my $save_path		= "/tmp/tiles/";
+	my $tmp_path		= "/tmp/tiles/";
+	my $stripe_padding	= 8;			# must be an even integer
+	my $max_concurrency	= 8;			# number of concurrent child processes to maintain
+	my @tile_size		= (400,300);	# height should be an even integer
+	my $quality			= 80;			# JPEG quality, 0-100
+
+# check for options
+# -n		Number of levels to create
+# -d		Print debugging info
+# -q		Quiet
+# -b		Drop into background when switching to single thread
+# -a		Area used in automatically calculating levels
+# -Q		JPEG quality (0-100)
+
+	my %option;
+	getopts('bdqn:a:c:Q:',\%option);
+	my $quiet = $option{q};
+	my $debugging = $option{d};
+	my $concurrency = ($option{c} && $option{c} < $max_concurrency && $option{c} > 0) ? $option{c} : $max_concurrency;
+	$quality = $option{Q} if $option{Q};
+	print "Concurrency: $concurrency\n" if $debugging;
+
+
+# get filename
+
+	die "Filename required.\n" unless @ARGV;
+	my $filename = quotemeta $ARGV[0];
+	die "$filename: $!\n" unless -e $ARGV[0];
+
+	# (the *_unquoted variation is needed in the place(s) we don't use the shell)
+	my ($file_id_unquoted) = fileparse($ARGV[0], qr/\.[^.]*/);
+	my $file_id = quotemeta $file_id_unquoted;
+
+	print "file_id_unquoted: $file_id_unquoted\n" if $option{d};
+
+
+# verify save and tmp paths
+
+	-e $save_path or mkdir $save_path or die "Save path ($save_path) does not exist; unable to create it: $!\n";
+	-e $tmp_path or mkdir $tmp_path or die "Temporary file path ($tmp_path) does not exist; unable to create it: $!\n";
+	-w $save_path or die "Unable to write to save path ($save_path).\n";
+	-w $tmp_path or die "Unable to write to temporary file path ($tmp_path).\n";
+
+# Error if no level-determination is set
+
+	die "Error: One of the following options are mandatory:\ntile -n {number of levels} {filename}\ntile -a {target area of smallest level} {filename}\n" unless $option{a} or $option{n};
+
+# Program variables
+
+my %children;
+my ($offset, $width, $height, $pid, $start, $end,
+	$processes_required, $processes_forked,
+	$command, $output, $tmp_filename);
+$| = 1;
+
+# identify dimensions
+
+	$output = `identify -format '%w %h' $filename`;
+	die "Error getting image dimensions" if $?;
+	($width, $height) = split /\s+/, $output;
+	print $output if $debugging;
+
+	my $levels = $option{n} ||
+		ceil( log ($width*$height/$option{a}) / log 4 ) + 1
+	or die "$!\n";
+	print "Creating $levels levels\n" unless $quiet;
+
+# initialize some variables
+my $stripe_size					= $tile_size[1] * 2; # This could be optimized for image width
+my $current_level 				= 0;  # Current level of reduction
+my $thread_count				= 0;  # Number of threads currently running.
+my $total_processes_completed	= 0;
+my $total_processes_required	= get_total_processes($stripe_size, $height);
+
+# Set signal handlers
+$SIG{  INT  }	= sub { kill 'INT' => keys %children; print "Killed!\n"; exit };
+$SIG{__DIE__}	= sub { kill 'INT' => keys %children; print "Dying! $!\n"; exit };
+$SIG{ CHLD  }	= sub {
+	my $pid;
+	do {
+		$pid = waitpid(-1, WNOHANG);
+		if ($pid and $children{$pid}) {
+			delete $children{$pid};
+			$thread_count--;
+			printf "( %3.2f%% complete )\n", 100 * ++$total_processes_completed/$total_processes_required unless $quiet;
+		}
+	} until ($pid == -1);
+};
+
+print "Total processes required: $total_processes_required\n" if $debugging;
+printf "Starting: %s\n", scalar localtime unless $quiet;
+$start = time;
+
+# -----------------------------------------------------------------------------
+### Main loop ###
+# -----------------------------------------------------------------------------
+
+while ($current_level < $levels - 3) {
+	$offset				= 0;  # Distance from top of image, in pixels.
+	$processes_forked	= 0;  # Number of processes forked in this level thus far.
+	$processes_required	= ceil($height / $stripe_size);
+
+
+	printf("Level #%d; %2d process(es) required for this level.\n",
+		$current_level,
+		$processes_required) unless $quiet;
+
+
+	# -------------------------------------------------------------------------
+	if ($processes_required == 1) {
+	# Single thread mode, jump to
+	# -------------------------------------------------------------------------
+
+		# Need to wait until all processes have completed.
+		print "Waiting for all parallel threads to complete...\n" if $debugging;
+		sleep 2 while ($thread_count);
+
+		last;
+
+	# -------------------------------------------------------------------------
+	} else {
+	# Parallel processing mode
+	# -------------------------------------------------------------------------
+		until ($processes_forked == $processes_required) {
+			until ($thread_count == $concurrency or $processes_forked == $processes_required) {
+				# -------------------------------------------------------------
+				if ($pid = fork) {
+				# Parent
+				# -------------------------------------------------------------
+					$children{$pid} = 1;
+					$processes_forked++;
+					$thread_count++;
+					$offset += $stripe_size;
+					printf "Initiating process [ %06d ] (Level %2d,  Stripe %3d of %3d)\n", $pid, $current_level, $processes_forked, $processes_required if $debugging;
+				# -------------------------------------------------------------
+				} elsif (defined $pid) {
+				# Child
+				# -------------------------------------------------------------
+				# sleep 1 and exit if $current_level == 0;
+					# Calculate stripe dimensions and offsets
+					my $is_first_stripe	= $processes_forked == 0 ? 1 : 0;
+					my $is_last_stripe	= $processes_forked == $processes_required - 1 ? 1 : 0;
+					my $padding_top		= $is_first_stripe ? 0 : $stripe_padding;
+					my $padding_bottom	= $is_last_stripe  ? 0 : $stripe_padding;
+					my $stripe_height	= $is_last_stripe ? $height - $offset : $stripe_size;
+
+					# --------------------------------------------------------
+					if ($current_level == 0) {
+					# Extract from original image
+					# --------------------------------------------------------
+						$command = sprintf 'stream -map rgb -storage-type char -extract %dx%d+0+%d %s\'[0]\' - | convert -depth 8 -size %dx%d rgb:-',
+							# -extract %dx%d+0+%d
+							$width,
+							$padding_top + $stripe_height + $padding_bottom,
+							$offset - $padding_top,
+							# %s
+							$filename,
+							# -size %dx%d
+							$width,
+							$padding_top + $stripe_height + $padding_bottom;
+					# --------------------------------------------------------
+					} else {
+					# Concatenate intermediate raw RGB files
+					# --------------------------------------------------------
+
+						my $from = 4 * $offset/$stripe_size - $padding_top/$stripe_padding;
+						my $to = ceil(4 * ($offset + $stripe_height)/$stripe_size) - $is_last_stripe;
+						for ($from .. $to) {
+							$tmp_filename = sprintf '%s~%s-%02d-%04d.tmp.cache', $tmp_path, $file_id_unquoted, $current_level, $_;
+							print "Waiting for $tmp_filename to appear...\n" and sleep 4 until (-e $tmp_filename);
+						}
+						# Should probably monitor errors here; if a "disk full" or similar error occurs, the script
+						# will lock up on the next iteration that requires that file.
+
+						$command = sprintf 'convert \'%s~%s-%02d-%%04d.tmp.mpc[%d-%d]\' -append -crop %dx%d+0+%d +repage',
+
+							# %s~%s-%02d-%%04d.tmp.mpc[%d-%d]
+							$tmp_path,
+							$file_id,
+							$current_level,
+							$from,
+							$to,
+
+							# -crop %dx%d+0+%d
+							$width,
+							$padding_top + $stripe_height + $padding_bottom,
+							($is_first_stripe ? 0 : $stripe_size / 4 - $padding_top);
+					} # -------------------------------------------------------
+
+
+					# Generate convert command
+					$command .= sprintf ' -scene %d \\( +clone -unsharp 0.5x0.5+1.0+0.03 -crop %dx%d+0+%d +repage -crop %dx%d -strip -quality %d -write %s,%d,%%d.jpg -delete 0--1 \\) -resize 50%% -crop %dx%d+0+%d +repage %s~%s-%02d-%04d.mpc',
+
+						# -scene %d (starting tile)
+						ceil($width/$tile_size[0]) * ceil($offset/$tile_size[1]),
+
+						# -crop %dx%d+0+%d
+						$width,
+						$stripe_height,
+						$padding_top,
+
+						# -crop %dx%d
+						$tile_size[0],
+						$tile_size[1],
+
+						# -quality %d
+						$quality,
+
+						# -write %s,%d,%%03d.jpg
+						$save_path . $file_id,
+						$current_level,
+
+						# -crop %dx%d+0+%d
+						round($width/2),
+						round($stripe_height/2),
+						$padding_top/2,
+
+						# rgb:%s~%s-%d-%04d.tmp.mpc
+						$tmp_path,
+						$file_id,
+						$current_level + 1,
+						$processes_forked;
+
+					print "$command\n" if $debugging;
+					# Try offsetting processes at the beginning so they are not always trying to do the same
+					# thing at the same time.
+ 					$start = time;
+ 					$output = `$command`;
+ 					$end = time;
+ 					print "$output\n" if $debugging and $output;
+					# Rename (avoids race condition in parallel threads)
+					my $tmp_basename = sprintf '%s~%s-%02d-%04d', $tmp_path, $file_id, $current_level + 1, $processes_forked;
+					$command = "mv $tmp_basename.cache $tmp_basename.tmp.cache && mv $tmp_basename.mpc $tmp_basename.tmp.mpc";
+					print "$command\n" if $debugging;
+					$output = `$command`;
+					print "$output\n" if $debugging and $output;
+ 					printf("Process %d finished.  Elapsed time: %dm%ds\n", getpid, int ($end - $start)/60,($end - $start) % 60) if $debugging;
+
+					exit;
+				# -------------------------------------------------------------
+				} else {
+				# fork() error
+				# -------------------------------------------------------------
+					warn "fork error: $!\n";
+				}
+
+			} # end inner until() loop
+			sleep 2;
+		} # end outer until() loop
+	} # end parallel processing if()
+	# -------------------------------------------------------------------------
+
+
+	# Set variables for next level:
+	# -------------------------------------------------------------------------
+	$width	= round($width/2);
+	$height	= round($height/2);
+	$stripe_size *= 2;
+	$current_level++;
+
+
+} # end while() loop
+
+# -----------------------------------------------------------------------------
+# Single thread mode
+# -----------------------------------------------------------------------------
+	print "Switching to single thread for remaining levels.\n" if $debugging;
+
+	# Turn into a background process & return console control if $option{b} is set
+	if ($option{b}) {
+		print "(Dropping into the background.  Bye!)\n" unless $quiet;
+		$quiet = 1;
+		$debugging = 0;
+		# Daemonize
+		chdir '/' or die "Can't chdir to /: $!";
+		defined($pid = fork) or die "Can't fork: $!";
+		exit if $pid;
+		setsid or die "Can't start a new session: $!";
+		close STDIN; close STDOUT; close STDERR;
+	}
+	# ----------------------------------------------------------------
+
+	if ($current_level == 0) {
+		$command = "convert $filename";
+	} else {
+		$command = sprintf 'convert %s~%s-%02d-*.tmp.mpc -append \\( +clone -thumbnail 12500@ -unsharp 0.5x0.5+1.0+0.03 -write %s%s-preview.jpg +delete \\) ',
+
+			# rgb:%s~%s-%02d-*.tmp.raw
+			$tmp_path, $file_id, $current_level,
+
+			# -write %s%s-preview.jpg
+			$save_path, $file_id;
+	}
+	$command .= sprintf ' -strip -quality %d ', $quality;
+
+	while ($current_level < $levels - 2) {
+		$command .= sprintf '\\( +clone -unsharp 0.5x0.5+1.0+0.03 -crop %dx%d -write %s%s,%d,%%d.jpg -delete 0--1 \\) -resize 50%% ',
+			$tile_size[0],
+			$tile_size[1],
+			$save_path,
+			$file_id,
+			$current_level++;
+	}
+	# Last two levels: interlaced, single tiles
+	$command .= sprintf ' -interlace Line \\( +clone -unsharp 0.5x0.5+1.0+0.03 -write %s,%d,0.jpg +delete \\) -resize 50%% -unsharp 0.5x0.5+1.0+0.03 %s,%d,0.jpg',
+		$save_path . $file_id,
+		$current_level++,
+		$save_path . $file_id,
+		$current_level;
+
+	# Execute final convert command
+	print "$command\n" if $debugging;
+	$output = `$command`;
+	print "$output\n" if $debugging and $output;
+
+	# Remove temporary, intermediate files.
+	print "Removing temp files.\n" if $debugging;
+	$output = `rm ${tmp_path}~${file_id}-*.tmp.mpc ${tmp_path}~${file_id}-*.tmp.cache`;
+	print "$output\n" if $debugging and $output;
+	# Need to add database insertion
+
+# -----------------------------------------------------------------------------
+$end = time;
+printf "( 100.00%% complete )\nFinished: %s\n", scalar localtime unless $quiet;
+printf "Total time: %dm%ds\n", int ($end - $start)/60,($end - $start) % 60 unless $quiet;
+
+exit;
+### SUBROUTINES
+
+sub min { my ($a,$b) = @_; return $a < $b ? $a : $b }
+sub max { my ($a,$b) = @_; return $a > $b ? $a : $b }
+sub log2 { return (log shift)/log 2 }
+sub round { return ($_[0] - int $_[0]) >= 0.5 ? 1 + int $_[0] : int $_[0] }
+sub get_total_processes {
+	my ($stripe_height, $image_height) = @_;
+	my $stripes = ceil($image_height/$stripe_height);
+	if ($stripes == 1) {
+		return 1;
+	} else {
+		return $stripes + get_total_processes($stripe_height * 2, round($image_height/2));
+	}
+}

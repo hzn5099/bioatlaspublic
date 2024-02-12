@@ -1,0 +1,181 @@
+<?php
+
+	include 'inc/twig.php';
+
+	ob_start();
+
+?>
+
+	<div class="">
+		<div class="column column-1">
+
+			<div id="background" class="shadow-box">
+				<h1>About the atlas</h1>
+				<p>
+				Glass histology slides have long been the standard for analysis of normal,
+mutant, and disease microanatomy.  Recent advancements in microscopy,
+computation, and the internet have made possible exciting new ways to share
+the data residing on traditional glass slides.  With the introduction of
+slide scanning technologies, glass slides can be imaged in their entirety
+and saved as <em>virtual slides</em> in computer databases.  This has set the
+stage for the creation of online histology atlases that enable users from
+around the world to share slide data.
+                                </p>
+				<p>
+				Virtual slide technology enables users to view high-resolution imagery with
+a significantly reduced download time. Virtual slides are panned and
+magnified in a manner similar to a traditional microscope but offer
+constant context with respect to the remainder of the slide, labeling,
+comparison, and collaborative possibilities beyond the limitations of
+physical microscopy.
+				</p>
+				<p>
+  				This atlas was originally constructed primarily for zebrafish and human
+tissues.  We are seeking partners to help us find and share internationally
+unique slide collections that are in danger of being lost. We invite ideas
+and involvement from scientific and medical individuals and communities to
+make available unique and compelling slide collections.  To this end we
+encourage and seek discussion with members of the scientific community for
+the benefit of society.
+				</p>
+			</div>
+			<div id="progress" class="shadow-box">
+				<h2>The following are the component atlases under current construction:</h2>
+				<dl>
+                                <dt>Zebrafish virtual slides:</dt>
+				<dd>The first goal was to provide infrastructure
+for service as a central repository for digital histological sections of
+normal and abnormal zebrafish tissue that allows progressive magnification
+and labeling in a manner that is coordinated with existing anatomical and
+phenotypic ontologies.  The next goals for this project are to plan for
+scanning of slide collections, and to customize the database structure to a
+more scalable format.</dd>
+				<dt>Human and other virtual slides:</dt>
+				<dd>The second goal, which may become a
+primary goal, was to obtain slides from human anatomy and pathology for
+comparison with data from other model organisms.  A subgoal was to
+establish post slides from other model systems.</dd>
+				<dt>MicroCT:</dt>
+				<dd>We are using the zebrafish to pursue the goal of 3D imaging of
+whole, mm-scale organisms (and later, specimens) for phenomics, the
+high-throughput study of phenotype. Accordingly, we have pursued a form of
+X-ray tomography in micron scale with cellular resolution.  Using
+synchrotron microCT, we have created a 3-dimensional version of histology
+for zebrafish we are calling Pan-Cellular Tissue Tomography (PANCETTO).
+Our goal is to generate reconstructions from which the full animal can be
+visualized from 2D slices in any direction.  This work is a collaboration
+with the La Riviere laboratory at University of Chicago and physicists at
+the Advanced Photon Source of Argonne National Laboratory.</dd>
+                                </dl>
+			</div>
+
+			<div id="citing" class="shadow-box">
+				<h2>Citing the Atlas</h2>
+				<p>If you use images from the atlas, to help us continue our work we request the following:</p>
+				<ol type=1>
+					<li>Cite the specific frame you are copying from using the "link to this" tool at the top right of any virtualslide.
+					<li>Credit <a href="https://bio-atlas.psu.edu/">https://bio-atlas.psu.edu/</a>, NIH grant 5R24 RR01744, Jake Gittlen Cancer Research Foundation, and PA Tobacco Settlement Fund.
+					<li>Comparative analysis of fixation and embedding techniques for optimized histological preparation of zebrafish.
+						<br/>Copper JE, Budgeon LR, Foutz CA, van Rossum DB, Vanselow DJ, Hubley MJ, Clark DP, Mandrell DT, Cheng KC.
+						<br/>Comp Biochem Physiol C Toxicol Pharmacol. 2018 Jun;208:38-46.
+				</ol>
+			</div>
+
+			<div id="people" class="shadow-box">
+				<h2>People</h2>
+				<dl class="about-people" style="width:28%">
+					<dt>Project PI
+					<dd>Keith Cheng
+
+					<dt>Atlas Coordinator
+					<dd>Jean Copper
+
+					<dt>Webmaster and<br>Web Resource Coordinator
+					<dd>Steven Peckins
+					<dd>Belinda Giardine
+
+					<dt>Programming
+					<dd>Steven Peckins
+					<dd>Belinda Giardine
+
+					<dt>Image processing &amp; labeling
+					<dd>Steven Peckins
+					<dd>David Mandrell
+
+					<dt>Processing and Sectioning
+					<dd>Lynn Budgeon
+				</dl>
+				<dl class="about-people" style="width:32%">
+					<dt>Veterinary and Comparative Pathologist
+					<dd>Timothy K Cooper
+
+					<dt>3D MicroCT Images
+					<dd>Xuying Xin
+					<dd>Tim Sledz <sup>3</sup>
+					<dd>Arun Tatiparthi <sup>3</sup>
+					<dd>Francesco De Carlo <sup>1</sup>
+					<dd>Xianghui Xiao <sup>1</sup>
+					<dd>Patrick LaRiviere <sup>2</sup>
+					<dd>Gordon Kindlmann <sup>2</sup>
+
+					<dt>Bioinformatic Coordinator
+					<dd>Victor Canfield
+
+					<dt>Systems Administration
+					<dd>Penn State Univ.
+					
+				</dl>
+				<dl class="about-people" style="width:40%">
+					<dt>Fish Facility Manager
+					<dd>Peggy Hubley
+
+					<dt>Past personnel
+					<dd>Christina Foutz (nee Wentz, past atlas coordinator)
+					<dd>Adam Sidor (programming)
+					<dd>Anthony Cheng (labeling)
+					<dd>Saurabha Bhatnagar (web)
+					<dd>Eileen Barno
+					<dd>Mike Abendroth
+					<dd>Zachary Gershenson
+					<dd>Darin Clark
+					<hr>
+					<ol class="about-footnotes">
+					<!--
+					NOTE:
+
+					Since this is an ordered list, make sure the
+					correct numbers are maintained since the
+					superscripts are hard-coded above.
+
+					  -->
+						<li><a href="http://www.aps.anl.gov/">Advanced Photon Source, Argonne National Labs</a>
+						<li>University of Chicago
+						<li><a href="http://www.microphotonics.com/">Micro Photonics, Inc.</a>, Allentown, PA
+					</ol>
+				</dl>
+			</div>
+
+			<div id="references" class="shadow-box">
+				<h2>References/papers</h2>
+				<ul class="about-references">
+					<li>Mohideen M-APK, Beckwith LG, Tsao-Wu GS, Moore JL, Wong ACC, Chinoy MR, Cheng KC.  Histology-based screen for zebrafish mutants with abnormal cell differentiation. Developmental Dynamics 228:414-423, 2003.  PMID: 14579380 [<a href="papers/mohideen-2003.pdf">View PDF</a>, 1.3M]</li>
+					<li>Sabaliauskas NA, Foutz CA, Mest JR, Budgeon LR, Sidor A, Gershenson J, Joshi S, Cheng KC. High-throughput zebrafish histology.  Methods 39:246-254, 2006.  PMID: 16870470 [<a href="papers/sabaliauskas-2006.pdf">View PDF</a>, 4.5M]</li>
+					<li>Tsao-Wu GS, Weber CH, Budgeon LR, Cheng KC. Agarose embedded tissue arrays for histologic and genetic analysis.  Biotechniques 25:614-618, 1998.  PMID: 9793642 [<a href="papers/TsaoWu-1998.pdf">View PDF</a>, 559K]</li>
+                    <li>Comparative analysis of fixation and embedding techniques for optimized histological preparation of zebrafish.Copper JE, Budgeon LR, Foutz CA, van Rossum DB, Vanselow DJ, Hubley MJ, Clark DP, Mandrell DT, Cheng KC.Comp Biochem Physiol C Toxicol Pharmacol. 2018 Jun;208:38-46.</li>
+					<li>Tsao-Wu GS, Weber CH, Budgeon LR, Cheng KC. Agarose embedded tissue arrays for histologic and genetic analysis.  In Expression Genetics:   High-Throughput Methods, Chapter 4, M. McClelland and A. Pardee (eds.), Eaton Publishing, pp. 31-36, 1999. [<a href="papers/TsaoWu-1999.pdf">View PDF</a>, 1.6M]</li>
+				</ul>
+			</div>
+
+		</div>
+	</div>
+<?php
+
+	echo $twig->render('base.twig.html', array(
+		'page' => array(
+			'content'	=> ob_get_clean(),
+			'scripts'	=> array(
+				'scriptaculous-js-1.9.0/lib/prototype.js',
+				'scriptaculous-js-1.9.0/src/scriptaculous.js?load=effects',
+				'about.js',
+			)
+	)));

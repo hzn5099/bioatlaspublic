@@ -1,0 +1,153 @@
+- name: ensure bioatlas is at the latest version
+  yum: name=bioatlas state=latest
+
+- name: ensure php gd is at the latest version
+  yum: name=rh-php56-php-gd state=latest
+  notify: restart httpd
+
+- name: Install Required Packages
+  become: true
+  yum:
+    state: latest
+    name: 
+      - php-pear
+      - gcc
+      - ImageMagick
+      - ImageMagick-perl
+      - perl-Parallel-ForkManager.noarch
+
+- name: write the bioatlas configuration files
+  template:
+    dest: '/data/php/bioatlas/bioatlas/zfatlasDump/{{ item[:-3] }}'
+    group: bioatlas
+    mode: 0440
+    owner: bioatlas
+    selevel: s0
+    setype: httpd_sys_content_t
+    serole: object_r
+    seuser: system_u
+    src: '{{ item }}'
+  with_items:
+  - config.php.j2
+
+- name: Enable file uploads
+  template:
+    dest: '/etc/opt/rh/rh-php56/php.d/99-bioatlas.ini'
+    src: 'templates/99-bioatlas.ini.j2'
+    group: root
+    mode: 0644
+    owner: root
+    selevel: s0
+    setype: usr_t
+    serole: object_r
+    seuser: system_u
+
+- name: write the bioatlas apache configuration file
+  template:
+    dest: /opt/rh/httpd24/root/etc/httpd/conf.d/vhost/443/bioatlas.conf
+    group: root
+    mode: 0644
+    owner: root
+    selevel: s0
+    setype: httpd_config_t
+    serole: object_r
+    seuser: system_u
+    src: bioatlas.conf
+  notify: restart httpd
+
+- name: Create symbolic links
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+    force: true
+  with_items:
+    - { src: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/javascript/',
+        dest: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/zf/javascript' }
+    - { src: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/javascript/',
+        dest: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/human/javascript' }
+    - { src: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/styles/',
+        dest: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/zf/styles' }
+    - { src: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/styles/',
+        dest: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/human/styles' }
+    - { src: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/thumbnails/',
+        dest: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/zf/thumbnails' }
+    - { src: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/thumbnails/',
+        dest: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/human/thumbnails' }
+    - { src: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/inc/',
+        dest: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/zf/inc' }
+    - { src: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/inc/',
+        dest: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/human/inc' }
+    - { src: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/images/',
+        dest: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/zf/images' }
+    - { src: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/view.php',
+        dest: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/zf/view.php' }
+    - { src: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/view.php',
+        dest: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/human/view.php' }
+
+- name: install the database certificate authorities
+  copy:
+    content: '{{ db_ca }}'
+    dest: '{{ db_ca_path }}'
+    group: bioatlas
+    mode: 0440
+    owner: bioatlas
+    selevel: s0
+    setype: httpd_sys_content_t
+    serole: object_r
+    seuser: system_u
+  notify: restart httpd
+  when: db_ca_path != ''
+
+- name: create uploads directory
+  file:
+    dest: '/data/php/uploads/'
+    state: directory
+    owner: apache 
+    group: apache
+    selevel: s0
+    setype: httpd_sys_rw_content_t
+    serole: object_r
+    seuser: system_u
+    mode: 0750
+    recurse: true
+
+- name: verify bulk_upload permissions
+  file:
+    group: bioatlas
+    mode: 0550
+    owner: bioatlas
+    path: '/data/php/bioatlas/bioatlas/zfatlasScripts/scripts/bulk_upload'
+    setype: httpd_sys_rw_content_t
+
+- name: verify insert-tiles permissions
+  file:
+    group: bioatlas
+    mode: 0550
+    owner: bioatlas
+    path: '/data/php/bioatlas/bioatlas/zfatlasScripts/scripts/insert-tiles'
+    setype: httpd_sys_script_exec_t
+
+- name: verify zoomlevels permissions
+  file:
+    group: bioatlas
+    mode: 0550
+    owner: bioatlas
+    path: '/data/php/bioatlas/bioatlas/zfatlasScripts/scripts/zoomlevels'
+    setype: httpd_sys_script_exec_t
+
+- name: verify tile-vips permissions
+  file:
+    group: bioatlas
+    mode: 0550
+    owner: bioatlas
+    path: '/data/php/bioatlas/bioatlas/zfatlasScripts/scripts/tile-vips'
+    setype: httpd_sys_script_exec_t
+
+- name: set thumbnail directory permissions
+  file:
+    path: /data/php/bioatlas/bioatlas/zfatlasDump/labels/thumbnails
+    state: directory
+    recurse: yes
+    mode: 0777
+    setype: httpd_sys_rw_content_t

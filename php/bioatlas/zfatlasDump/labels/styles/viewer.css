@@ -1,0 +1,1329 @@
+/*
+-------------------------------------------------------------------------------
+	vs.Viewer
+-------------------------------------------------------------------------------
+*/
+	.vsViewer {
+		position:		absolute;
+		margin:			0px;
+		padding:		0px;
+		z-index:		1;
+	}
+	.vsFullScreen {
+		width:			100%;
+		height:			100%;
+	}
+	.vsViewerContainer,
+	.vsFullScreen
+	{
+		position:		relative;
+		margin:			0;
+		padding:		0;
+		border:			none;
+		overflow:		hidden;
+		/* experimental */
+		-webkit-user-select:	none;
+		-moz-user-select:	-moz-none;
+		-ms-user-select:	none;
+		user-select:		none;
+	}
+
+	.vs-widget { }
+	.vs-hide-widgets .vs-widget
+	{
+		display:		none;
+	}
+
+	.vs-widget.minimized { }
+
+	.vs-control
+	{
+		cursor:			pointer;
+	}
+/*
+-------------------------------------------------------------------------------
+	vs.widget.ZoomControl
+-------------------------------------------------------------------------------
+*/
+	.vsWidgetZoomControl
+	{
+		position:		absolute;
+		left:			0;
+		top:			0;
+		margin:			2px;
+		z-index:		30;
+		font-size:		20px;
+	}
+	.vsWidgetZoomControl SELECT
+	{
+		display:		block;
+		border:			1px solid #999;
+	}
+	.vsWidgetZoomControl BUTTON
+	{
+		display:		block;
+		width:			100%;
+		margin:			0;
+		margin-top:		2px;
+		color:			#333;
+		font:			normal 12px Verdana, Arial, sans-serif;
+	}
+	.vsWidgetZoomControl.minimized
+	{
+		margin:			1px;
+		padding:		1px;
+	}
+	.vsWidgetZoomControl.minimized BUTTON
+	{
+		display:		none;
+	}
+/*
+-------------------------------------------------------------------------------
+	vs.widget.Thumbnail
+-------------------------------------------------------------------------------
+*/
+	.vsWidgetThumbnail
+	, .vsThumbnailControl
+	{
+		position:		absolute;
+		right:			0;
+		bottom:			0;
+		border:			1px solid #333;
+	}
+	.vsWidgetThumbnail
+	{
+		width:			266px;
+		height:			200px;
+		margin:			4px;
+		-moz-box-shadow:	2px 2px 2px rgba(0, 0, 0, 0.66);
+		-webkit-box-shadow:	2px 2px 2px rgba(0, 0, 0, 0.66);
+		box-shadow:		2px 2px 2px rgba(0, 0, 0, 0.66);
+		overflow:		hidden;
+		z-index:		29;
+	}
+	.vsThumbnailControl
+	{
+		width:			19px;
+		height:			19px;
+		margin:			6px;
+		background:		#fff url(../images/vs-sprite.png) no-repeat 1px -320px;
+		z-index:		30;
+	}
+	.vsWidgetThumbnail.minimized
+	{
+		display:		none;
+	}
+	.vsThumbnailControl.minimized
+	{
+		background-position:	1px -340px;
+	}
+	.vsWidgetROI
+	{
+		position:		absolute;
+		border:			2px solid #333;
+		-moz-box-shadow:	2px 2px 2px rgba(0, 0, 0, 0.66);
+		-webkit-box-shadow:	2px 2px 2px rgba(0, 0, 0, 0.66);
+		box-shadow:		2px 2px 2px rgba(0, 0, 0, 0.66);
+		z-index:		3;
+	}
+	.zf-ui-sliding-panel.right > .vsWidgetThumbnail
+	{
+		right:			326px;
+	}
+	.zf-ui-sliding-panel > .vsThumbnailControl
+	{
+		display:		none;
+	}
+/*
+-------------------------------------------------------------------------------
+	vs.widget.Scalebar
+-------------------------------------------------------------------------------
+*/
+	.vsWidgetScalebar,
+	.vsWidgetRuler
+	{
+		position:		absolute;
+		cursor:			default;
+		z-index:		10;
+	}
+	.vsWidgetScalebar TD
+	, .vsWidgetRuler TD
+	, .vsWidgetSquare TD
+	{
+		padding:		0;
+	}
+	.vsWidgetScalebar TABLE
+	, .vsWidgetRuler TABLE
+	, .vsWidgetSquare TABLE
+	{
+		border-spacing:		0;
+	}
+	.vsWidgetScalebar.minimized
+	, .vsWidgetRuler.minimized
+	, .vsWidgetSquare.minimized
+	{
+	}
+	.vsWidgetScalebar.minimized .caption
+	, .vsWidgetSquare.minimized .caption
+	{
+		display:		none;
+	}
+	.vsWidgetScalebar
+	{
+		bottom:			5px;
+		left:			4px;
+		font:			normal 9px Verdana,Arial,sans-serif;
+	}
+	.vsWidgetScalebar TABLE
+	, .vsWidgetScalebar .caption
+	, .vsWidgetRuler TABLE
+	, .vsWidgetSquare TABLE
+	, .vsWidgetRuler .caption
+	, .vsWidgetSquare .caption
+	{
+		margin-bottom:		3px;
+		border:			1px solid #333;
+	}
+	.vsWidgetSquare TD,
+	.vsWidgetSquare .caption,
+	.vsWidgetScalebar TD,
+	.vsWidgetScalebar .caption
+	{
+		background:		#333;
+		color:			#fff;
+	}
+	.vsWidgetSquare .hruler TD,
+	.vsWidgetScalebar TD
+	{
+		font-size:		9px;
+		height:			3px;
+		text-align:		right;
+	}
+	.vsWidgetSquare TD.light,
+	.vsWidgetScalebar TD.light
+	{
+		background:		#fff;
+	}
+	.vsWidgetSquare TD.dark,
+	.vsWidgetScalebar TD.dark
+	{
+		background:		#333;
+	}
+	.vsWidgetScalebar .error
+	, .vsWidgetRuler .error
+	, .vsWidgetSquare .error
+	{
+		display:		inline;
+		padding:		1px 2px;
+		border:			double;
+		background:		red;
+		color:			#fff;
+	}
+/*
+-------------------------------------------------------------------------------
+	vs.widget.Ruler
+-------------------------------------------------------------------------------
+*/
+	.vsWidgetRuler {
+		bottom:			80px;
+		left:			18px;
+		width:			100%;
+		text-align:		center;
+	}
+	.vsWidgetRuler TABLE {
+		margin:			0 auto 6px auto;
+	}
+	.vsWidgetRuler TABLE TD { /* TABLE is necessary or else IE will fail */
+		height:			10px;
+		text-align:		right;
+	}
+	.vsWidgetRuler TD,
+	.vsWidgetRuler .caption
+	{
+		background:		#69c; /* can't use background-color or else IE will mess up */
+		background:		rgba(102, 153, 204, 0.85); /* zfatlas medium blue */
+		font:			bold 18px Verdana,Arial,sans-serif;
+		color:			#fff;
+	}
+	.vsWidgetRuler TD.light
+	{
+		background:		#ff9;
+		background:		rgba(255, 255, 153, 0.75); /* light yellow */
+	}
+	.vsWidgetRuler .caption,
+	.vsWidgetRuler .error
+	{
+		padding:		2px 8px;
+	}
+/*
+-------------------------------------------------------------------------------
+        vs.widget.Square
+-------------------------------------------------------------------------------
+*/
+	.vsWidgetSquare TABLE TD { /* TABLE is necessary or else IE will fail */
+		text-align:		right;
+	}
+	/* USE SCALEBARS values 
+	.vsWidgetSquare TD,
+        .vsWidgetSquare .caption
+	{
+		background:		#69c;
+		background:		rgba(102, 153, 204, 0.85);
+		font:			bold 18px Verdana,Arial,sans-serif;
+		color:			#fff;
+	}
+	.vsWidgetSquare TD.light
+	{
+		background:		#ff9;
+		background:		rgba(255, 255, 153, 0.75); 
+	}
+	*/
+	.vsWidgetSquare,
+	.vsWidgetSquare .squareDiv {
+		position:		relative;
+		width:			50%;
+		min-height:		20px;
+		bottom:			-60%;
+		left:			20%;
+		overflow:		visible;
+		font:                   normal 9px Verdana,Arial,sans-serif;
+	}
+	.vsWidgetSquare .vruler {
+                position:               absolute;
+                left:                   45px;
+                bottom:                 80px;
+		z-index:		10;
+        }
+	.vsWidgetSquare .hruler {
+		position:		absolute;
+		left:			55px;
+		bottom:			50px;
+		z-index:		10;
+	}
+	.vsWidgetSquare .vruler TD {
+		width:			3px;
+	}
+
+/*
+-------------------------------------------------------------------------------
+	vs.widget.SlideLabel
+-------------------------------------------------------------------------------
+*/
+	.zf-widget.vsSlideLabel
+	{
+		position:		absolute;
+		right:			0;
+		margin:			3px;
+		padding:		2px 4px;
+		color:			#fff;
+		background:		#333;
+		border:			1px solid #eee;
+		border-radius:		5px;
+		-moz-box-shadow:	2px 2px 4px 2px rgba(0,0,0,0.50);
+		-webkit-box-shadow:	2px 2px 4px 2px rgba(0,0,0,0.50);
+		box-shadow:		2px 2px 4px 2px rgba(0,0,0,0.50);
+		font:			normal 12px sans-serif;
+		cursor:			default;
+		z-index:		99;
+	}
+	.zf-widget.vsSlideLabel .title A
+	{
+		font-weight:		bold;
+	}
+	.zf-widget.vsSlideLabel .description
+	{
+	}
+	.zf-widget.vsSlideLabel .description DIV
+	{
+		padding-top:		2px;
+	}
+	.zf-widget.vsSlideLabel.minimized .description
+	{
+		display:		none;
+	}
+
+	.zf-ui-panel-widget .vsSlideLabel .title
+	{
+	}
+	.zf-ui-panel-widget .vsSlideLabel .series
+	{
+		padding:		10px 12px;
+		background-color:	#fff;
+		border-bottom:		1px solid #ccc;
+	}
+	.zf-ui-panel-widget .vsSlideLabel .description
+	{
+		text-align:		justify;
+	}
+	.zf-ui-panel-widget .vsSlideLabel CITE
+	{
+		display:		block;
+		color:			#999;
+	}
+/*
+-------------------------------------------------------------------------------
+	hovering image preview
+-------------------------------------------------------------------------------
+*/
+        .vs-hover-preview
+        {
+            position:			absolute;
+            z-index:			9999;
+	    margin:			18px; /* distance from cursor */
+            border:			1px solid #666;
+            box-shadow:			6px 6px 8px rgba(0, 0, 0, 0.50);
+        }
+        .vs-hover-preview IMG
+        {
+            display:        block;
+        }
+/*
+-------------------------------------------------------------------------------
+	zfatlas.widget.SlideMetadata
+-------------------------------------------------------------------------------
+*/
+	.vsSlideLabel.zf-widget
+	{
+		max-width:		50%;
+	}
+	.vsSlideLabel.zf-widget .description
+	{
+		max-height:		240px;
+		overflow:		auto;
+	}
+	.vsSlideLabel.zf-widget .description DIV
+	{
+		margin-top:		2px;
+		padding-top:		2px;
+		border-top:		1px solid #666;
+	}
+	.vsSlideLabel.zf-widget .description HR
+	{
+		margin:			2px auto;
+		padding:		0;
+		border:			none;
+		border-top:		1px solid #999;
+		height:			0px;
+	}
+	.vsSlideLabel.zf-widget .description .atlas
+	{
+		margin:			0;
+		border:			none;
+	}
+	.vsSlideLabel.zf-widget .description .atlas
+	, .vsSlideLabel.zf-widget .description .source
+	{
+		font-size:		smaller;
+	}
+	.vsSlideLabel.zf-widget .description .source
+	{
+		color:			#999;
+		font-style:		italic;
+	}
+/*
+-------------------------------------------------------------------------------
+	zfatlas.widget.Hyperlink
+-------------------------------------------------------------------------------
+*/
+	.zf-widget .zfHyperlink A
+	{
+		display:		block;
+		font-size:		smaller;
+		text-align:		right;
+	}
+	.zf-widget .zfHyperlink .input-100-wrapper INPUT[type="text"]
+	{
+		width:			300px;
+		padding:		2px;
+		border:			1px solid #999;
+	}
+	.zf-widget .zfHyperlink.minimized .input-100-wrapper
+	{
+		display:		none;
+	}
+/*
+------------------------------------------------------------------------------
+	Common label definitions
+------------------------------------------------------------------------------
+*/
+	.vsLabel {
+		position:		absolute;
+		z-index:		5;
+		cursor:			default;
+	}
+	.vsLabel .label {
+		position:		absolute;
+		border:			2px solid;
+		border-radius:		3px;
+		box-shadow:		2px 2px 2px rgba(0, 0, 0, 0.5);
+		font:			bold 12px/13px Helvetica, Arial, Verdana, sans-serif;
+		font:			bold 12px Helvetica, Arial, Verdana, sans-serif;
+		white-space:		nowrap;
+		z-index:		0;
+	}
+
+	.vsLabel .content {
+		padding:		0 2px;
+	}
+
+	.vsLabel .pointer,
+	.vsLabel .pointer-fill
+	{
+		position:		absolute;
+		width:			0;
+		height:			0;
+	}
+	.vsLabel .pointer
+	{
+		border:			9px none;
+		z-index:		1;
+	}
+	.vsLabel .pointer-fill
+	{
+		border:			6px none;
+	}
+	.vsLabelHover .vsLabel:hover
+	{
+		z-index:		7;
+		cursor:			pointer;
+	}
+	.vsLabel.highlighted
+	{
+		z-index:		6;
+		cursor:			pointer;
+	}
+	.vsLabel.highlighted .label
+	{
+		box-shadow:		4px 4px 4px rgba(0, 0, 0, 0.5);
+	}
+	.vsLabelMask .vsLabel { visibility: hidden; }
+	.vsLabelMask .vsLabel.highlighted { visibility: visible; }
+
+	/* colors can be changed here */
+	.vsLabel .label
+	{
+		background-color:	#fff;
+	}
+	.vsLabel .pointer-fill
+	{
+		border-color:		#fff;
+	}
+	.vsLabel .label
+	, .vsLabel .pointer
+	{
+		color:			#000;
+	}
+	/* :hover & .highlighted colors */
+	.vsLabelHover .vsLabel:hover .label
+	, .vsLabel.highlighted .label
+	{
+		background-color:	#cf0;
+	}
+	.vsLabelHover .vsLabel:hover .pointer-fill
+	, .vsLabel.highlighted .pointer-fill
+	{
+		border-color:		#cf0;
+	}
+/*
+------------------------------------------------------------------------------
+	Position-specific label definitions
+------------------------------------------------------------------------------
+*/
+	.vsLabel.top-center .pointer, .vsLabel.top-center .pointer-fill
+	, .vsLabel.bottom-center .pointer, .vsLabel.bottom-center .pointer-fill
+	, .vsLabel.top-left2 .pointer, .vsLabel.top-left2 .pointer-fill
+	, .vsLabel.top-right2 .pointer, .vsLabel.top-right2 .pointer-fill
+	, .vsLabel.bottom-left2 .pointer, .vsLabel.bottom-left2 .pointer-fill
+	, .vsLabel.bottom-right2 .pointer, .vsLabel.bottom-right2 .pointer-fill
+	{
+		border-style:		solid;
+		border-left-color:	transparent !important;
+		border-right-color:	transparent !important;
+	}
+	.vsLabel.bottom-left2 .pointer, .vsLabel.bottom-left2 .pointer-fill
+	, .vsLabel.bottom-right2 .pointer, .vsLabel.bottom-right2 .pointer-fill
+	, .vsLabel.bottom-center .pointer, .vsLabel.bottom-center .pointer-fill
+	{
+		border-bottom-style:	none;
+	}
+	.vsLabel.top-left2 .pointer, .vsLabel.top-left2 .pointer-fill
+	, .vsLabel.top-right2 .pointer, .vsLabel.top-right2 .pointer-fill
+	, .vsLabel.top-center .pointer, .vsLabel.top-center .pointer-fill
+	{
+		border-top-style:	none;
+	}
+	.vsLabel.left-top .pointer, .vsLabel.left-top .pointer-fill
+	, .vsLabel.right-top .pointer, .vsLabel.right-top .pointer-fill
+	{
+		border-bottom-style:	solid;
+		border-bottom-color:	transparent !important;
+	}
+	.vsLabel.top-left2 .label
+	, .vsLabel.top-right2 .label
+	, .vsLabel.bottom-left2 .label
+	, .vsLabel.bottom-right2 .label
+	, .vsLabel.top-center .label
+	, .vsLabel.bottom-center .label
+	{
+		min-width:		25px;
+	}
+	.vsLabel.top-center .content
+	, .vsLabel.bottom-center .content
+	, .vsLabel.centered .content
+	{
+		text-align:		center;
+	}
+	.vsLabel.top-right2 .content
+	, .vsLabel.bottom-right2 .content
+	, .vsLabel.right-top .content
+	{
+		text-align:		right;
+	}
+/*
+------------------------------------------------------------------------------
+		left-top
+------------------------------------------------------------------------------
+*/
+	.vsLabel.left-top .label
+	{
+		margin:			-3px 9px;
+	}
+	.vsLabel.left-top .pointer
+	, .vsLabel.left-top .pointer-fill
+	{
+		border-right-style:	solid;
+	}
+	.vsLabel.left-top .pointer-fill
+	{
+		margin:			2px 5px;
+	}
+/*
+------------------------------------------------------------------------------
+		right-top
+------------------------------------------------------------------------------
+*/
+	.vsLabel.right-top .label
+	{
+		margin:			-3px 9px;
+		right:			-1px;
+	}
+	.vsLabel.right-top .pointer
+	, .vsLabel.right-top .pointer-fill
+	{
+		border-left-style:	solid;
+	}
+	.vsLabel.right-top .pointer
+	{
+		margin:			0 -8px;
+	}
+	.vsLabel.right-top .pointer-fill
+	{
+		margin:			2px -11px;
+	}
+/*
+------------------------------------------------------------------------------
+		top-center / top-left2 / top-right2
+------------------------------------------------------------------------------
+*/
+	.vsLabel.top-center .label
+	, .vsLabel.top-left2 .label
+	, .vsLabel.top-right2 .label
+	{
+		margin:			7px -18px;
+	}
+	.vsLabel.top-center .pointer
+	, .vsLabel.top-left2 .pointer
+	, .vsLabel.top-right2 .pointer
+	{
+		margin:			0 -9px;
+	}
+	.vsLabel.top-center .pointer-fill
+	, .vsLabel.top-left2 .pointer-fill
+	, .vsLabel.top-right2 .pointer-fill
+	{
+		margin:			3px -6px;
+	}
+	.vsLabel.top-right2 .label
+	, .vsLabel.bottom-right2 .label
+	{
+		right:			0;
+	}
+/*
+------------------------------------------------------------------------------
+		bottom-center / bottom-left2 / bottom-right2
+------------------------------------------------------------------------------
+*/
+	.vsLabel.bottom-center .label
+	, .vsLabel.bottom-left2 .label
+	, .vsLabel.bottom-right2 .label
+	{
+		bottom:			0;
+		margin:			6px -18px;
+	}
+	.vsLabel.bottom-center .pointer
+	, .vsLabel.bottom-left2 .pointer
+	, .vsLabel.bottom-right2 .pointer
+	{
+		margin:			-8px -9px;
+	}
+	.vsLabel.bottom-center .pointer-fill
+	, .vsLabel.bottom-left2 .pointer-fill
+	, .vsLabel.bottom-right2 .pointer-fill {
+		margin:			-9px -6px;
+	}
+/*
+------------------------------------------------------------------------------
+	zfatlas.widget.Labels
+------------------------------------------------------------------------------
+*/
+	.zf-widget-labels
+	{
+		position:		absolute;
+		display:		none;
+		left:			-200px;
+		top:			50px;
+		width:			360px;
+		color:			#333;
+		border:			2px solid;
+		border-radius:		3px;
+		background-color:	#fff;
+		box-shadow:		4px 4px 4px rgba(0, 0, 0, 0.5);
+		line-height:		normal;
+		white-space:		normal;
+
+		/* for inside .label */
+		position:		relative;
+		border:			none;
+		left:			auto;
+		top:			auto;
+		box-shadow:		none;
+		z-index:		0;
+	}
+	.vsLabel.withDefinition {
+		z-index:		8;
+	}
+	.vsLabel.withDefinition .content
+	{
+		display:		none;
+	}
+	.vsLabel.withDefinition .zf-widget-labels
+	{
+		display:		block;
+	}
+	.vsLabelHover .vsLabel.withDefinition .label:hover
+	{
+		cursor:			default;
+	}
+	.vsLabel.withDefinition .pointer-fill
+	{
+		border-color:		#cf0;
+	}
+	.vsLabel.withDefinition.bottom-center .pointer-fill
+	, .vsLabel.withDefinition.bottom-left2 .pointer-fill
+	, .vsLabel.withDefinition.bottom-right2 .pointer-fill
+	{
+		border-color:		#fff;
+	}
+	.vsLabel .annotation-icon
+	{
+		width:			16px;
+		height:			16px;
+		margin:			6px 4px; /* 2px less side-margin to account for content margins */
+		background:		transparent url(../images/vs-sprite.png) no-repeat 0px -402px;
+	}
+
+	.zf-widget-labels H2.term
+	, .zf-widget-labels H2.annotation
+	{
+		margin:			0;
+		padding:		8px;
+		font-weight:		bold;
+		background-color:	#cf0;
+		border-bottom:		1px solid #666;
+		box-shadow:		0 2px 3px rgba(0, 0, 0, 0.66);
+
+	}
+	.zf-widget-labels H2.annotation
+	{
+		font-size:		1em;
+		font-weight:		normal;
+		font-style:		italic;
+		background:		#cf0 url(../images/vs-sprite.png) no-repeat 6px -396px;
+		padding-left:		32px;
+	}
+	.zf-widget-labels .content-wrapper
+	{
+		max-height:		200px;
+		overflow:		auto;
+		clear:			both;
+	}
+	.zf-widget-labels .content-wrapper P
+	{
+		font:			normal larger Georgia, "Times New Roman", serif;
+	}
+	.zf-widget-labels .annotation
+	{
+		font:			normal 1em Georgia, "Times New Roman", serif;
+	}
+	.zf-widget-labels .definition + .annotation
+	, .zf-widget-labels .zfin + .annotation
+	{
+		font-weight:		bold;
+		background:		#eee url(../images/vs-sprite.png) no-repeat 8px -396px;
+		border-top:		2px groove;
+		border-bottom:		2px groove;
+		padding-left:		32px;
+	}
+	.zf-widget-labels P {
+		margin:			0;
+		padding:		6px 8px;
+	}
+	.zf-widget-labels P.author
+	{
+		font:			0.9em normal Helvetica, Arial, Verdana, sans-serif;
+		color:			#999;
+	}
+
+	.vsLabel.bottom-center .zf-widget-labels,
+	.vsLabel.top-center .zf-widget-labels
+	{
+	}
+
+	.zf-widget-labels A {
+		color:			#69c;
+		font-weight:		bold;
+	}
+	/*
+		Unicode "x" symbols:
+
+		&#x2297;	an "x" in a circle (math symbol)
+		&#x2715;	"multiplication X" (dingbats)
+		&#x2718;	"heavy ballot X" (dingbats)
+	*/
+	/*
+	A[href^="http://"]:after {
+		content: "\27AD";
+		font-size:	larger;
+	}
+	*/
+	.zf-widget-labels .close {
+		margin:			2px 6px;
+		float:			right;
+		font-size:		20px;
+		font-weight:		normal;
+		color:			#666;
+		text-decoration:	none;
+		cursor:			pointer;
+	}
+	.zf-widget-labels .close:hover {
+		color:			#300;
+		text-shadow:		1px 1px #ccc;
+	}
+/*
+-------------------------------------------------------------------------------
+	Styles for #blackout inset pages
+-------------------------------------------------------------------------------
+*/
+	#blackout
+	{
+		position:		fixed;
+		left:			0;
+		top:			0;
+		width:			100%;
+		height:			100%;
+		/* these next three are for IE6-8 */
+		background:		transparent url(.);
+		filter:			progid:DXImageTransform.Microsoft.gradient(startColorstr=#7F000000,endColorstr=#7F000000);
+		-ms-filter:		"progid:DXImageTransform.Microsoft.gradient(startColorstr=#7F000000,endColorstr=#7F000000)";
+		background:		rgba(0, 0, 0, 0.66);
+		z-index:		9999;
+	}
+	.blackout-content
+	{
+		position:		fixed;
+		width:			80%;
+		max-height:		80%;
+		left:			10%;
+		top:			10%;
+		overflow:		auto;
+		background:		#69c;
+
+		-moz-box-shadow:	20px 20px 20px rgba(0,0,0,0.50);
+		-webkit-box-shadow:	20px 20px 20px rgba(0,0,0,0.50);
+		box-shadow:		20px 20px 20px rgba(0,0,0,0.50);
+
+		border:			1px solid #333;
+		font:			normal 13px Georgia, "Times New Roman", serif;
+	}
+	.blackout-content > *
+	{
+		margin:	16px;
+	}
+	.blackout-content .close-bar
+	{
+		margin:			0 0 -10px 0;
+		padding:		2px;
+		border-bottom:		1px solid #333;
+		background-color:	#eee;
+		-moz-box-shadow:	0 2px 2px rgba(0, 0, 0, 0.50);
+		-webkit-box-shadow:	0 2px 2px rgba(0, 0, 0, 0.50);
+		box-shadow:		0 2px 2px rgba(0, 0, 0, 0.50);
+	}
+	/* copied from main.css */
+	.shadow-box {
+		-moz-border-radius:	8px;
+		-webkit-border-radius:	8px;
+		border-radius:		8px;
+		/*
+		filter:			progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+		*/
+		background-color:	#fff;
+		color:			#036;
+		-moz-box-shadow:	2px 2px 2px rgba(0, 0, 0, 0.5);
+		-webkit-box-shadow:	2px 2px 2px rgba(0, 0, 0, 0.5);
+		box-shadow:		2px 2px 2px rgba(0, 0, 0, 0.5);
+		padding:		20px;
+		overflow:		auto;
+	}
+	.shadow-box H1
+	{
+		margin:			-20px;
+		padding:		20px;
+		color:			#fff;
+		background-color:	#036;
+	}
+	.shadow-box H1 + *
+	{
+		margin-top:		40px;
+	}
+/*
+-------------------------------------------------------------------------------
+	zfatlas.widget.SlidingPanel
+-------------------------------------------------------------------------------
+	51 == 0x33
+*/
+	.zf-ui-sliding-panel
+	, .zf-ui-sliding-panel > .control
+	{
+		position:		absolute;
+		z-index:		200;
+		border-color:		#333;
+		border-width:		1px;
+	}
+	.zf-ui-sliding-panel > .control
+	{
+		cursor:			pointer;
+		background-color:	#666;
+		background-color:	rgba(51, 51, 51, 0.33);
+		min-width:		24px;
+		min-height:		24px;
+	}
+	.zf-ui-sliding-panel > .control:hover
+	{
+		background-color:	#999;
+		background-color:	rgba(51, 51, 51, 0.25);
+	}
+	.zf-ui-sliding-panel .content-wrapper
+	{
+		position:		relative;
+		width:			100%;
+		height:			100%;
+		background-color:	#eee;
+		background-color:	rgba(51, 51, 51, 0.66);
+		overflow:		auto;
+	}
+	.zf-ui-sliding-panel.minimized .content-wrapper
+	{
+	}
+	/* directional styles */
+	.zf-ui-sliding-panel.top { top: 0 }
+	.zf-ui-sliding-panel.bottom { bottom: 0 }
+	.zf-ui-sliding-panel.left { left: 0 }
+	.zf-ui-sliding-panel.right { right: 0 }
+
+	.zf-ui-sliding-panel.top > .control { top: 100% }
+	.zf-ui-sliding-panel.bottom > .control { bottom: 100% }
+	.zf-ui-sliding-panel.left > .control { left: 100% }
+	.zf-ui-sliding-panel.right > .control { right: 100% }
+
+	.zf-ui-sliding-panel.top
+	, .zf-ui-sliding-panel.bottom
+	{
+		width:			100%;
+		height:			200px;
+		left:			0;
+	}
+
+	.zf-ui-sliding-panel.left
+	, .zf-ui-sliding-panel.right
+	{
+		width:			300px;
+		height:			100%;
+		top:			0;
+	}
+
+	.zf-ui-sliding-panel.top > .control,
+	.zf-ui-sliding-panel.bottom > .control
+	{
+		width:			100%;
+		border-top-style:	solid;
+		border-bottom-style:	solid;
+	}
+
+	.zf-ui-sliding-panel.left > .control,
+	.zf-ui-sliding-panel.right > .control
+	{
+		height:			100%;
+		border-left-style:	solid;
+		border-right-style:	solid;
+	}
+
+	.zf-ui-panel-widget > .title {
+		padding:		3px 9px;
+		color:			#fff;
+		background-color:	#81ABD5; /* medium cornflower blue */
+		border-bottom:		1px solid #666;
+		font:			bold smaller "Trebuchet MS", Arial, sans-serif;
+		text-shadow:		1px 1px 2px rgba(0, 0, 0, 0.5);
+		cursor:			pointer;
+	}
+	.zf-ui-panel-widget > .title .status {
+		float:			right;
+	}
+	.zf-ui-panel-widget > .title:hover {
+		background-color:	#9cf;
+	}
+	.zf-ui-sliding-panel .content-wrapper > .content
+	{
+		background-color:	#eee;
+	}
+	.zf-ui-panel-widget > .wrapper
+	{
+		box-shadow:		inset 0 2px 2px rgba(0, 0, 0, 0.50);
+		-webkit-user-select:	text;
+		-moz-user-select:	text;
+		-ms-user-select:	text;
+		user-select:		text;
+	}
+	.zf-ui-panel-widget > .wrapper > *
+	{
+		margin:			0;
+		padding:		2px 0 20px;
+	}
+
+	/* General vs.* widget styles */
+
+	.zf-ui-panel-widget .vs-widget
+	{
+		font:			normal 12px Arial, sans-serif;
+		color:			#666;
+	}
+	.zf-ui-panel-widget .vs-widget > *
+	{
+		margin:			0;
+		padding:		20px 12px 0;
+	}
+	.zf-ui-panel-widget .vs-widget H1
+	{
+		padding:		20px 12px;
+		font-size:		17px;
+		font-weight:		bold;
+		border-bottom:		1px solid #ccc;
+	}
+	.zf-ui-panel-widget .vs-widget H2
+	{
+		padding:		20px 12px 0;
+		font-size:		15px;
+		font-weight:		bold;
+	}
+	.zf-ui-panel-widget .vs-widget A
+	{
+		color:			#69c;
+		text-decoration:	none;
+	}
+	.zf-ui-panel-widget .vs-widget A:hover
+	{
+		text-decoration:	underline;
+	}
+	.zf-ui-panel-widget .vs-widget P
+	{
+		text-align:		justify;
+	}
+	.zf-ui-panel-widget .vs-widget P.no-content
+	{
+		padding-top:		18px;
+		font-style:		italic;
+		text-align:		center;
+		color:			#999;
+	}
+	.zf-ui-panel-widget HR
+	{
+		margin:			8px 0;
+		border:			none;
+		border-top:		1px solid #ccc;
+	}
+	.zf-ui-panel-widget .vs-widget > HR
+	{
+		margin:			16px 0 -16px;
+	}
+	.zf-ui-panel-widget .vs-widget OL
+	, .zf-ui-panel-widget .vs-widget UL
+	{
+		padding-left:		0;
+		padding-right:		0;
+		list-style-position:	inside; /* must be inside to contain long numbers */
+	}
+	.zf-ui-panel-widget .vs-widget LI
+	{
+		margin:			1px 0;
+		padding:		1px 4px 1px 32px;
+		text-indent:		-20px;
+	}
+	.zf-ui-panel-widget .vs-widget .active
+	{
+		margin:			0;
+		padding-top:		4px;
+		padding-bottom:		4px;
+		background-color:	#fff;
+		border-top:		1px solid #ccc;
+		border-bottom:		1px solid #ccc;
+	}
+	.zf-ui-panel-widget .input-100-wrapper
+	{
+		padding:		8px 16px !important;
+	}
+	.input-100-wrapper INPUT[type="text"]
+	{
+		width:			100%;
+		-webkit-user-select:	text;
+		-moz-user-select:	text;
+		-ms-user-select:	text;
+		user-select:		text;
+	}
+	.zf-ui-panel-widget .input-100-wrapper INPUT[type="text"]
+	{
+		margin:			0 -4px;
+	}
+	.zf-ui-panel-widget INPUT[type="text"]
+	{
+		border:			1px solid #ccc;
+		padding:		5px 3px;
+	}
+	.zf-ui-panel-widget .vs-widget .highlight
+	{
+		background-color:	#cf0;
+		font-weight:		bold;
+	}
+
+/*
+-------------------------------------------------------------------------------
+	white SlidingPanel variant
+-------------------------------------------------------------------------------
+	238 == 0xEE
+*/
+	.vsFullScreen.light .zf-ui-sliding-panel > .control
+	{
+		background-color:	rgba(238, 238, 238, 0.33);
+	}
+	.vsFullScreen.light .zf-ui-sliding-panel > .control:hover
+	{
+		background-color:	rgba(238, 238, 238, 0.25);
+	}
+	.vsFullScreen.light .zf-ui-sliding-panel .content-wrapper
+	{
+		background-color:	rgba(238, 238, 238, 0.66);
+	}
+	.vsFullScreen.light .vsWidgetROI
+	{
+		border:			2px solid #ccc;
+		-moz-box-shadow:	2px 2px 2px rgba(0, 0, 0, 0.66);
+		-webkit-box-shadow:	2px 2px 2px rgba(0, 0, 0, 0.66);
+		box-shadow:		2px 2px 2px rgba(0, 0, 0, 0.66);
+	}
+	.vsFullScreen.light .vsWidgetThumbnail
+	{
+		border:			1px solid #eee;
+		-moz-box-shadow:	2px 2px 2px rgba(0, 0, 0, 0.66), 0 0 2px rgba(0, 0, 0, 0.66);
+		-webkit-box-shadow:	2px 2px 2px rgba(0, 0, 0, 0.66), 0 0 2px rgba(0, 0, 0, 0.66);
+		box-shadow:		2px 2px 2px rgba(0, 0, 0, 0.66), 0 0 2px rgba(0, 0, 0, 0.66);
+	}
+/*
+-------------------------------------------------------------------------------
+	zfatlas.widget.LabelSearch
+-------------------------------------------------------------------------------
+*/
+	.zf-widget-label-search DIV.terms
+	{
+		padding:		0;
+	}
+	.zf-widget-label-search DL
+	{
+		margin:			0;
+		padding:		0;
+		border-top:		1px solid #ccc;
+	}
+	.zf-widget-label-search DT
+	{
+		display:		inline-block;
+		margin:			0;
+		padding:		8px 12px;
+		color:			#69c;
+		font-weight:		bold;
+		font-size:		larger;
+	}
+	.zf-widget-label-search DT:hover
+	{
+		text-decoration:	underline;
+		cursor:			pointer;
+	}
+	.zf-widget-label-search DD
+	{
+		text-align:		justify;
+		margin:			0;
+		padding:		8px 12px;
+	}
+	.zf-widget-label-search .input-100-wrapper
+	{
+		position:		relative;
+	}
+	.zf-widget-label-search INPUT[type="text"]
+	{
+		height:			17px;
+	}
+	.zf-widget-label-search .control
+	{
+		position:		absolute;
+		margin:			13px 18px;
+		top:			0;
+		right:			0;
+		width:			19px;
+		height:			19px;
+		background:		url(../images/vs-sprite.png) no-repeat 2px -300px;
+		opacity:		0.5;
+		cursor:			pointer;
+	}
+/*
+-------------------------------------------------------------------------------
+	Small screen and touch devices
+-------------------------------------------------------------------------------
+
+	iPad:		1024x768
+	iPad Retina:	2048x1536
+	iPodTouch:	480x320
+	iPhone4:	960x640
+
+*/
+@media (max-width:480px) {
+
+	.vsWidgetThumbnail,
+	.vsThumbnailControl,
+	.vsWidgetScalebar
+	 {
+		display:		none;
+	}
+
+	.vsSlideLabel.zf-widget {
+		max-width:		70%;
+	}
+}
+
+@media (min-width:481px) and (max-width:768px) {
+
+	.vsWidgetThumbnail {
+		display:		block;
+		width:			200px;
+		height:			166px;
+	}
+
+	.vsSlideLabel.zf-widget {
+		max-width:		80%;
+	}
+}
+
+@media (min-width:769px) {
+
+	.vsWidgetThumbnail {
+		display:		block;
+		width:			266px;
+		height:			200px;
+	}
+}
+
+@media (pointer:coarse) {
+
+	.vsThumbnailControl {
+		display:		none;
+	}
+}
+
+	/* Until pointer:coarse is supported add .vsTouch to viewer container */
+	.vsTouch {}
+
+	.vsTouch .vsSlideLabel.minimized {
+		padding:		8px 4px;
+	}
+/*
+-------------------------------------------------------------------------------
+	vs.widget.TouchZoom
+-------------------------------------------------------------------------------
+*/
+	.vsWidgetTouchZoom {
+		margin:			5px;
+		position:		absolute;
+		top:			0;
+		left:			0;
+		display:		table;
+		width:			100%;
+		z-index:		102;
+		font-size:		100%;
+		font:			normal 100% Verdana,Arial,sans-serif;
+	}
+	.vsWidgetTouchZoom .wrapper {
+		display:		table-cell;
+		position:		relative;
+		height:			0;
+		text-align:		center;
+		vertical-align:	top;
+	}
+	.vsWidgetTouchZoom .buttons {
+		position:		absolute;
+		top:			0;
+		left:			0;
+	}
+	.vsWidgetTouchZoom .buttons,
+	.vsWidgetTouchZoom .notification
+	{
+		-webkit-box-shadow:	0 0 1px #000, 3px 3px 6px rgba(0,0,0,0.80);
+		-webkit-border-radius:	10px;
+		-moz-box-shadow:	0 0 1px #000, 3px 3px 6px rgba(0,0,0,0.80);
+		-moz-border-radius:	10px;
+		box-shadow:		0 0 1px #000, 3px 3px 6px rgba(0,0,0,0.80);
+		border-radius:		10px;
+	}
+	.vsWidgetTouchZoom .buttons {
+
+		width:			3em;
+		color:			#333;
+		text-align:		center;
+		line-height:		1;
+
+		background:		rgba(255,255,255,0.80);
+	}
+	.vsWidgetTouchZoom .buttons .text {
+		text-shadow:		1px 1px 2px #333;
+		font:	 		normal 3em "Times New Roman",serif;
+	}
+	.vsWidgetTouchZoom .plus  {
+		border-bottom:		1px solid #333;
+	}
+
+	.vsWidgetTouchZoom .minus {
+	}
+
+	.vsWidgetTouchZoom .notification {
+		display:		inline-block;
+		padding:		2px 8px;
+		color:			#fff;
+		background:		rgba(0,0,0,0.80);
+		font-size:		2em;
+	}

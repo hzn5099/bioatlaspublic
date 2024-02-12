@@ -1,0 +1,31 @@
+---
+galaxy_info:
+  author: Hassan Rashid
+  description: BioAtlas.
+  company: Penn State
+  issue_tracker_url: https://toolchest.med.psu.edu:8443
+  license: PSU Proprietary License
+  min_ansible_version: 1.9
+  platforms:
+  - name: EL
+    versions:
+    - 7
+  categories:
+  - web
+dependencies:
+- name: mellon
+  src: git+git@toolchest.med.psu.edu:research-informatics/ansible-mellon.git
+  version: remotes/origin/1.x
+- name: php-ldap
+  src: git+https://toolchest.med.psu.edu/research-informatics/ansible-php-ldap.git
+  version: remotes/origin/1.x
+- name: php-pdo
+  src: git+https://toolchest.med.psu.edu/research-informatics/ansible-php-pdo.git
+  version: remotes/origin/1.x
+- name: php-mysql
+  src: git+https://toolchest.med.psu.edu/research-informatics/ansible-php-mysql.git
+  version: remotes/origin/1.x
+- name: ssl
+  src: git+https://toolchest.med.psu.edu/research-informatics/ansible-ssl.git
+  version: remotes/origin/1.x
+

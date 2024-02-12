@@ -1,0 +1,80 @@
+#reference-vs
+{
+	margin:			8px 0;
+	height:			320px;
+	border:			1px solid #000;
+}
+#reference-terms
+{
+	margin-top:		8px;
+}
+#reference-terms UL
+{
+	list-style:		none;
+}
+#reference-terms UL:first-child
+{
+	padding-left:		0;
+}
+#reference-term
+{
+}
+#reference-desc
+{
+}
+.reference-controls
+{
+	float:			right;
+}
+#reference-refs
+{
+	margin-bottom:		8px;
+}
+#reference-wrapper
+{
+	position:		relative;
+	margin:			0 auto;
+	max-width:		1200px;
+	min-width:		600px;
+}
+#reference-content
+{
+	position:		relative;
+	margin:			0 8px;
+	background-color:	#eee;
+	overflow:		auto;
+}
+#reference-hierarchy
+{
+	margin:			1px 0;
+	font-size:		0.7em;
+}
+#reference-wrapper H2
+{
+	margin:			0;
+}
+#reference-terms LI > H2
+{
+	padding:		8px 0;
+	border-top:		1px dotted;
+	border-bottom:		1px dotted;
+}
+#reference-terms LI P
+{
+	margin-left:		16px;
+}
+/* hide link/description */
+.vsSlideLabel
+{
+	background-color:	#eee;
+}
+.vsSlideLabel .title A
+{
+	color:			#036;
+	text-decoration:	none;
+	cursor:			default;
+}
+.vsSlideLabel .description
+{
+	display:		none;
+}

@@ -1,0 +1,29 @@
+{#
+-----------------------------------------------------------------------------
+	create_select()
+
+		options should be an associative array with 'values' and 'text'
+			containing corresponding values.
+
+		selection is an array containing selected values
+-----------------------------------------------------------------------------
+#}
+{% macro create_select(name, options, selection, multiple, size) %}
+<select name="{{ name }}"{{ multiple ? ' MULTIPLE' : '' }} size="{{ size|default(1) }}">
+	{% for index, value in options.values %}
+	<option value="{{ value }}"{% if value in selection %} SELECTED{% endif %}>{{ options.text[index] }}</option>
+	{% endfor %}
+</select>
+{% endmacro %}
+
+
+{#
+-----------------------------------------------------------------------------
+	create_checkbox()
+
+		creates a checkbox wrapped with in a <LABEL> tag
+-----------------------------------------------------------------------------
+#}
+{% macro create_checkbox(name, text, checked, value) %}
+<label><input type="checkbox" name="{{ name }}" value="{{ value|default('on') }}"{% if checked %} CHECKED{% endif %}> {{ text }}</label>
+{% endmacro %}

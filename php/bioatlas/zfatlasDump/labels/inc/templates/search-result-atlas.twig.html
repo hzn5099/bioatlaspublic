@@ -1,0 +1,17 @@
+{% extends "search-result-item.twig.html" %}
+	{% block result_type %}series{% endblock %}
+	{% block result_title %}
+	<a href="{{ result.href }}">{{ result.name|raw }}</a>
+	{% endblock %}
+
+	{% block result_organism %}
+	<div class="organism">
+		{{ result.slide_count|number_format }} slides
+	</div>
+	{% endblock %}
+
+	{% block result_content %}
+		{% if (result.description) %}
+		<p>{{ result.description }}</p>
+		{% endif %}
+	{% endblock %}

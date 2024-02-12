@@ -1,0 +1,40 @@
+#!/bin/bash
+
+restore_vm()
+{
+	if ! VBoxManage list runningvms | grep "${1}" &>/dev/null; then
+		# VBoxManage controlvm "${1}" poweroff
+		VBoxManage snapshot "${1}" restore "ZFAtlas debugging" && \
+			VBoxHeadless -startvm "${1}" &
+	fi
+}
+
+# Start JsTestDriver server
+# java -jar ~/Downloads/JsTestDriver-1.3.4.b.jar --port 9876 &
+
+
+# Start VMs
+
+# MSIE 6 (Windows XP)
+# locahost:5106
+restore_vm "Windows XP (IE6)"
+
+# MSIE 7 (Windows XP)
+# locahost:5107
+restore_vm "Windows XP (IE7)"
+
+# MSIE 8 (Windows XP)
+# locahost:5108
+restore_vm "Windows XP (IE8)"
+
+# MSIE 9 / Firefox / Opera / Chrome (Windows 7)
+# locahost:5109
+restore_vm "Windows 7 (IE9)"
+
+# MSIE 10 (Windows 8)
+# locahost:5110
+restore_vm "Windows 8 Release Preview"
+
+# Firefox / Opera / Chromium (Ubuntu 12.04)
+# localhost:5112
+restore_vm "Ubuntu 12.04"

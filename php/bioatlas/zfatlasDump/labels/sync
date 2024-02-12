@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# The "$*" means any command line arguments to this script are treated like rsync options.
+# This is most useful to perform a "dry run" (-n or --dry-run) to see what will be synced.
+# I.e., ./sync -n
+
+LOCAL=/var/www/zfatlas/current
+REMOTE=www1.rcc.psu.edu:/var/www/html/zfatlas
+COMMON_OPTS="--recursive --verbose --times --perms --omit-dir-times --links --hard-links"
+
+# Push files to zfatlas.psu.edu
+echo ""
+echo "[1;32m(local) --> ${REMOTE%:*}[0m"
+rsync $COMMON_OPTS \
+	--checksum --delete \
+	--exclude-from="${LOCAL}/.EXCLUDE" \
+	--exclude-from="${LOCAL}/.INCLUDE" \
+	$* \
+	"${LOCAL}/" "${REMOTE}"
+
+# Pull files from zfatlas.psu.edu
+# The --recursive is necessary for the in(ex)clude options to work correctly.
+echo ""
+echo "[1;31m${REMOTE%:*} --> (local)[0m"
+rsync $COMMON_OPTS \
+	--include-from="${LOCAL}/.INCLUDE" \
+	--exclude="*" \
+	$* \
+	"${REMOTE}/" "${LOCAL}"

@@ -1,0 +1,221 @@
+/*
+------------------------------------------------------------------------------
+	Common definitions
+------------------------------------------------------------------------------
+	<div class="vs-widget-slider top-left2">
+		<div class="slider-track">
+			<div class="current-pointer"></div>
+			<div class="slider">
+				<div class="pointer"><div class="pointer-fill"></div></div>
+				<div class="preview">
+					<img src="thumbnails/preview/0000000013.jpg">
+					<p style="text-align:center">3 of 12</p>
+				</div>
+			</div>
+		</div>
+	</div>
+*/
+	.vs-widget-slider {
+		z-index:		99;
+		width:			200px;
+		padding:		8px;
+		cursor:			pointer;
+	}
+	.vs-widget-slider .slider-track
+	{
+		position:		relative;
+		height:			0;
+		border-bottom:		1px solid #fff;
+	}
+	.vs-widget-slider .current-pointer
+	{
+		margin-left:		-6px;
+		margin-top:		-6px;
+
+		color:			#cf0;
+		border-left:		6px solid transparent;
+		border-right:		6px solid transparent;
+	}
+	.vs-widget-slider .preview
+	{
+		position:		absolute;
+		z-index:		0;
+		padding:		3px;
+		border:			2px solid;
+		border-radius:		5px;
+		font:			normal smaller Verdana, sans-serif;
+	}
+	.vs-widget-slider .preview IMG
+	{
+
+	}
+	.vs-widget-slider .preview P
+	{
+		margin:			0;
+		padding:		1px;
+		color:			#333;
+		text-align:		center;
+	}
+	.vs-widget-slider .slider,
+	.vs-widget-slider .pointer,
+	.vs-widget-slider .pointer-fill,
+	.vs-widget-slider .current-pointer
+	{
+		position:		absolute;
+		width:			0;
+		height:			0;
+	}
+	.vs-widget-slider .pointer
+	{
+		border:			9px none;
+		z-index:		1;
+	}
+	.vs-widget-slider .pointer-fill,
+	.vs-widget-slider .current-pointer
+	{
+		border:			6px none;
+	}
+
+	/* colors can be changed here */
+	.vs-widget-slider .preview
+	{
+		background-color:	#fff;
+	}
+	.vs-widget-slider .pointer-fill
+	{
+		border-color:		#fff;
+	}
+	.vs-widget-slider .preview
+	, .vs-widget-slider .pointer
+	{
+		color:			#ccc;
+	}
+/*
+------------------------------------------------------------------------------
+	Position-specific definitions
+------------------------------------------------------------------------------
+*/
+	.vs-widget-slider.top-center .pointer, .vs-widget-slider.top-center .pointer-fill, .vs-widget-slider.top-center .current-pointer
+	, .vs-widget-slider.bottom-center .pointer, .vs-widget-slider.bottom-center .pointer-fill, .vs-widget-slider.bottom-center .current-pointer
+	, .vs-widget-slider.top-left2 .pointer, .vs-widget-slider.top-left2 .pointer-fill, .vs-widget-slider.top-left2 .current-pointer
+	, .vs-widget-slider.top-right2 .pointer, .vs-widget-slider.top-right2 .pointer-fill, .vs-widget-slider.top-right2 .current-pointer
+	, .vs-widget-slider.bottom-left2 .pointer, .vs-widget-slider.bottom-left2 .pointer-fill, .vs-widget-slider.bottom-left2 .current-pointer
+	, .vs-widget-slider.bottom-right2 .pointer, .vs-widget-slider.bottom-right2 .pointer-fill, .vs-widget-slider.bottom-right2 .current-pointer
+	{
+		border-style:		solid;
+		border-left-color:	transparent !important;
+		border-right-color:	transparent !important;
+	}
+	.vs-widget-slider.bottom-left2 .pointer, .vs-widget-slider.bottom-left2 .pointer-fill, .vs-widget-slider.top-left2 .current-pointer
+	, .vs-widget-slider.bottom-right2 .pointer, .vs-widget-slider.bottom-right2 .pointer-fill, .vs-widget-slider.top-right2 .current-pointer
+	, .vs-widget-slider.bottom-center .pointer, .vs-widget-slider.bottom-center .pointer-fill, .vs-widget-slider.top-center .current-pointer
+	{
+		border-bottom-style:	none;
+	}
+	.vs-widget-slider.top-left2 .pointer, .vs-widget-slider.top-left2 .pointer-fill
+	, .vs-widget-slider.top-right2 .pointer, .vs-widget-slider.top-right2 .pointer-fill
+	, .vs-widget-slider.top-center .pointer, .vs-widget-slider.top-center .pointer-fill
+	{
+		border-top-style:	none;
+	}
+	.vs-widget-slider.bottom-left2 .current-pointer, .vs-widget-slider.bottom-right2 .current-pointer
+	{
+		border-top-color:	transparent !important;
+	}
+	.vs-widget-slider.left-top .pointer, .vs-widget-slider.left-top .pointer-fill
+	, .vs-widget-slider.right-top .pointer, .vs-widget-slider.right-top .pointer-fill
+	{
+		border-bottom-style:	solid;
+		border-bottom-color:	transparent !important;
+	}
+	.vs-widget-slider.top-left2 .preview
+	, .vs-widget-slider.top-right2 .preview
+	, .vs-widget-slider.bottom-left2 .preview
+	, .vs-widget-slider.bottom-right2 .preview
+	, .vs-widget-slider.top-center .preview
+	, .vs-widget-slider.bottom-center .preview
+	{
+		min-width:		25px;
+	}
+	.vs-widget-slider.top-left2
+	, .vs-widget-slider.top-right2
+	{
+		top:			0;
+	}
+	.vs-widget-slider.bottom-left2
+	, .vs-widget-slider.bottom-right2
+	{
+		bottom:			0;
+	}
+	.vs-widget-slider.top-left2
+	, .vs-widget-slider.bottom-left2
+	{
+		left:			0;
+	}
+	.vs-widget-slider.top-right2
+	, .vs-widget-slider.bottom-right2
+	{
+		right:			0;
+	}
+/*
+------------------------------------------------------------------------------
+		top-center / top-left2 / top-right2
+------------------------------------------------------------------------------
+*/
+	.vs-widget-slider.top-left2 .slider
+	, .vs-widget-slider.top-right2 .slider
+	{
+		top:		16px;
+	}
+	.vs-widget-slider.top-center .preview
+	, .vs-widget-slider.top-left2 .preview
+	, .vs-widget-slider.top-right2 .preview
+	{
+		margin:		7px -18px;
+	}
+	.vs-widget-slider.top-center .pointer
+	, .vs-widget-slider.top-left2 .pointer
+	, .vs-widget-slider.top-right2 .pointer
+	{
+		margin:		0 -9px;
+	}
+	.vs-widget-slider.top-center .pointer-fill
+	, .vs-widget-slider.top-left2 .pointer-fill
+	, .vs-widget-slider.top-right2 .pointer-fill
+	{
+		margin:		3px -6px;
+	}
+	.vs-widget-slider.top-right2 .preview
+	, .vs-widget-slider.bottom-right2 .preview
+	{
+		right:		0;
+	}
+/*
+------------------------------------------------------------------------------
+		bottom-center / bottom-left2 / bottom-right2
+------------------------------------------------------------------------------
+*/
+	.vs-widget-slider.bottom-left2 .slider
+	, .vs-widget-slider.bottom-right2 .slider
+	{
+		bottom:		5px;
+	}
+	.vs-widget-slider.bottom-center .preview
+	, .vs-widget-slider.bottom-left2 .preview
+	, .vs-widget-slider.bottom-right2 .preview
+	{
+		bottom:		0;
+		margin:		6px -18px;
+	}
+	.vs-widget-slider.bottom-center .pointer
+	, .vs-widget-slider.bottom-left2 .pointer
+	, .vs-widget-slider.bottom-right2 .pointer
+	{
+		margin:		-8px -9px;
+	}
+	.vs-widget-slider.bottom-center .pointer-fill
+	, .vs-widget-slider.bottom-left2 .pointer-fill
+	, .vs-widget-slider.bottom-right2 .pointer-fill {
+		margin:		-9px -6px;
+	}
+

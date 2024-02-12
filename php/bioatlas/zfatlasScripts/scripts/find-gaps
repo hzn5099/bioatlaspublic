@@ -1,0 +1,27 @@
+#!/usr/bin/php
+<?php
+
+// find the gap(s)
+
+$lower = array();
+$upper = array();
+
+require '/var/www/zfatlas/current/inc/connect.php';
+
+$result = mysql_query('SELECT t1.slide_id FROM virtualslides t1 LEFT OUTER JOIN virtualslides t2 ON t1.slide_id - 1 = t2.slide_id WHERE t2.slide_id IS NULL AND t1.slide_id > 1');
+if ($result && mysql_num_rows($result)) {
+
+	while ($row = mysql_fetch_row($result))
+		$upper[] = $row[0];
+
+	foreach ($upper as $k => $v) {
+		$lower[$k] = mysql_result(zf_mysql_query('SELECT slide_id FROM virtualslides WHERE slide_id < %d ORDER BY slide_id DESC LIMIT 1', $v), 0);
+		printf("%6d - %6d (%d)\n", $lower[$k] + 1, $v - 1, $v - $lower[$k] - 1);
+	}
+
+} else if (mysql_errno()) {
+	echo "ERROR:  ", mysql_error(), "\n";
+} else {
+	echo "Found no gaps.\n";
+}
+

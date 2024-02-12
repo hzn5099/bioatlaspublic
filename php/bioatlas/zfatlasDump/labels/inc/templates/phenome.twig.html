@@ -1,0 +1,65 @@
+{% extends "base.twig.html" %}
+{% block styles %}
+	<link rel="stylesheet" type="text/css" href="styles/viewer.css">
+	<style type="text/css">
+		TABLE.shadow-box
+		{
+			width:		90%;
+			margin:		0 auto 2%;
+		}
+		TABLE.shadow-box TD
+		, TABLE.shadow-box TH
+		{
+			padding:		12px;
+			font-size:		larger;
+			text-align:		center;
+		}
+		TABLE.shadow-box IMG
+		{
+			border:			1px solid #eee;
+		}
+
+		TABLE
+		{
+			clear:			both;
+			margin:			auto;
+			background-color:	#ccc;
+			border-spacing:		1px;
+		}
+		TABLE TH
+		{
+			background-color:	#036;
+			color:			#fff;
+			font-weight:		bold;
+			/* need to set spacing between thead and tbody */
+		}
+		TABLE TD
+		{
+			padding:		2px;
+			background-color:	#fff;
+		}
+	</style>
+{% endblock %}
+
+{% block scripts %}
+		<script type="text/javascript" src="javascript/scriptaculous-js-1.9.0/lib/prototype.js"></script>
+		<script type="text/javascript" src="javascript/scriptaculous-js-1.9.0/src/scriptaculous.js?load=effects"></script>
+{% if page.debug %}
+		<script type="text/javascript" src="javascript/vs/base.js"></script>
+		<script type="text/javascript" src="javascript/vs/core/keys.js"></script>
+		<script type="text/javascript" src="javascript/vs/core/slide.js"></script>
+		<script type="text/javascript" src="javascript/vs/core/viewer.js"></script>
+		<script type="text/javascript" src="javascript/vs/core/labels.js"></script>
+		<script type="text/javascript" src="javascript/vs/local.js"></script>
+		<script type="text/javascript" src="javascript/vs/ui/hover.js"></script>
+{% else %}
+		<script type="text/javascript" src="javascript/{{ "vs.js"|get_asset_version }}"></script>
+{% endif %}
+<script type="text/javascript">
+	document.observe('dom:loaded', function() {
+		$$(".content").each(function (e) {
+			zfatlas.addPreviewThumbnails(e, /view\.php\?.*?\bs=\d+/);
+		});
+	});
+</script>
+{% endblock %}

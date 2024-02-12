@@ -1,0 +1,224 @@
+#!/usr/bin/perl -w
+
+# process -r <degrees> -c <crop string> -m <crop string multiple> filename
+
+use strict;
+use POSIX qw(ceil);
+use Getopt::Std;
+use File::Basename;
+
+# For logging command line; must be done before processing options
+my $command_line = join ' ', @ARGV;
+
+my %option;
+getopts('dsqkc:r:m:',\%option);
+print_help() and die "\n" unless scalar @ARGV;
+
+my ($start,$output,$command,$infile,$outfile,$width,$height,$offsetx,$offsety);
+my ($real_width,$real_height);
+my @crop;
+my $multiplier = $option{m} || 1;
+my $PI = atan2(1,1) * 4;
+my $filename = shift @ARGV;
+# my ($basename) = $filename =~ /^(.+)\./;
+my ($basename) = map quotemeta, fileparse($filename, qr/\.[^.]*/);
+
+my %file = (
+	"vips"		=> sprintf("/mnt/i/vips/%s.v", $basename),
+	"rotate"	=> sprintf("/mnt/i/rotated/%s.v", $basename),
+	"crop"		=> sprintf("/mnt/i/cropped/%s.v", $basename),
+	"tiff"		=> sprintf("/tmp/%s.tiff", $basename),
+	"tile"		=> sprintf("/tmp/tiles/%s,0,0.jpg", $basename)
+);
+
+# TODO:
+#	- Double-check instances where "real" dimensions need to be consulted.
+#	- Tiling step doesn't display progress as desired.
+
+# Check for intermediate files and skip to the next step.
+if (-e $file{tile}) {
+	print "Already tiled; skipping...\n";
+	$infile = $file{tile};
+	goto SQL;
+} elsif (-e $file{tiff}) {
+	print "Already converted to BigTIFF; skipping...\n";
+	$infile = $file{tiff};
+	goto TILE;
+} elsif ($option{c} && -e $file{crop}) {
+	print "Already cropped; skipping...\n";
+	$infile = $file{crop};
+	goto TIFF;
+} elsif (-e $file{rotate}) {
+	print "Already rotated; skipping...\n";
+	$infile = $file{rotate};
+	goto CROP;
+} elsif (-e $file{vips}) {
+	print "Already converted to vips; skipping...\n";
+	$infile = $file{vips};
+	goto ROTATE;
+} elsif (! -e "$filename") {
+	die "\e[1;31mError! Oh no!\e[0m $filename not found!\n";
+}
+
+# Convert to vips
+
+	$infile  = $filename;
+	$outfile = $file{vips};
+	$command = sprintf "vips im_tiff2vips %s:0 %s 2>&1", $infile, $outfile;
+	print "\t$command\n" if $option{d};
+	print "Converting from tiff to vips... " unless $option{q};
+	$start = time;
+	$output = `$command`;
+	die "\e[1;31mError! Oh no!\e[0m\n" if $?;
+	printf "done (%s).\n", elapsed_time($start,time) unless $option{q};
+	$infile  = $outfile;
+
+# Rotate
+
+ROTATE: if ($option{r})  {
+	my $radians = abs $option{r} * $PI/180;
+	my $ccw = $option{r} < 0;
+	$outfile = $file{rotate};
+
+	if ($option{r} == 90 or $option{r} == -270) {
+		$command = sprintf "vips im_rot90 %s %s", $infile, $outfile;
+	} elsif (abs $option{r} == 180) {
+		$command = sprintf "vips im_rot180 %s %s", $infile, $outfile;
+	} elsif ($option{r} == 270 or $option{r} == -90) {
+		$command = sprintf "vips im_rot270 %s %s", $infile, $outfile;
+	} else {
+		$command = sprintf "vips im_affinei_all %s %s -- bicubic %f %f %f %f 0 0",
+			$infile, $outfile,
+			cos $radians,
+			($ccw ? 1 : -1) * sin $radians,
+			($ccw ? -1 : 1) * sin $radians,
+			cos $radians;
+	}
+	print "\t$command\n" if $option{d};
+	printf "Rotating %f degrees %sclockwise... ",
+		abs $option{r},
+		$ccw ? "counter" : "" unless $option{q};
+	$start = time;
+	$output = `$command`;
+	die "\e[1;31mError! Oh no!\e[0m\n" if $?;
+	printf "done (%s).\n", elapsed_time($start,time) unless $option{q};
+	unlink $infile unless $option{k};
+	$infile  = $outfile;
+}
+
+# Crop
+CROP: if ($option{c})  {
+	($real_width,$real_height) = `header $outfile 2>&1` =~ /width: (\d+)\s+height: (\d+)/s;
+	$outfile = $file{crop};
+	# Calculate the following here since w&h are used in other steps
+	if (@crop = $option{c} =~ /(\d+)x(\d+)\+(\d+)\+(\d+)/) {
+		($width,$height,$offsetx,$offsety) = map { $_ * $multiplier } @crop;
+	} elsif (@crop = $option{c} =~ /(\d+)\+(\d+)\+(\d+)x(\d+)/) {
+		($offsetx,$offsety,$width,$height) = map { $_ * $multiplier } @crop;
+	} else {
+		die "Couldn't understand crop argument value: $option{c}\n";
+	}
+	# Constrain width/height to real maximums in case of rounding error.
+#	$real_width  = $width  > $real_width  ? $real_width  : $width;
+#	$real_height = $height > $real_height ? $real_height : $height;
+	$width  = $real_width  - $offsetx if $offsetx + $width  > $real_width;
+	$height = $real_height - $offsety if $offsety + $height > $real_height;
+	$real_width  = $width;
+	$real_height = $height;
+
+	$command = sprintf "vips im_extract_area %s %s %d %d %d %d", $infile, $outfile, $offsetx, $offsety, $width, $height;
+	print "\t$command\n" if $option{d};
+	print "Cropping... " unless $option{q};
+	$start = time;
+	$output = `$command`;
+	die "\e[1;31mError! Oh no!\e[0m\n" if $?;
+	printf "done (%s).\n", elapsed_time($start,time) unless $option{q};
+	unlink $infile unless $option{k};
+	$infile  = $outfile;
+}
+
+# Convert to TIFF
+TIFF:
+	($real_width,$real_height) = `header $outfile 2>&1` =~ /width: (\d+)\s+height: (\d+)/s;
+	$outfile = $file{tiff};
+	$command = sprintf "raw2tiff64 -b3 -prgb -H64 -cnone -w%d -l%d %s %s", $real_width, $real_height, $infile, $outfile;
+	print "\t$command\n" if $option{d};
+	print "Converting to TIFF64... " unless $option{q};
+	$start = time;
+	$output = `$command`;
+	die "\e[1;31mError! Oh no!\e[0m\n" if $?;
+	printf "done (%s).\n", elapsed_time($start,time) unless $option{q};
+	unlink $infile unless $option{k};
+	$infile  = $outfile;
+
+# Tile
+TILE:
+	($real_width,$real_height) = `header $outfile 2>&1` =~ /width: (\d+)\s+height: (\d+)/s;
+	my $levels = ceil( log ($real_width*$real_height/72000) / log 4 ) + 1;
+	$command = "/home/me/p/tile9 -a72000 $infile";
+	print "\t$command\n" if $option{d};
+	print "Tiling... ( 0% complete )\r" unless $option{q};
+	$start = time;
+	# We do this a little differently in order to read the % complete
+	# from the tile command and display it as a progress indicator.
+	open TILE_PROCESS,"$command 2>&1 |" or die "Can't read from tile command: $!\n";
+	while (<TILE_PROCESS>) {
+		next unless !$option{q} or /% complete/;
+		s/\n$/\r/;
+		print "Tiling... $_";
+	}
+	close TILE_PROCESS;
+	printf "Tiling... done (%s).                              \n", elapsed_time($start,time) unless $option{q};
+	die "\e[1;31mError! Oh no!\e[0m\n" if $?;
+
+# Print SQL -- virtualslide_levels
+SQL: if ($option{s}) {
+	($real_width,$real_height) = `header $outfile 2>&1` =~ /width: (\d+)\s+height: (\d+)/s;
+	$width  = $real_width;
+	$height = $real_height;
+# INSERT INTO virtualslide_levels SELECT id,... FROM virtualslide WHERE identifier='';
+	printf "-- %s\n", $basename;
+	for (my $i = 0; $i < $levels; $i++) {
+		printf "INSERT INTO virtualslide_levels SELECT id,%d,%d,%d,%d,%d FROM virtualslide WHERE identifier='%s';\n",
+			$i,
+			$width,
+			$height,
+			$i == $levels - 1 ? $width  : 256,
+			$i == $levels - 1 ? $height : 256,
+			$basename;
+		$width  = int($width/2 + 0.5);
+		$height = int($height/2 + 0.5);
+	}
+}
+unlink $outfile unless $option{k};
+
+# Log parameters unless debugging
+unless ($option{d}) {
+	if (open LOG, ">>$ENV{HOME}/process.log") {
+		printf LOG "[ %s ] %s\n", scalar localtime, $command_line;
+		close LOG;
+	} else {
+		warn "Failed to open log file: $!\n";
+	}
+}
+
+exit;
+
+sub elapsed_time {
+	my ($start,$end) = @_;
+	return sprintf "%dm%ds",int ($end - $start)/60, ($end - $start) % 60;
+}
+
+sub print_help {
+	print <<END_HELP;
+syntax: $0 <options> <filename>
+options:
+	-s			Print SQL for virtualslide_levels
+	-r <deg>		Rotate image by <deg> degrees (clockwise)
+	-c <0x0+0+0>		Crop image by <0x0+0+0> geometry (see ImageMagick's -crop operator)
+	-m <n>			Multiply crop values by <n>
+	-k			Keep intermediate files (don't delete)
+	-q			Be less verbose (quiet)
+	-d			Print debugging info
+END_HELP
+}

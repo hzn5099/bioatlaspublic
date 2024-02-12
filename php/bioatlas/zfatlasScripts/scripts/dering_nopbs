@@ -1,0 +1,87 @@
+#!/bin/bash
+
+cores=48
+basedir="/scratch/Argonne-data"
+src="${basedir}/${1}/reconstructed"
+#src="/tmp/${1}/reconstructed"
+dst="${basedir}/${1}/deringed"
+
+# <script> <source> <x-coord>
+if [ $# -lt 1 ]; then
+        echo "Usage: ${0##*/} <source_dir> (<x_coord_center>)"
+        echo "source_dir is relative to ${basedir}"
+        echo "deringed/ subdir is added automatically"
+        exit 1
+fi
+
+if [ ! -d "${src}" ]; then
+        echo "ERROR:  $src does not exist or is not a directory"
+        exit 1
+elif [ ! -r "${src}" ]; then
+        echo "ERROR:  Can't read from $src"
+        exit 1
+elif ! ls "${src}"/*.hdf &>/dev/null; then
+        echo "ERROR:  $src does not contain any .hdf files"
+        exit 1
+fi
+if [ -e "${dst}" ]; then
+        if [ ! -d "${dst}" ]; then
+        	echo "ERROR:  $dst is not a directory"
+            exit 1
+        elif [ ! -w "${dst}" ]; then
+            echo "ERROR:  Can't write to $dst"
+            exit 1
+        fi
+elif mkdir -p "${dst}"; then
+        echo "Created $dst"
+        chmod 2775 "${dst}"
+else
+        echo "ERROR:  Couldn't create $dst"
+        exit 1
+fi
+
+if [ $# -lt 2 ]; then
+	if [ ! -e "${basedir}/${1}/override_exp_file.config" ]; then
+		echo "ERROR: override_exp_file.config not found and x_coord_center not explicitly set"
+		exit 1
+	fi
+	fixed_shift_value=`sed -n 's/^<Fixed Shift Value>\(.*\)/\1/p' "${basedir}/${1}"/override_exp_file.config`
+	(( center_x = 1023 - fixed_shift_value ))
+else
+	center_x=${2}
+fi
+	
+step=0
+prefix=`basename "${src}"/*00000.hdf 00000.hdf`
+count=`ls "${src}/${prefix}"*.hdf | wc -l`
+(( units_per_core = (count + cores - 1)/cores ))
+echo "---------------------------------------"
+echo "basedir		= $basedir"
+echo "src		= $src"
+echo "dst		= $dst"
+echo "prefix		= $prefix"
+echo "count		= $count"
+echo "x-coord/center	= $center_x"
+echo "cores		= $cores"
+echo "units/core	= $units_per_core"
+echo "---------------------------------------"
+
+# Create <n_cpus> subshells to loop through number of files
+((cores--))
+#for i in $(eval echo "{0..$cores}"); do sleep 0.25; (
+for i in $(eval echo "{0..$cores}"); do (
+	while [ $step -lt $units_per_core ]; do
+		basename=$(printf "${prefix}%05d" $(( $units_per_core * $i + $step )) )
+		if [ -e "${dst}/${basename}.nhdr" ]; then
+			echo "${i}:  ${basename}.nhdr already exists; skipping..."
+		else
+			[ -e "${src}/${basename}.hdf" ] && /usr/local/bin/hdf2nrrd -i "${src}/${basename}.hdf" -dering true -cent ${center_x} 1023 -angle 23 -nsmp 80 -blur gauss:6,4 -o "${dst}/${basename}.nhdr" &>/dev/null
+		fi
+		((step++))
+	done ) &
+done
+
+# Don't exit until subshells are done
+wait
+# Ok, now we're done.
+echo "Done."

@@ -1,0 +1,15 @@
+.shadow-box
+{
+	filter:			progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+}
+
+/*
+ * Requires partial JavaScript solution (http://ejohn.org/blog/html5-shiv/)
+ */
+FIGURE, FIGCAPTION
+{
+}
+FIGURE
+{
+	margin:			1em 40px;
+}

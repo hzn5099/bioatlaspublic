@@ -1,0 +1,18 @@
+##################################################
+# Files to exclude from atlas -> zfatlas.psu.edu #
+##################################################
+
+# cached images
+/thumbnails/cache/
+
+# JavaScript source files
+/javascript/vs/
+
+# git files
+/.git
+.gitignore
+
+# Sync script and exclusion lists
+/sync
+/.EXCLUDE
+/.INCLUDE

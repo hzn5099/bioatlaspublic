@@ -1,0 +1,22 @@
+{% extends "search-result-item.twig.html" %}
+	{% block result_type %}label{% endblock %}
+	{% set slide = result.slide %}
+	{% block result_title %}
+	&quot;<a href="{{ result.href }}">{{ result.terms.preferred }}</a>&quot;
+	{% endblock %}
+
+	{% block result_thumbnail %}
+		{% if (result.thumbnail) %}
+		<a href="{{ result.href }}"><img src="{{ result.thumbnail }}"></a>
+		{% endif %}
+	{% endblock %}
+
+	{% block result_content %}
+		{% if (result.terms.definition) %}
+	<p class="definition">{{ result.terms.definition|raw }}</p>
+		{% endif %}
+		{% if (result.terms.synonyms) %}
+	<p class="synonyms">{{ result.terms.synonyms }}</p>
+		{% endif %}
+	{% endblock %}
+

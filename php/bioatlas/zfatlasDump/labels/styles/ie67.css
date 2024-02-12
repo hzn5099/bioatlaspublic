@@ -1,0 +1,56 @@
+#header,
+#footer,
+#footer-links,
+.shadow-box
+{
+	zoom:			1;
+	overflow:		visible;
+}
+.shadow-box
+{
+	filter:			progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+	/* this replaces overflow:auto (for other browsers) to clear internal floats */
+}
+FIGURE
+, FIGCAPTION
+{
+	display:		block;
+	width:			auto;
+}
+FIGCAPTION
+{
+	width:		300px;
+}
+FIGURE
+{
+	margin:			auto 40px;
+}
+FIGURE IMG
+{
+	margin:			0;
+}
+FIGURE.centered IMG
+{
+	margin:			0 auto;
+}
+.two-column-layout .column-2
+{
+	width:			28%;
+}
+/*
+-------------------------------------------------------------------------------
+	viewer CSS
+-------------------------------------------------------------------------------
+*/
+.vsWidgetZoomControl BUTTON
+{
+	width:			50px;
+}
+
+/* IE6-7 don't support 'inherit' for properties other than direction and visibility */
+.zf-widget A
+, .search-result-item .title A
+{
+	color:			expression(this.parentNode.currentStyle['color']);
+}
+

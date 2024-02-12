@@ -1,0 +1,152 @@
+<?php
+
+require '/data/php/bioatlas/bioatlas/zfatlasDump/config.php';
+
+# Start loop over csv file of metadata
+$firstElement = true;
+
+$arguments = getopt("m:s:");
+
+$metadatafile = $arguments['m'];
+# Where to put table file
+$tables_dir = $arguments['s'];
+
+$metadatafile = fopen($metadatafile,"r");
+
+$zfatlas = mysqli_init();
+mysqli_options($zfatlas, MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
+mysqli_ssl_set($zfatlas, null, null, $db_ssl_ca, null , null);
+mysqli_real_connect($zfatlas, $zf_mysql_host, $zf_mysql_admin, $zf_mysql_admin_pass, $zf_mysql_db, $zf_mysql_port, null, 64);
+
+if ($zfatlas->connect_errno)
+  die(sprintf("Error connecting to database: %s\n", $zfatlas->connect_error));
+print("____Starting data insert____");
+print("\n");
+
+  while (($array = fgetcsv($metadatafile)) !== FALSE) {
+    if($firstElement) {
+       $firstElement = false;
+    } else {
+       # connect to database
+       print("____Connecting to Database____");
+       print("\n");
+
+       $model_name = $array[0];
+
+       switch ($model_name) {
+         case "Atlas":
+           echo "Creating an Atlas!";
+           # Prepare sql statement
+           $sql = $zfatlas->prepare('INSERT INTO atlases (name, description, to_left, to_right) VALUES (?, ?, ?, ?)');
+           $sql->bind_param('ssii', $name, $description, $to_left, $to_right);
+           $name = $array[1];
+           $description = $array[2];
+           $to_left = $array[3];
+           $to_right = $array[4];
+           # Insert sql
+           $sql->execute();
+           print("\n");
+           break;
+         case "Groups":
+           echo "Creating a Group!";
+           # Prepare sql statement
+           $sql = $zfatlas->prepare('INSERT INTO groups (name, institution, department, contact_info, aknowledgement) VALUES (?, ?, ?, ?, ?)');
+           $sql->bind_param('sssss', $name, $institution, $department, $contact_info, $aknowledgement);
+           $name = $array[1];
+           $institution = $array[2];
+           $department = $array[3];
+           $contact_info = $array[4];
+           $aknowledgement = $array[5];
+           # Insert sql
+           $sql->execute();
+           print("\n");
+           break;
+         case "Organism Types":
+           echo "Creating an organism type!";
+           # Prepare sql statement
+           $sql = $zfatlas->prepare('INSERT INTO organism_types (genus, species, strain, common_name, is_mutant, ncbi_id) VALUES (?, ?, ?, ?, ?, ?)');
+           $sql->bind_param('ssssii', $genus, $species, $strain, $common_name, $is_mutant, $ncbi_id);
+           $genus = $array[1];
+           $species = $array[2];
+           $strain = $array[3];
+           $common_name = $array[4];
+           $is_mutant = $array[5];
+           $ncbi_id = $array[6];
+           # Insert sql
+           $sql->execute();
+           print("\n");
+           break;
+         case "Sources":
+           echo "Creating a Source!";
+           # Prepare sql statement
+           $sql = $zfatlas->prepare('INSERT INTO sources (string) VALUES (?)');
+           $sql->bind_param('s', $string);
+           $string = $array[1];
+           # Insert sql
+           $sql->execute();
+           print("\n");
+           break;
+         case "Users":
+           echo "Creating a User!";
+           # Prepare sql statement
+           $sql = $zfatlas->prepare('INSERT INTO users (username, first_name, last_name, email, contact_info) VALUES (?, ?, ?, ?, ?)');
+           $sql->bind_param('sssss', $username, $first_name, $last_name, $email, $contact_info);
+           $username = $array[1];
+           $first_name = $array[2];
+           $last_name = $array[3];
+           $email = $array[4];
+           $contact_info = $array[5];
+           # Insert sql
+           $sql->execute();
+           print("\n");
+           break;
+       }
+    }
+    # Output updated tables to txt file
+    $atlas_sql = $zfatlas->query('SELECT * FROM atlases');
+    $ot_sql = $zfatlas->query('SELECT * FROM organism_types');
+    $user_sql = $zfatlas->query('SELECT * FROM users');
+    $group_sql = $zfatlas->query('SELECT * FROM groups');
+    $source_sql = $zfatlas->query('SELECT * FROM sources');
+    $file_loc = $tables_dir .= "sql_tables.txt";
+    $fp = fopen($file_loc, 'w');
+    if ($fp) {
+        fwrite($fp, "User Table \n");
+        while($row = mysqli_fetch_array($user_sql))
+        {
+            $row = implode("|",$row);
+            $row .= "\n";
+            fwrite($fp, $row);
+        }
+        fwrite($fp, "Atlas Table \n");
+        while($row = mysqli_fetch_array($atlas_sql))
+        {
+            $row = implode("|",$row);
+            $row .= "\n";
+            fwrite($fp, $row);
+        }
+        fwrite($fp, "Species Table \n");
+        while($row = mysqli_fetch_array($ot_sql))
+        {
+            $row = implode("|",$row);
+            $row .= "\n";
+            fwrite($fp, $row);
+        }
+        fwrite($fp, "Groups Table \n");
+        while($row = mysqli_fetch_array($group_sql))
+        {
+            $row = implode("|",$row);
+            $row .= "\n";
+            fwrite($fp, $row);
+        }
+        fwrite($fp, "Sources Table \n");
+        while($row = mysqli_fetch_array($source_sql))
+        {
+            $row = implode("|",$row);
+            $row .= "\n";
+            fwrite($fp, $row);
+        }
+        fclose($fp);
+        die;
+    }
+  }

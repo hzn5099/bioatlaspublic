@@ -1,0 +1,9 @@
+File http://purl.obofoundry.org/obo/obi.owl
+http://obi.sourceforge.net/ontologyInformation/
+
+Access through OBO
+http://www.obofoundry.org/cgi-bin/detail.cgi?id=obi
+
+Human Phenotype Ontology
+http://www.obofoundry.org/cgi-bin/detail.cgi?id=human_phenotype
+

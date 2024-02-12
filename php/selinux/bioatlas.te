@@ -1,0 +1,7 @@
+module bioatlas 1.0.6;
+
+require {
+  role object_r;
+  type httpd_sys_content_t;
+  type httpd_sys_rw_content_t;
+}

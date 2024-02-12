@@ -1,0 +1,95 @@
+
+.content-width, .section
+{
+	zoom:			1;
+}
+#title
+{
+	/* PNG transparency hack */
+	background:		none;
+	filter:			progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/psu_white_long.png',sizingMethod='crop');
+}
+/* > is unsupported, so add margin regardless */
+.shadow-box H1
+{
+	margin-bottom:		20px;
+}
+
+/*
+------------------------------------------------------------------------------
+	Virtualslide labels
+------------------------------------------------------------------------------
+*/
+
+.vsLabel
+{
+	line-height:		0;
+	font-size:		0;
+}
+.vsLabel .pointer-fill {
+	display:		none;
+}
+.vsLabel.top-left2 .pointer
+, .vsLabel.top-right2 .pointer
+, .vsLabel.bottom-center .pointer
+, .vsLabel.top-center .pointer
+, .vsLabel.bottom-left2 .pointer
+, .vsLabel.bottom-right2 .pointer
+{
+	border-left-color:	pink !important ;
+	border-right-color:	pink !important ;
+}
+.vsLabel.right-top .pointer
+, .vsLabel.left-top .pointer
+{
+	border-bottom-color:	pink !important;
+}
+.vsLabel .pointer
+{
+	border-color:		#333;
+	filter:			chroma(color=pink);
+}
+/* Make the label solid since the .pointer-fill doesn't work with IE6 */
+.vsLabel .label
+{
+	color:			#333;
+	background-color:	#fff;
+	border-color:		#333;
+}
+.vsLabel .label
+.vsLabel.highlighted .label {
+	color:			#ff9;
+}
+/*
+------------------------------------------------------------------------------
+	contact.php
+------------------------------------------------------------------------------
+*/
+.input-100-wrapper INPUT
+, .input-100-wrapper TEXTAREA
+{
+	border:			1px solid #999;
+	padding:		6px;
+	width:			100%;
+	margin:			-4px 0 0 -4px;
+}
+
+/*
+ * Partial fix for reference.php
+*/
+
+/*
+#blackout
+{
+	position:		absolute;
+	left:			expression(eval(document.documentElement.scrollLeft));
+	top:			expression(eval(document.documentElement.scrollTop));
+	right:			0;
+	bottom:			0;
+}
+BODY
+{
+	background-image:	url(.);
+	background-attachment:	fixed;
+}
+*/

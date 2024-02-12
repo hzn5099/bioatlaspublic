@@ -1,0 +1,222 @@
+#!/bin/bash
+
+# To do:
+# - this could be adapted for a disk image rather than a true USB device
+
+# fdisk can be used directly on disk image, losetup can be used with offsets to mount
+# partitions, and mke2fs with #blocks to limit size of filesystem (to avoid overrun).
+
+# - it'll need to take a filename as an argument
+# - use -o <outfile_image>
+# 1) Create zeroed file of --size
+# 2) mount loopback -o 512
+# 3) mke2fs on loopback
+# 4) mount on another loopback
+# 5) mount iso on yet another loopback
+# 6) Resume from device-backed version...?
+
+# device										image
+# dd if=/dev/zero of=DEV bs=512 count=1			dd if=/dev/zero of=IMG bs=512 count=(( KB*2 + 512 ))
+#												(( MB*1024*512 ))
+# sfdisk -H255 -S63 -uS DEV <<-EOF..1,SECTORS,	sfdisk -H255 -S63 -uS -f IMG <<-EOF..1,SECTORS
+# dd if=mbr.bin bs=440 count=1 of=DEV			dd if=mbr.bin bs=440 count=1 conv=notrunc of=IMG
+# 												losetup -o 512 -f --show IMG
+# mke2fs -t ext2 -m0 -L GentooUSB DEV			mke2fs -t ext2 -m0 -L GentooUSB LOOP (BLOCKS?)
+# mount DEV{1} USB_MOUNT						mount -o loop LOOP USB_MOUNT
+
+# - mbr.bin + sfdisk partition table + ext2 filesystem
+# - copy files from iso to USB
+# - rename isolinux.cfg -> syslinux.conf
+# - run extlinux --install /mnt/usb/isolinux
+
+usage()
+{
+	cat <<-END
+	Usage: ${0##*/} [OPTIONS] -i <iso> [ -u <usb> | -o <image> ] [FILES...]
+	    -u <usb>    Required; USB device to use, e.g., /dev/sde
+	    -i <iso>    ISO file to use, e.g., ~/install-amd64-minimal-20120621.iso
+	    -o <img>    Image to create, suitable for dd'ing or VMs
+	    -s <size>   Size (in MB) of filesystem to create (smaller will be faster to create);
+	                defaults to whole disk
+	    -y          Don't ask for confirmation before continuing (potentially DANGEROUS!)
+	    -h          Print this help message and exit
+	    FILES...    Optional; files can be files or paths and will be recursively copied to USB root
+	END
+}
+
+cleanup()
+{
+	# unmount everything
+	mountpoint -q "${USB_MOUNT}" && umount "${USB_MOUNT}"
+	mountpoint -q "${ISO_MOUNT}" && umount "${ISO_MOUNT}"
+
+	# remove tmp dirs (only if empty)
+	[ -d "${USB_MOUNT}" ] && rm -r "${USB_MOUNT}"
+	[ -d "${ISO_MOUNT}" ] && rm -r "${ISO_MOUNT}"
+}
+
+die()
+{
+	echo "${FAILURE}${*}${NORMAL}" >&2
+	exit 1
+}
+
+cleanup_and_die()
+{
+	cleanup
+	die "$*"
+}
+
+# Define some ANSI colors for easier viewing
+	if [ -t 1 ]; then
+		FAILURE="[1;31m"
+		SUCCESS="[1;32m"
+		INFO="[1;35m"
+		NORMAL="[0m"
+	fi
+
+# Read options
+
+	while getopts ":hvyu:i:s:" opt; do
+		case $opt in
+			h) usage; exit ;;
+			v) VERBOSE="-v" ;;
+			y) confirm=yes ;;
+			s) SIZE="${OPTARG}" ;;
+			u) USB=${OPTARG} ;;
+			o) IMG=${OPTARG} ;;
+			i) ISO="${OPTARG}" ;;
+			:) die "Error: -${OPTARG} requires an argument" ;;
+			?) echo "Unknown option -${OPTARG}" >&2 ;;
+		esac
+	done
+
+	# Remove options from argument list
+	shift $((OPTIND - 1))
+
+# Check options
+
+	if [ -z "${USB}" ] || [ -z "${ISO}" ] && [ -z "${IMG}" ]; then
+		usage && die
+	elif ! [ -f "${ISO}" ]; then
+		die "Error: ${ISO} doesn't exist or is not a file"
+	elif [ -n "${USB}" ] && ! [ -b "${USB}" ]; then
+		die "Error: ${USB} doesn't appear to be a block device"
+	elif [ -n "${IMG}" ] && [ -e "${IMG}" ]; then
+		die "Error: ${IMG} already exists, not overwriting"
+	elif [ -n "${IMG}" ] && [ -z "${SIZE}" ]; then
+		die "Error: when writing image, -s SIZE is required"
+	elif ! [ -e /usr/share/syslinux/mbr.bin ] || ! [ -e /sbin/extlinux ]; then
+		die "Error: couldn't find required syslinux files"
+	elif [ -n "${SIZE}" ]; then
+		if ! [[ "${SIZE}" =~ ^[0-9]+$ ]]; then
+			die "Error: size should be an integer value"
+		else
+			SECTORS=$(( SIZE * 1024**2/512 ))
+		fi
+	fi
+
+# Print settings and get confirmation
+
+	if [ -z "$confirm" ]; then
+		cat <<-END
+		USB device:  ${USB}${IMG}
+		ISO file:    ${ISO}
+		Extra files: $@
+		Size:        ${SIZE:-(all available)}${SIZE:+MB}
+
+		Ready to format USB drive.  ALL DATA WILL BE LOST!!!
+		END
+
+		# Get confirmation
+		echo -n "Continue (yes/N)? "
+		read confirm
+		[ "$confirm" = "yes" ] || die "Quitting."
+	fi
+
+# Mount iso
+
+	[[ $VERBOSE ]] && echo "${INFO}Mounting ${ISO}...${NORMAL}"
+	ISO_MOUNT=$(mktemp -d)
+	mount -o loop,ro "${ISO}" "${ISO_MOUNT}" || cleanup_and_die "Failed to mount ISO"
+
+# Format USB device
+
+	# Zero first sector
+	if [ -n "${USB}" ]; then
+		[[ $VERBOSE ]] && echo "${INFO}Zeroing first block of ${USB}...${NORMAL}"
+		dd if=/dev/zero of="${USB}" bs=512 count=1 || cleanup_and_die "Failed to zero first sector"
+	else
+		[[ $VERBOSE ]] && echo "${INFO}Zeroing image, ${IMG}...${NORMAL}"
+		dd if=/dev/zero of="${IMG}" bs=512 count=$(( SIZE*1024*512 )) || cleanup_and_die "Failed to create image"
+	fi
+
+	# Format USB (http://www.stickytapesolutions.com/imageForStick.html)
+	[[ $VERBOSE ]] && echo "${INFO}Writing new partition table to ${USB}${IMG}...${NORMAL}"
+	sfdisk -H255 -S63 -uS ${IMG:+-f} "${USB}${IMG}" <<-EOF
+		1,${SECTORS},83,*
+		0,0,,
+		0,0,,
+		0,0,,
+	EOF
+
+	[ $? -eq 0 ] || cleanup_and_die "Failed to write partition table"
+
+	if [ -n "${IMG}" ]; then
+		PART=$(losetup -o 512 -f --show "${IMG}")
+		[ $? -eq 0 ] || cleanup_and_die "Failed to mount image on loopback"
+	else
+		PART="${USB}1"
+	fi
+
+	# make filesystem
+	[[ $VERBOSE ]] && echo "${INFO}Creating ext2 filesystem on ${PART}...${NORMAL}"
+	mke2fs -t ext2 -m0 -L "GentooUSB" "${PART}" || cleanup_and_die "Failed to create filesystem"
+
+	# set MBR (http://www.syslinux.org/wiki/index.php/Mbr)
+	[[ $VERBOSE ]] && echo "${INFO}Writing master boot record to ${USB}${IMG}...${NORMAL}"
+	dd if=/usr/share/syslinux/mbr.bin conv=notrunc bs=440 count=1 of="${USB}${IMG}" || cleanup_and_die "Failed to write MBR"
+
+# Mount USB
+
+	[[ $VERBOSE ]] && echo "${INFO}Mounting ${PART}...${NORMAL}"
+	USB_MOUNT=$(mktemp -d)
+	mount ${IMG:+-o loop} "${PART}" "${USB_MOUNT}" || cleanup_and_die "Failed to mount ${PART}"
+
+# Populate USB
+
+	# Copy CD-ROM contents to USB
+	[[ $VERBOSE ]] && echo "${INFO}Copying contents of ISO to USB drive...${NORMAL}"
+	cp -a $VERBOSE "${ISO_MOUNT}"/. "${USB_MOUNT}"/ || cleanup_and_die "Failed to copy ISO contents"
+
+	# Copy any additional files to USB (as optionally supplied by user)
+	[[ $VERBOSE ]] && echo "${INFO}Copying extra files to USB drive...${NORMAL}"
+	for path in "$@"; do
+		cp -a $VERBOSE "${path}" "${USB_MOUNT}"
+	done
+
+# install syslinux
+
+	# Add "slowusb" kernel parameter (http://www.gentoo.org/doc/en/liveusb.xml)
+	[[ $VERBOSE ]] && echo "${INFO}Updating extlinux configuration file...${NORMAL}"
+	sed -e "s:cdroot:cdroot slowusb:" \
+		"${USB_MOUNT}/isolinux/isolinux.cfg" > "${USB_MOUNT}/isolinux/extlinux.conf" \
+		 || cleanup_and_die "Failed to update configuration file"
+
+	# (this is the step that actually takes awhile, presumably blocked by data transfer from previous step
+	[[ $VERBOSE ]] && echo "${INFO}Installing extlinux...${NORMAL}"
+	[[ $VERBOSE ]] && echo "(This may take awhile while the USB finishes writing data.)"
+	extlinux --install "${USB_MOUNT}/isolinux" || cleanup_and_die "Failed to install extlinux"
+
+# unmount devices and clean up tmp files
+	[[ $VERBOSE ]] && echo "${INFO}Unmounting filesystems and cleaning up...${NORMAL}"
+	cleanup
+
+echo "${SUCCESS}Success.${NORMAL}"
+
+# References:
+# http://www.gentoo.org/doc/en/liveusb.xml
+# http://jootamam.net/howto-install-cd-to-usb.htm
+# http://en.gentoo-wiki.com/wiki/Gentoo_minimal_CD_on_USB_stick
+# http://www.stickytapesolutions.com/imageForStick.html
+# http://www.syslinux.org/wiki/index.php/Mbr

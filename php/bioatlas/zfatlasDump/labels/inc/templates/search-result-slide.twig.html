@@ -1,0 +1,21 @@
+{% extends "search-result-item.twig.html" %}
+	{% block result_type %}slide{% endblock %}
+	{% set slide = result %}
+	{% block result_title %}
+	<a href="{{ result.href }}">{{ result.title|default("untitled slide")|raw }}</a>
+	{% endblock %}
+
+	{% block result_thumbnail %}
+		{% if (result.thumbnail) %}
+		<a href="{{ result.href }}"><img src="{{ result.thumbnail }}"></a>
+		{% endif %}
+	{% endblock %}
+
+	{% block result_content %}
+		{% if (result.description) %}
+	<p>{{ result.description|raw }}</p>
+		{% endif %}
+		{% if (result.acknowledgement) %}
+	<div class="source">{{ result.acknowledgement|raw }}</div>
+		{% endif %}
+	{% endblock %}

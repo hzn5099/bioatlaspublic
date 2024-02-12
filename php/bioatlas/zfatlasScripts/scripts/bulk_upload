@@ -1,0 +1,245 @@
+<?php
+
+$fp;
+$zfatlas;
+
+function run_upload($metafile, $s_dir) {
+
+  require '/data/php/bioatlas/bioatlas/zfatlasDump/config.php';
+
+  $firstElement = true;
+
+  $arguments = getopt("m:s:");
+  $logging_on = false;
+
+  if ($arguments['m'] && $arguments['s']) {
+    $metadatafile = $arguments['m'];
+    $slide_dir = $arguments['s'];
+    $logging_on = true;
+  }
+  else {
+    $metadatafile = $metafile;
+    $slide_dir = $s_dir;
+  }
+  global $fp;
+  global $zfatlas;
+  $out_msg = '';
+
+  $metadatafile = fopen($metadatafile,"r");
+  $fp = fopen('/data/php/uploads/skipped_slides_log.txt', 'w');
+  
+  $zfatlas = mysqli_init();
+  mysqli_options($zfatlas, MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
+  mysqli_ssl_set($zfatlas, null, null, $db_ssl_ca, null , null);
+  mysqli_real_connect($zfatlas, $zf_mysql_host, $zf_mysql_admin, $zf_mysql_admin_pass, $zf_mysql_db, $zf_mysql_port, null, 64);
+  
+  if ($zfatlas->connect_errno) {
+    die(sprintf("Error connecting to database: %s\n", $zfatlas->connect_error));
+  }
+  
+  while (($array = fgetcsv($metadatafile)) !== FALSE) {
+    if ($firstElement) {
+        $firstElement = false;
+    } else {
+        $out_msg .= "Starting Upload</br>";
+        if ($logging_on) {
+          print("____Starting upload____");
+          print("\n");
+        }
+        for ($i = 0; $i < count($array); $i++) {
+        if ($array[$i] == "") {
+          $array[$i] = null;
+        }
+        }
+        $identifier = $array[0];
+        $power = $array[1];
+        $title = $array[2];
+        $description = $array[3];
+        $notes = $array[4];
+        $fix_date = $array[5];
+        $scan_date = $array[6];
+        $user_id = $array[7];
+        $group_id = $array[8];
+        $source_id = $array[9];
+        $protocol_id = $array[10];
+        $organism_sex = $array[11];
+        $organism_age_in_hours = $array[12];
+        $organism_type_id = $array[13];
+        $atlas_id = $array[14];
+        $atlas_position = $array[15];
+
+        $slide_files = scandir($slide_dir);
+        $keyword = $identifier;
+        $keyword .= '.tif';
+        $key = array_search($keyword, $slide_files);
+        if (!$key) {
+        if ($logging_on) {
+          print("Identifier not found for slide, skipping insert and moving to next slide.");
+          print("\n");
+        }
+        $error_message = "Identifier not found for slide " . $identifier . " skipping insert and moving to next slide. \n";
+        $out_msg .= $error_message . "</br>";
+        delete_slides($error_message);
+        continue;
+        }
+        $slide_loc = $slide_dir . $slide_files[$key];
+        $vipformat = $identifier;
+        $vipformat .= '.v';
+        $vipsloc = $slide_dir . $vipformat;
+        if ($logging_on) {
+          print("Converting .tif to .v");
+          print("\n");
+        }
+        $vipformat = exec("vips im_tiff2vips $slide_loc $vipsloc", $output, $return);
+        if ($return != 0) {
+        if ($logging_on) {
+          print('Error converting to vips, skipping slide');
+          print("\n");
+        }
+          $error_message = ".tif not converted to .v, returned error code "  . $return . ", skipping slide \n";
+          $out_msg .= $error_message . "</br>";
+          delete_slides($error_message);
+          continue;
+        }       
+        if ($logging_on) {
+          print("Running zoomlevels script");
+          print("\n");
+        }
+        $zoomlevels_sql=shell_exec("/data/php/bioatlas/bioatlas/zfatlasScripts/scripts/zoomlevels -a 72000 $vipsloc");
+
+        $v_s_sql = $zfatlas->prepare('INSERT INTO virtualslides (identifier, power, title, description, notes, fix_date, scan_date, user_id, group_id, source_id, protocol_id, organism_sex, organism_age_in_hours, organism_type_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+        $v_s_sql->bind_param('sissssssiiisii', $identifier, $power, $title, $description, $notes, $fix_date, $scan_date, $user_id, $group_id, $source_id, $protocol_id, $organism_sex, $organism_age_in_hours, $organism_type_id);
+        if ($logging_on) {
+        print('Inserting virtualslide');
+        print("\n");
+        }
+        $v_s_sql->execute();
+        $last_slide_id = $v_s_sql->insert_id;
+
+        if ($last_slide_id == 0) {
+        if ($logging_on) {
+          print('Slide was not created, possible error in csv metadata, skipping slide');
+        }
+        $text = $identifier . " Slide was not created, possible error in csv metadata, skipping slide \n";
+        $out_msg .= $text . "</br>";
+        delete_slides($text, $last_slide_id, $atlas_id);
+        continue;
+        }
+
+        $v_s_sql->close();
+        if ($atlas_id) {
+        if ($logging_on) {
+          print('Inserting into Atlas');
+          print("\n");
+        }
+        $atlas_sql = $zfatlas->prepare("INSERT INTO rel_atlases_virtualslides (atlas_id, slide_id, position) VALUES (?, ?, ?)");
+        $atlas_sql->bind_param('iii', $atlas_id, $last_slide_id, $atlas_position);
+        $success = false;
+        if ($atlas_sql->execute()) {
+          $success = true;
+        }
+        if (!$success) {
+          if ($logging_on) {
+            print('Atlas was not created, possible error in csv metadata, skipping slide');
+          }
+          $error_message = "Atlas was not created for "  . $identifier . ", possible error in csv metadata, skipping slide \n";
+          $out_msg .= $error_message . "</br>";
+          delete_slides($error_message, $last_slide_id, $atlas_id);
+          continue;
+        }
+        $atlas_sql->close();
+        }
+
+        if ($logging_on) {
+          print('Inserting zoomlevels');
+          print("\n");
+        }
+        $zoom_levels_sql = $zfatlas->multi_query($zoomlevels_sql);
+
+        while($zfatlas->more_results()) {
+        $zfatlas->next_result();
+        }
+        if (!$zoom_levels_sql || $zfatlas->errno) {
+          # If duplicate identiefier, remove current zoomelevels and upload duplicate slide.
+          if ($zfatlas->errno == 1062) {
+            $error_message = "Zoomlevels not created for "  . $identifier . ", skipping slide. Possible duplicate identifier. Try uploading slide again under new identifier. \n";
+            $out_msg .= $error_message . "</br>";
+            $delete_slide = $zfatlas->prepare("DELETE FROM virtualslides WHERE slide_id=?");
+            $delete_slide->bind_param('s', $last_slide_id);
+            $delete_slide->execute();
+            $delete_slide->close();
+            continue;
+          }
+          else {
+            if ($logging_on) {
+              print('Zoomlevels not created, skipping slide');
+            }
+            $error_message = "Zoomlevels not created for "  . $identifier . ", skipping slide \n";
+            $out_msg .= $error_message . "</br>";
+            delete_slides($error_message, $last_slide_id, $atlas_id, $identifier);
+            continue;
+          }
+        }
+
+        $tilevip = exec("/data/php/bioatlas/bioatlas/zfatlasScripts/scripts/tile-vips -a 72000 $vipsloc", $output, $return);
+        if ($return != 0) {
+        if ($logging_on) {
+          print('Tiles not created, skipping slide');
+          print("\n");
+        }
+          $error_message = "Tiles not created, returned error code "  . $return . ", skipping slide \n";
+          $out_msg .= $error_message . "</br>";
+          delete_slides($error_message, $last_slide_id, $atlas_id);
+          continue;
+        }
+
+        $insert = exec("php /data/php/bioatlas/bioatlas/zfatlasScripts/scripts/insert-tiles", $output, $return);
+        if ($return != 0) {
+        if ($logging_on) {
+          print('Tiles not inserted, skipping slide');
+          print("\n");
+        }
+          $error_message = "Tiles not inserted, returned error code "  . $return . ", skipping slide \n";
+          $outpout_msgut .= $error_message . "</br>";
+          delete_slides($error_message, $last_slide_id, $atlas_id);
+          continue;
+        }
+
+        shell_exec("rm -R -f /tmp/tiles");
+        $out_msg .= $identifier . " was uploaded successfully.</br>";
+    }
+  }
+  fclose($fp);
+  shell_exec("rm -R -f /data/php/uploads/*");
+  $out_msg .= "Upload Script Complete";
+  return ($out_msg);
+}
+
+
+function delete_slides($error_message, $slide_id='', $atlas_id='', $identifier='') {
+  require '/data/php/bioatlas/bioatlas/zfatlasDump/config.php';
+  global $fp, $zfatlas;
+
+  $delete_slide = $zfatlas->prepare("DELETE FROM virtualslides WHERE slide_id=?");
+  $delete_slideid = $zfatlas->prepare("DELETE FROM virtualslides WHERE identifier=?");
+  $delete_atlas = $zfatlas->prepare("DELETE FROM rel_atlases_virtualslides WHERE slide_id=?");
+  $delete_zoom = $zfatlas->prepare("DELETE FROM virtualslide_levels WHERE slide_id=?");
+
+  if ($slide_id) {
+    $delete_slide->bind_param('s', $slide_id);
+    $delete_slide->execute();
+    $delete_slide->close();
+    $delete_slideid->bind_param('s', $identifier);
+    $delete_slideid->execute();
+    $delete_slideid->close();
+    if ($atlas_id) {
+      $delete_atlas->bind_param('s', $slide_id);
+      $delete_atlas->execute();
+      $delete_atlas->close();
+    }
+    $delete_zoom->bind_param('s', $slide_id);
+    $delete_zoom->execute();
+    $delete_zoom->close();
+  }
+  fwrite($fp, $error_message);
+}

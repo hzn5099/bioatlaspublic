@@ -1,0 +1,44 @@
+<div class="shadow-box search-result-item search-result-{{ result.type|default('item') }}">
+	<div class="type">{% block result_type %}{% endblock %}</div>
+	<div class="title">
+		<span class="i-th">{{ result_index }}</span>
+		<!-- checkbox here if type slide -->
+		{% if (result.type == "slide") %}
+		   <input type="checkbox" name="s[]" value="{{ slide.slide_id }}">
+		{% endif %}
+	{% block result_title %}
+	{% endblock %}
+	</div>
+	{% block result_organism %}
+	<div class="organism">
+
+		{% if (slide.common_name) %}
+		<span class="common-name">{{ slide.common_name }}</span>
+		<span class="species">{{ slide.genus ~ " " ~ slide.species }}</span>
+		<span class="strain">{{ slide.strain }}</span>
+		{% else %}
+		<span class="unknown">Species unspecified or unknown</span>
+		{% endif %}
+		|
+		{% if (slide.age_string) %}
+		{{ slide.age_string }}
+		{% else %}
+		<span class="unknown">age unknown</span>
+		{% endif %}
+		|
+		{% if (slide.sex) %}
+		{{ slide.sex }}
+		{% else %}
+		<span class="unknown">sex unknown</span>
+		{% endif %}
+
+	</div>
+	{% endblock %}
+
+	{% block result_thumbnail %}
+	{% endblock %}
+
+	{% block result_content %}
+	{% endblock %}
+</div>
+

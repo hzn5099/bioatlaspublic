@@ -1,0 +1,22 @@
+---
+- name: mellon
+  src: git+git@toolchest.med.psu.edu:research-informatics/ansible-mellon.git
+  version: remotes/origin/1.x
+- name: php
+  src: git+git@toolchest.med.psu.edu:research-informatics/ansible-php.git
+  version: remotes/origin/1.x
+- name: php-mysql
+  src: git+git@toolchest.med.psu.edu:research-informatics/ansible-php-mysql.git
+  version: remotes/origin/1.x
+- name: php-ldap
+  src: git+git@toolchest.med.psu.edu:research-informatics/ansible-php-ldap.git
+  version: remotes/origin/1.x
+- name: php-pdo
+  src: git+git@toolchest.med.psu.edu:research-informatics/ansible-php-pdo.git
+  version: remotes/origin/1.x
+- name: ssl
+  src: git+git@toolchest.med.psu.edu:research-informatics/ansible-ssl.git
+  version: remotes/origin/1.x
+
+
+

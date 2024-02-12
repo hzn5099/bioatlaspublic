@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Check time of day to reduce accidental overwrites
+# if doing incremental backups, this is less important
+# but since zget doesn't, it could overwrite data!
+if [ $(date +"%p") != "PM" ]; then
+	echo -n "It's early; are you sure? (y/N) "
+	read confirm
+	if [ "$confirm" != "y" ]; then
+		echo "Quitting."
+		exit 1
+	fi
+fi
+
+# (Special characters, if present, will need to be escaped in $DST.)
+SRC="/var/www/zfatlas"
+DST="chenglab:/gpfs/gpfs1/backup/zfatlas"
+
+RSYNC_OPTS=( -av --hard-links --delete --exclude={thumbnails,tmp,movies}/ --exclude=".*sw?" )
+
+# Rsync SRC to DST
+if ! rsync "${RSYNC_OPTS[@]}" "${SRC}/latest/" "${DST}/"; then
+	echo "rsync exited with non-zero status"
+fi
+

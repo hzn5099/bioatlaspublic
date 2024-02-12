@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html class="vsFullScreen">
+	<head>
+{% if page.base %}
+		<base href="{{ page.base }}"><!--[if lt IE 7]></base><![endif]-->
+{% endif %}
+		<title>Zebrafish Atlas VirtualSlide Viewer</title>
+		<!-- For mobile devices -->
+		<meta name="viewport" content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, width=device-width">
+		<!-- meta name="apple-mobile-web-app-capable" content="yes" (not yet)-->
+		<link rel="stylesheet" type="text/css" href="styles/{{ "viewer.css"|get_asset_version }}">
+		<link rel="stylesheet" type="text/css" href="styles/slider.css">
+{% block styles %}
+{% endblock %}
+		<!-- BEGIN MSIE-specific code -->
+		<!--[if lt IE 8]><link rel="stylesheet" type="text/css" href="styles/ie67.css"><![endif]-->
+		<meta http-equiv="imagetoolbar" content="no">
+		<meta http-equiv="imagetoolbar" content="false">
+		<!-- END MSIE-specific code -->
+		<style type="text/css">
+			#zfSliderContainer
+			{
+				left:		0;
+				z-index:	100;
+			}
+			#zfSliderContainer .vs-widget
+			{
+				float:		left;
+				position:	relative;
+			}
+			#zfSliderContainer .vs-widget-slider
+			{
+		margin:			1px 2px;
+		color:			#fff;
+		border:			1px solid #eee;
+		background-color:	#333;
+		-moz-border-radius: 	5px;
+		-webkit-border-radius:	5px;
+		border-radius:		5px;
+		-moz-box-shadow:	2px 2px 4px 2px rgba(0,0,0,0.50);
+		-webkit-box-shadow:	2px 2px 4px 2px rgba(0,0,0,0.50);
+		box-shadow:		2px 2px 4px 2px rgba(0,0,0,0.50);
+			}
+		</style>
+	</head>
+	<body class="vsFullScreen">
+		<div id="blackout" style="display:none"></div>
+		<div id="vs" class="vsFullScreen"><div id="zfSliderContainer"></div></div>
+		<script type="text/javascript" src="javascript/scriptaculous-js-1.9.0/lib/prototype.js"></script>
+		<script type="text/javascript" src="javascript/scriptaculous-js-1.9.0/src/scriptaculous.js?load=effects"></script>
+{% if page.debug %}
+		<script type="text/javascript" src="javascript/vs/base.js"></script>
+		<script type="text/javascript" src="javascript/vs/property-map.js"></script>
+		<script type="text/javascript" src="javascript/vs/core/keys.js"></script>
+		<script type="text/javascript" src="javascript/vs/core/slide.js"></script>
+		<script type="text/javascript" src="javascript/vs/core/viewer.js"></script>
+		<script type="text/javascript" src="javascript/vs/core/viewerwidget.js"></script>
+		<script type="text/javascript" src="javascript/vs/core/viewerlink.js"></script>
+		<script type="text/javascript" src="javascript/vs/core/labels.js"></script>
+		<script type="text/javascript" src="javascript/vs/widget/thumbnail.js"></script>
+		<script type="text/javascript" src="javascript/vs/widget/hyperlink.js"></script>
+		<script type="text/javascript" src="javascript/vs/widget/scalebar.js"></script>
+		<script type="text/javascript" src="javascript/vs/widget/zoom.js"></script>
+		<script type="text/javascript" src="javascript/vs/widget/iterator.js"></script>
+		<script type="text/javascript" src="javascript/vs/widget/ajax-iterator.js"></script>
+		<script type="text/javascript" src="javascript/vs/widget/slidelabel.js"></script>
+		<script type="text/javascript" src="javascript/vs/widget/labels.js"></script>
+		<script type="text/javascript" src="javascript/vs/local.js"></script>
+		<script type="text/javascript" src="javascript/vs/widget/zf-ruler.js"></script>
+		<script type="text/javascript" src="javascript/vs/widget/zf-hyperlink.js"></script>
+		<script type="text/javascript" src="javascript/vs/widget/zf-thumbnail.js"></script>
+		<script type="text/javascript" src="javascript/vs/widget/zf-slidelabel.js"></script>
+		<script type="text/javascript" src="javascript/vs/widget/zf-iterator.js"></script>
+		<script type="text/javascript" src="javascript/vs/widget/zf-slider.js"></script>
+		<script type="text/javascript" src="javascript/vs/widget/zf-series-navigator.js"></script>
+		<script type="text/javascript" src="javascript/vs/widget/zf-label-search.js"></script>
+		<script type="text/javascript" src="javascript/vs/ui/hover.js"></script>
+		<script type="text/javascript" src="javascript/vs/ui/zf-inset.js"></script>
+		<script type="text/javascript" src="javascript/vs/ui/zf-keys.js"></script>
+		<script type="text/javascript" src="javascript/vs/ui/zf-sliding-panel.js"></script>
+		<script type="text/javascript" src="javascript/vs/ui/zf-help.js"></script>
+		<script type="text/javascript" src="javascript/vs/app/zf-fullscreen-with-slider.js"></script>
+{% else %}
+		<script type="text/javascript" src="javascript/{{ "vs-with-slider.js"|get_asset_version }}"></script>
+{% endif %}
+		<script type="text/javascript">
+			var atlas = {{ atlas|json_encode(constant('JSON_NUMERIC_CHECK'))|raw }},
+				slide = {{ slide|json_encode(constant('JSON_NUMERIC_CHECK'))|raw }},
+				viewer = zfatlas.FullScreenViewer("vs", slide, atlas);
+		</script>
+	</body>
+</html>

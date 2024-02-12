@@ -1,0 +1,36 @@
+1	Danio	rerio	WT Connor (wild-type)	Zebrafish	0	7955
+2	Danio	rerio	WT Ekkwill (wild-type)	Zebrafish	0	7955
+3	Danio	rerio	Golden (gol) mutant	Zebrafish	1	7955
+4	Danio	rerio	Huli hutu (hht) mutant	Zebrafish	1	7955
+5	Homo	sapiens		Human	0	9606
+6	Oryctolagus	cuniculus		Rabbit	0	9986
+7	Rattus	norvegicus		Rat	0	10116
+8	Felis	catus		Cat	0	9685
+9	Mus	musculus		Mouse	0	10090
+10	Canis	lupus	familiaris	Dog	0	9615
+11	Cavia	porcellus		Guinea pig	0	10141
+12	Sus	scrofa	domestica	Pig	0	9825
+13	Macaca	mulatta	Rhesus	Monkey	0	9544
+14	Bos	taurus	Holstein-Friesian	Bovine	0	9913
+15	Oryctolagus	cuniculus	New Zealand White	Rabbit	0	9986
+16	Odocoileus	virginianus		White-tailed deer	0	9874
+17	Tyto	alba		Barn owl	0	56313
+18	Lampropeltis	getula	floridana	Florida king snake	0	165020
+19	Procyon	lotor		Raccoon	0	9654
+20	Ovis	aries	Finn x Dorset	Sheep	0	9940
+21	Pituophis	catenifer		Gopher snake	0	94850
+22	Mus	musculus	C.129S4(B6)-Col3a1<+/+>/J	Mouse	0	10090
+23	Mus	musculus	C.129S4(B6)-Col3a1<tm1Jae/+>/J	Mouse	0	10090
+24	Mus	musculus	C.129S4(B6)-Col3a1<tm1Jae/tm1Jae>	Mouse	0	10090
+25	Danio	rerio		Zebrafish	0	7955
+26	Mus	Musculus	Crl:CF1	Mouse	0	10090
+27	Oryzias	latipes		Japanese medaka	0	8090
+33	Poeciliopsis	lucida		Desert topminnow	0	56613
+32	Perca	fluviatilis		European perch	0	8168
+31	Ameiurus	nebulosus		Brown bullhead	0	27778
+30	Oncorhynchus	mykiss		Rainbow trout	0	8022
+29	Salmo	trutta		Brown trout	0	8032
+28	Salvelinus	fontinalis		Brook trout	0	8038
+34	Nannostomus	harrisoni		Blackstripe pencilfish	0	NULL
+35	Moxostoma	sp.		Sucker	0	117934
+36	Morone	saxatilis		Striped bass	0	34816

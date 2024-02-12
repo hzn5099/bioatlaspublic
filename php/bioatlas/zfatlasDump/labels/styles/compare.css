@@ -1,0 +1,91 @@
+BODY
+{
+	background-color:	#69c;
+}
+
+.comparisonViewerContainer
+{
+	position:		absolute;
+	margin:			4px;
+	background-color:	#9cf;
+	border:			1px solid #eee;
+	overflow:		hidden;
+
+	box-shadow:		2px 2px 2px rgba(0, 0, 0, 0.66);
+}
+
+.comparison-widget
+{
+	position:		relative;
+	float:			right;
+	height:			19px;
+	margin:			2px;
+	border:			1px solid #333;
+	background-color:	#fff;
+	z-index:		99;
+	box-shadow:		2px 2px 2px rgba(0, 0, 0, 0.33);
+}
+.comparison-widget.button
+{
+	width:			19px;
+	cursor:			pointer;
+}
+.comparison-widget.button:active
+, .comparisonViewerContainer.linked .comparison-widget.button:active.link
+{
+	box-shadow:		none;
+}
+.comparison-widget.button.close
+{
+	background:		#fff url(../images/vs-sprite.png) no-repeat 1px -300px;
+}
+.comparison-widget.button.link
+{
+	float:			left;
+	background:		#fff url(../images/vs-sprite.png) no-repeat 2px -380px;
+	cursor:			pointer;
+}
+.comparisonViewerContainer.linked
+{
+}
+.comparisonViewerContainer.linked .link
+{
+	background:		#A1FF7C url(../images/vs-sprite.png) no-repeat 2px -360px;
+}
+.comparison-widget.title
+{
+	padding:		1px 2px;
+}
+.comparison-widget.zoom
+{
+	float:			left;
+}
+.comparison-widget.zoom DIV
+{
+	float:			left;
+	margin:			1px;
+	padding:		1px 4px;
+}
+.comparison-widget.title
+, .comparison-widget.zoom DIV
+{
+	height:			17px;
+	font:			normal 12px Verdana, Arial, sans-serif;
+	cursor:			default;
+}
+.comparison-widget.zoom DIV.button
+{
+	width:			17px;
+	margin-right:		0;
+	padding:		0;
+	cursor:			pointer;
+}
+.comparison-widget.zoom DIV.button.plus
+{
+	background:		#fff url(../images/vs-sprite.png) no-repeat 0px -341px;
+}
+.comparison-widget.zoom DIV.button.minus
+{
+	background:		#fff url(../images/vs-sprite.png) no-repeat 0px -321px;
+}
+

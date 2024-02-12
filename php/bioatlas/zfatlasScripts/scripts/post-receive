@@ -1,0 +1,41 @@
+#!/bin/bash
+
+export GIT_WORK_TREE="/var/www/localhost/htdocs/zfatlas-label-editing"
+TEMPLATES="${GIT_WORK_TREE}/inc/templates/"
+ASSETS=( \
+	javascript/vs.js \
+	styles/zfatlas.css \
+	styles/viewer.css \
+)
+
+create_substitution()
+{
+	# get short commit hash for last file modification
+	commit=$(git log -n1 --pretty=%h -- $1)
+
+	# return substitution for this asset?commit
+	# (periods should really be escaped in the search pattern)
+	# http://stackoverflow.com/questions/407523/escape-a-string-for-sed-search-pattern
+	echo "-e s|\"$1\(?[0-9a-f]\+\)\?|\"$1?$commit|"
+}
+
+# main()
+subs=()
+for asset in "${ASSETS[@]}"; do
+	# a bash array push:
+	subs=( "${subs[@]}" $(create_substitution $asset) )
+done
+
+# Checkout to webroot
+git checkout -f
+
+# Compress CSS assets
+# echo $asset | java -jar /usr/local/bin/yuicompressor.jar --type css >
+# Version assets
+find "${TEMPLATES}" -type f | xargs sed -i ${subs[@]}
+
+# Create symlinks
+if ! [ -e "${GIT_WORK_TREE}/thumbnails" ]; then
+	echo "Creating symlink to thumbnails"
+	ln -s /var/www/zfatlas/current/thumbnails "${GIT_WORK_TREE}/thumbnails"
+fi

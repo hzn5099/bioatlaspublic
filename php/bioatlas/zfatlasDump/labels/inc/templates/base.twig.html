@@ -1,0 +1,198 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+	<HEAD>
+{% if page.base %}
+		<base href="{{ page.base }}"><!--[if lt IE 7]></base><![endif]-->
+{% endif %}
+{% if page.debug %}
+		<!--[if IE 6]><title>This is IE 6</title><![endif]-->
+		<!--[if IE 7]><title>This is IE 7</title><![endif]-->
+		<!--[if IE 8]><title>This is IE 8</title><![endif]-->
+		<!--[if IE 9]><title>This is IE 9</title><![endif]-->
+{% endif %}
+		<title>Bio-Atlas - {{ page.title|default('Bio-Atlas') }}</title>
+		<link rel="stylesheet" type="text/css" href="styles/{{ "zfatlas.css"|get_asset_version }}">
+{% block styles %}
+{% for style in page.styles %}
+		<link rel="stylesheet" type="text/css" href="styles/{{ style|get_asset_version }}">
+{% endfor %}
+{% endblock %}
+		<!-- MSIE Specific CSS -->
+		<!--[if lt IE 9]>
+		<script type="text/javascript">
+			document.createElement("FIGURE");
+			document.createElement("FIGCAPTION");
+		</script>
+		<![endif]-->
+		<!--[if IE 6]><link rel="stylesheet" type="text/css" href="styles/ie6.css"><![endif]-->
+		<!--[if lt IE 8]><link rel="stylesheet" type="text/css" href="styles/ie67.css"><![endif]-->
+		<!--[if IE 8]><link rel="stylesheet" type="text/css" href="styles/ie8.css"><![endif]-->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+		Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-67605604-2', 'auto');
+		ga('send', 'pageview');
+	</script>
+	</HEAD>
+	<BODY>
+		<div id="header">
+			<div class="content-width">
+				<div id="title">
+					<a id="zfatlas-title" href="/index.php">Bio-Atlas</a>
+{% if page.speciesimage %}
+				<div id="species" align="right"><a href="{{ page.specieslink }}"><img src={{ page.speciesimage }} width="128" height="33" alt="{{ page.speciesimagetext }}" ></div>
+{% elseif page.species %}
+				<div id="species" align="right">{{ page.species }}</div>
+{% endif %}
+					<div id="gittlen-title">at the Jake Gittlen Laboratories for Cancer Research</div>
+				</div>
+				<div id="nav-links">
+{% if page.species == 'zebrafish' %}
+                                        <div class="nav-link">
+                                                <div class="nav-link-title"><a href="search.php">Zebrafish Search</a></div>
+                                                <div class="nav-link-summary">search our slides</div>
+                                        </div>
+					<div class="nav-link">
+						<div class="nav-link-title"><a href="progress.php">Zebrafish Atlas</a></div>
+						<div class="nav-link-summary">the lifespan atlas</div>
+					</div>
+					<div class="nav-link">
+						<div class="nav-link-title"><a href="reference.php">Anatomy Reference</a></div>
+						<div class="nav-link-summary">learn anatomy</div>
+					</div>
+					<div class="nav-link">
+						<div class="nav-link-title"><a href="../index.php">Bio-Atlas home</a></div>
+					</div>
+{% elseif page.species is defined %}
+                                        <div class="nav-link">
+                                                <div class="nav-link-title"><a href="search.php">{{ page.species }} Search</a></div>
+                                                <div class="nav-link-summary">search our slides</div>
+                                        </div>
+                                        <div class="nav-link">
+                                                <div class="nav-link-title"><a href="../about.php">About</a></div>
+                                                <div class="nav-link-summary">the atlas</div>
+                                        </div>
+{% else %}
+                                        <div class="nav-link">
+                                                <div class="nav-link-title"><a href="search.php">Advanced Search</a></div>
+                                                <div class="nav-link-summary">search our slides</div>
+                                        </div>
+					<div class="nav-link">
+						<div class="nav-link-title"><a href="human/index.php">Human Atlas</a></div>
+					</div>
+					<div class="nav-link">
+                                                <div class="nav-link-title"><a href="zf/index.php">Zebrafish Atlas</a></div>
+                                        </div>
+                                        <div class="nav-link">
+                                                <div class="nav-link-title"><a href="about.php">About</a></div>
+                                                <div class="nav-link-summary">the atlas</div>
+                                        </div>
+{% endif %}
+				</div>
+			</div>
+		</div>
+		<div class="content">
+			<div class="content-width">
+{% block content %}
+			{{ page.content|raw }}
+{% endblock %}
+			</div>
+		</div>
+{% block footer %}
+		<div id="footer">
+			<div class="content-width">
+				<div id="footer-links">
+					<div class="footer-links-column">
+						<h4>Bio-Atlas Website</h4>
+						<ul>
+							<li><a href="/reference.php">Anatomical reference</a></li>
+							<li><a href="/comparison.php">Sample comparisons</a></li>
+							<li><a href="/microct.php">MicroCT images</a></li>
+							<li><a href="/about.php">About the atlas</a></li>
+							<li><a href="/about.php#citing">Citing the atlas</a></li>
+							<li><a href="/search.php">Search slides</a></li>
+							<li><a href="/contact.php">Contact us</a></li>
+						</ul>
+					</div>
+					<div class="footer-links-column">
+{% if page.species == 'zebrafish' %}
+					</div>
+					<div class="footer-links-column">
+						<h4>Coronal</h4>
+						<ul>
+							<li><a href="view.php?atlas=48&amp;s=422">48hpf (3.1mm)</a></li>
+							<li><a href="view.php?atlas=20&amp;s=1736">3dpf (3.5mm)</a></li>
+							<li><a href="view.php?atlas=4&amp;s=31">4dpf (3.7mm)</a></li>
+							<li><a href="view.php?atlas=8&amp;s=511">5dpf (3.9mm)</a></li>
+							<li><a href="view.php?atlas=56&amp;s=99">6dpf (4.2mm)</a></li>
+							<li><a href="view.php?atlas=24&amp;s=522">7-13dpf (4.5mm)</a></li>
+							<li><a href="view.php?atlas=72&amp;s=73">21-29dpf (7.8mm)</a></li>
+							<li><a href="view.php?atlas=80&amp;s=400">45-89dpf (14mm)</a></li>
+							<li><a href="view.php?atlas=28&amp;s=329">3mpf female</a></li>
+							<li><a href="view.php?atlas=16&amp;s=157">12mpf male</a></li>
+						</ul>
+					</div>
+					<div class="footer-links-column">
+						<h4>Sagittal</h4>
+						<ul>
+							<li><a href="view.php?atlas=49&amp;s=530">48hpf (3.1mm)</a></li>
+							<li><a href="view.php?atlas=21&amp;s=488">3dpf (3.5mm)</a></li>
+							<li><a href="view.php?atlas=5&amp;s=38">4dpf (3.7mm)</a></li>
+							<li><a href="view.php?atlas=9&amp;s=423">5dpf (3.9mm)</a></li>
+							<li><a href="view.php?atlas=25&amp;s=469">7-13dpf (4.5mm)</a></li>
+							<li><a href="view.php?atlas=65&amp;s=1737">14-20dpf (6.2mm)</a></li>
+							<li><a href="view.php?atlas=73&amp;s=64">21-29dpf (7.8mm)</a></li>
+							<li><a href="view.php?atlas=81&amp;s=548">45-89dpf (14mm)</a></li>
+							<li><a href="view.php?atlas=132&amp;s=1753">3mpf male</a></li>
+							<li><a href="view.php?atlas=29&amp;s=311">3mpf female</a></li>
+							<li><a href="view.php?atlas=17&amp;s=271">12mpf male</a></li>
+							<li><a href="view.php?atlas=136&amp;s=35503">12mpf female</a></li>
+						</ul>
+					</div>
+					<div class="footer-links-column">
+						<h4>Transverse</h4>
+						<ul>
+							<li><a href="view.php?atlas=50&amp;s=533">48hpf (3.1mm)</a></li>
+							<li><a href="view.php?atlas=22&amp;s=282">3dpf (3.5mm)</a></li>
+							<li><a href="view.php?atlas=6&amp;s=8">4dpf (3.7mm)</a></li>
+							<li><a href="view.php?atlas=10&amp;s=371">5dpf (3.9mm)</a></li>
+							<li><a href="view.php?atlas=26&amp;s=358">7-13dpf (4.5mm)</a></li>
+							<li><a href="view.php?atlas=74&amp;s=439">21-29dpf (7.8mm)</a></li>
+							<li><a href="view.php?atlas=18&amp;s=196">12mpf male</a></li>
+						</ul>
+{% endif %}
+					</div>
+					<div class="footer-links-column">
+						<h4>Penn State</h4>
+						<ul>
+							<li><a href="http://www.psu.edu/ur/legal.html">PSU Policies</a></li>
+						</ul>
+
+						<h4>Search PSU</h4>
+						<ul>
+							<li><a href="http://search.psu.edu/">Web</a></li>
+							<li><a href="http://www.psu.edu/directory/">People</a></li>
+							<li><a href="http://www.psu.edu/directory/dept/">Departments</a></li>
+						</ul>
+					</div>
+					<div class="footer-links-column">
+						<h4>Administration</h4>
+						<ul>
+							<li><a href="/admin.php">Upload Atlas</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div id="copyright-notice"><a href="http://www.psu.edu/ur/copyright.html">&copy;</a> 2007-2013 <a href="http://www.psu.edu/">The Pennsylvania State University</a></div>
+		</div>
+{% endblock %}
+{% block scripts %}
+{% for script in page.scripts %}
+		<script type="text/javascript" src="javascript/{{ script|get_asset_version }}"></script>
+{% endfor %}
+{% endblock %}
+	</BODY>
+</HTML>

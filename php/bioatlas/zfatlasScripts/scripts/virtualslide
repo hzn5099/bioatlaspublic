@@ -1,0 +1,681 @@
+#!/usr/bin/php
+<?php
+/*
+	- This was initially written in September 2012; it's a compiliation of several formerly
+	separate scripts into a single workflow (tile, process, zoomlevels, insert-tiles, etc).
+	Previously, a row in the virtualslide table was required before tiles could be inserted.
+	Now a new slide can be created directly from an image.
+
+	- Requires imagemagick, vips, tiff utilities, tile script, and PHP 5.3.0 or greater
+
+	Note:  script currently accepts only TIFFs as input, which is all we really have right now.
+	While vips can read more formats, especially with Imagemagick support, the command line functions
+	require that the input format be specified, i.e., "im_tiff2vips" and "im_png2vips", so I've just
+	hard-coded it to im_tiff2vips for now.
+
+	Note: im_copy should work for all supported image formats, but it's 3x slower than im_tiff2vips for TIFFs.
+
+
+	Outline of processing:
+
+	- check command line options
+	- check for image file
+	- open database connection
+	- check database for existing slide/tiles with the same identifier
+		- exit if tiles exist unless -f option
+	- convert to vips
+	- rotate (if required)
+	- crop (if required)
+	- convert to TIFF64
+	- tile
+	- get metadata (bgcolor, power, scandate)
+	- update virtualslide/get id
+	- insert tiles into virtualslide_tiles
+	- set virtualslide_levels
+	- clean up
+	- print slide_id (always or only with -v?)
+
+
+	To do:
+
+		x add elapsed_time() to each step
+		x shortcuts for 90/180/270 rotation
+		x elapsed_time is wrong
+		x something's wrong with the tile step -- /tmp/tiles is not created, yet it seems to be running
+		  update /usr/local/bin/tile with a newer version
+		x attempt to set power
+			/usr/bin/tiffinfo -0 $infile | AppMag = (\d+)
+		x could also read scan_date
+		- an "SQL-only" mode might be nice, including virtualslide_levels for rotated/cropped images
+		- may need to move unlink into timed section if it takes awhile for larger files, otherwise there will be an odd pause between steps
+		- maybe print_r-output should be moved outside of error blocks in functions
+		- add progress indicator like insert-tiles.php?
+		- could add long options for each field:
+			--label="..."
+			--organism_sex="female"
+			--power=20
+			...etc
+
+		x database checks
+		x database inserts
+		x infile/outfile renaming
+		x intermediate file cleanup
+		x print id on exit
+		x preview file
+		x bgcolor
+		- Add a "pause" option before tiling to allow manual editing (e.g., in Photoshop) before tiling while still
+		  logging rotation and crop data for future re-creation
+		- make option "skipping" more robust (fails with combined no-parameter options)
+		  I think this will require a re-implementation of getopt(), unfortunately.
+		- add more metadata updating (long options)
+		- add resume for failed runs
+
+		- Test
+			- new virtualslide
+			x existing virtualslide
+			x existing virtualslide with pre-existing tiles with/without -f option
+			- rotate/crop
+*/
+
+// for rgb2hsl() and hsl2rgb() functions
+require '/var/www/zfatlas/working/inc/base.php';
+
+ini_set('memory_limit', -1);
+
+define('DEFAULT_TARGET_AREA', 72000);
+define('DEFAULT_CONCURRENCY', 8);
+define('UNTILED_LEVELS', 2);
+
+$SIZE = '/usr/bin/header';
+$VIPS = '/usr/bin/vips';
+$TIFF = '/usr/local/bin/raw2tiff64';
+$TIFFINFO = '/usr/bin/tiffinfo';
+$TILE = '/usr/local/bin/tile';
+$FILE = array(
+	'vips'		=> '/mnt/i/vips/%s.v',
+	'rotate'	=> '/mnt/i/rotated/%s.v',
+	'crop'		=> '/mnt/i/cropped/%s.v',
+	'tiff'		=> '/tmp/%s.tiff',
+	'tile'		=> '/tmp/tiles/%s',
+	'preview'	=> '/var/www/zfatlas/current/thumbnails/preview/%010d.jpg'
+);
+
+// ---------------------------------------------------------------------------
+// Functions
+// ---------------------------------------------------------------------------
+function print_help() {
+
+	global $argv;
+
+	$scriptname = basename($argv[0]);
+
+	echo <<<END_HELP
+
+Usage:  $scriptname [options] <TIFF image>
+
+	-a <area>		set minimum area (in pixels) for final level (default: 72000)
+	-n <levels>		set number of levels to create
+	-r <degrees>		(optional) rotate image
+	-c <geometry>		(optional) after rotating, crop image to this region.  Uses ImageMagick
+				geometry-style argument, i.e., 640x480+10+10, but can also accept in the
+				other direction, i.e., 10+10+640x480.
+	-m <multiplier>		value by which to multiply crop geometry (default: 1)
+	-p <n_cpus>		max number of concurrent processes to use for tiling step
+	-i <identifier>		(optional) set the identifier (default: filename w/o extention)
+	-B <bgcolor>		(optional) set the background color (default: auto)
+	-L <label>		(optional) set the slide label
+	-k			keep intermediate files and image tiles (don't delete them)
+	-f			insert tiles even if tiles already exist for this slide
+	-d			print more information (useful for debugging)
+	-v			be more verbose
+
+	-h			Print this help message
+
+
+END_HELP;
+	return 1;
+}
+
+// ---------------------------------------------------------------------------
+// (in progress)
+function getopts($options, $longopts = array()) {
+
+	global $argv;
+
+	$opts = array();
+
+	// 's' or 's:' or 's::'
+	// also, 'v' can accept -vvv, which will become 'v' => array(false, false, false)
+	// a-zA-Z0-9, stop processing on '--'
+
+	for ($i = 1, $n = count($argv); $i < $n; $i++) {
+		if ($argv[$i] == '--') {
+			array_splice($argv, $i, 1);
+			break;
+		} else if (substr($argv[$i], 0, 1) == '-') {
+
+		}
+	}
+}
+// ---------------------------------------------------------------------------
+function get_image_size($filename) {
+
+	global $SIZE;
+
+	$error = 0;
+	$command = sprintf('%s %s',
+		$SIZE,
+		$filename
+	);
+	if (DEBUGGING)
+		echo "\n\t$command\n\t";
+	exec("$command 2>&1", $output, $error);
+	if ($error || !preg_match('/(\d+)x(\d+)/', implode("\n", $output), $matches)) {
+		if (DEBUGGING)
+			print_r($output);
+		die("Error getting image size\n");
+	}
+	return array_slice($matches, 1);
+}
+// ---------------------------------------------------------------------------
+function convert_to_vips($in, $out) {
+
+	global $VIPS;
+
+	$error = 0;
+	$command = sprintf('%s im_tiff2vips %s:0 %s',
+		$VIPS,
+		$in,
+		$out
+	);
+	if (DEBUGGING)
+		echo "\n\t$command\n\t";
+	exec("$command 2>&1", $output, $error);
+	if ($error) {
+		if (DEBUGGING)
+			print_r($output);
+		die("Error converting to vips format\n");
+	}
+}
+// ---------------------------------------------------------------------------
+function rotate($degrees, $in, $out) {
+
+	global $VIPS;
+
+	$error = 0;
+	$output = array();
+	$rad = abs($degrees) * M_PI/180;
+	$ccw = $degrees < 0;
+
+	if ($degrees == 90 || $degrees == -270)
+		$command = sprintf('%s im_rot90 %s %s', $VIPS, $in, $out);
+	else if (abs($degrees == 180))
+		$command = sprintf('%s im_rot180 %s %s', $VIPS, $in, $out);
+	else if ($degrees == 270 || $degrees == -90)
+		$command = sprintf('%s im_rot270 %s %s', $VIPS, $in, $out);
+	else
+		$command = sprintf('%s im_affinei_all %s %s -- bicubic %f %f %f %f 0 0',
+			$VIPS,
+			$in,
+			$out,
+			cos($rad),
+			($ccw ? 1 : -1) * sin($rad),
+			($ccw ? -1 : 1) * sin($rad),
+			cos($rad)
+		);
+	if (DEBUGGING)
+		echo "\n\t$command\n\t";
+	exec("$command 2>&1", $output, $error);
+
+	// check return value
+	if ($error) {
+		if (DEBUGGING)
+			print_r($output);
+		die("Error rotating image\n");
+	}
+}
+// ---------------------------------------------------------------------------
+function crop($width, $height, $offset_x, $offset_y, $in, $out) {
+
+	global $VIPS;
+
+	$error = 0;
+	$output = array();
+
+	$command = sprintf('%s im_extract_area %s %s -- %d %d %d %d',
+		$VIPS,
+		$in,
+		$out,
+		$offset_x,
+		$offset_y,
+		$width,
+		$height
+	);
+	if (DEBUGGING)
+		echo "\n\t$command\n\t";
+	exec("$command 2>&1", $output, $error);
+
+	// check return value
+	if ($error) {
+		if (DEBUGGING)
+			print_r($output);
+		die("Error cropping image\n");
+	}
+}
+// ---------------------------------------------------------------------------
+function convert_raw_to_tiff($in, $out) {
+
+	global $TIFF;
+
+	$error = 0;
+	$output = array();
+	list($width, $height) = get_image_size($in);
+
+	$command = sprintf('%s -b3 -prgb -H64 -w%d -l%d %s %s',
+		$TIFF,
+		$width,
+		$height,
+		$in,
+		$out
+	);
+	if (DEBUGGING)
+		echo "\n\t$command\n\t";
+
+	exec("$command 2>&1", $output, $error);
+
+	// check return value
+	if ($error) {
+		if (DEBUGGING)
+			print_r($output);
+		die("Error converting image to TIFF64\n");
+	}
+}
+// ---------------------------------------------------------------------------
+function tile($in, $levels, $concurrency) {
+
+	global $TILE;
+
+	$error = 0;
+	$output = array();
+
+	$command = sprintf('%s -n%d -c%d -%s %s',
+		$TILE,
+		$levels,
+		$concurrency,
+		DEBUGGING ? 'd' : 'q',
+		$in
+	);
+	if (DEBUGGING)
+		echo "\n\t$command\n\t";
+
+	exec("$command 2>&1", $output, $error);
+
+	// check return value
+	if ($error) {
+		if (DEBUGGING)
+			print_r($output);
+		die("Error tiling image\n");
+	}
+}
+// ---------------------------------------------------------------------------
+function get_levels($width, $height, $min_area) {
+	return ceil(log($width * $height / $min_area) / log(4)) + 1;
+}
+// ---------------------------------------------------------------------------
+function elapsed_time($start) {
+	$time = microtime(1) - $start;
+	return sprintf('%dm%ds', floor($time/60), $time % 60);
+}
+// ---------------------------------------------------------------------------
+function get_bgcolor($in, $size = 3, $offset = 0) {
+
+	$tile = imagecreatefromjpeg($in);
+
+	if (!$tile) {
+		echo "Warning:  error reading image for bgcolor\n";
+		return null;
+	}
+
+	for ($col = $offset, $n = $offset + $size; $col < $n; $col++) {
+		for ($row = $offset, $m = $offset + $size; $row < $m; $row++) {
+			$rgb = imagecolorat($tile, $col, $row);
+			$colors['r'] += (($rgb >> 16) % 256);
+			$colors['g'] += (($rgb >>  8) % 256);
+			$colors['b'] += (($rgb      ) % 256);
+		}
+	}
+	$colors['r'] /= (255 * pow($n, 2));
+	$colors['g'] /= (255 * pow($n, 2));
+	$colors['b'] /= (255 * pow($n, 2));
+
+	// Get HSL values and constrain them to predefined values
+	$hsl = rgb2hsl($colors);
+	$hsl[1] = min($hsl[1], 0.25);
+	$hsl[2] = $hsl[2] < 0.25
+		? 0
+		: max($hsl[2], 0.85);
+
+	$rgb = hsl2rgb($hsl);
+
+	return ($rgb[0]*255 << 16) + ($rgb[1]*255 << 8) + $rgb[2]*255;
+}
+// ---------------------------------------------------------------------------
+
+
+// ---------------------------------------------------------------------------
+// "main"
+// ---------------------------------------------------------------------------
+
+// parse command line options
+
+	$options = getopt('a:c:i:L:m:n:p:r:dfhv');
+
+// set debugging constant
+
+	define('DEBUGGING', isset($options['d']));
+
+// print help if requested
+
+	if (isset($options['h']) || count($argv) == 1)
+		print_help() && exit(0);
+
+// check exclusivity and validity of [na] options
+
+	if (isset($options['n']) && isset($options['a']))
+		die("Error:  options -a and -n are mutually exclusive\n");
+	else if (isset($options['n']) && !ctype_digit($options['n']))
+		die("Error:  argument to -n must be a number\n");
+	else if (isset($options['a']) && !ctype_digit($options['a']))
+		die("Error:  argument to -a must be a number\n");
+
+// parse bgcolor option, if present
+
+	if (isset($options['B'])) {
+		// int 16777215
+		if (ctype_digit($options['B'])) {
+			$bgcolor = (int)$options['B'];
+		// hex string (3) #fff
+		} else if (preg_match('/^#([0-9a-f]{3})$/i', $options['B'], $match)) {
+			$bgcolor = hexdec(str_repeat(substr($match[1], 0, 1), 2) . str_repeat(substr($match[1], 1, 1), 2) . str_repeat(substr($match[1], 2, 1), 2));
+		// hex 0xffffff
+		// hex string (6) #ffffff
+		} else if (preg_match('/^(?:#|0x)([0-9a-f]{6})$/i', $options['B'], $match)) {
+			$bgcolor = hexdec($match[1]);
+		}
+		if ($bgcolor > 16777215)
+			die(sprintf("Error:  bgcolor (%d) is out-of-range (0 - 16777215)", $bgcolor));
+	}
+
+// parse crop option (-c), if present
+
+	if (isset($options['c'])) {
+		if (
+			preg_match('/^(?P<width>\d+)x(?P<height>\d+)\+(?P<offset_x>\d+)\+(?P<offset_y>\d+)$/', $options['c'], $match) ||
+			preg_match('/^(?P<offset_x>\d+)\+(?P<offset_y>\d+)\+(?P<width>\d+)x(?P<height>\d+)$/', $options['c'], $match)
+		) {
+			$crop = $match;
+		} else {
+			die("Error parsing crop option\n");
+		}
+	}
+
+// check image
+
+	$infile = $filename = $argv[$argc - 1];
+
+	if (!file_exists($infile))
+		die("Error:  file not found\n");
+
+	list($width, $height) = get_image_size($infile);
+
+// set number of levels if not specified
+
+	if (!isset($options['n']))
+		$options['n'] = get_levels($width, $height, isset($options['a']) ? $options['a'] : DEFAULT_TARGET_AREA);
+
+// set basename and identifier
+
+	$basename = pathinfo($infile, PATHINFO_FILENAME);
+	$identifier = isset($options['i']) ? $options['i'] : $basename;
+
+// connect to database and prepare statements
+
+	$db = new mysqli('localhost', 'zfadmin', '11422GhAnA', 'zfatlas');
+	if ($db->connect_errno)
+		die(sprintf("Error connecting to database: %s\n", $db->connect_error));
+
+// prepare database statements
+
+	$select_id			= $db->prepare('SELECT id FROM virtualslide WHERE identifier = ?');
+	$select_empty_id	= $db->prepare('SELECT id FROM virtualslide LEFT JOIN virtualslide_tiles ON id = slide_id WHERE identifier = ? GROUP BY id HAVING COUNT(tile_id) = 0');
+	$update_vs			= $db->prepare('UPDATE virtualslide SET bgcolor= ?, last_modified=NOW() WHERE id = ?');
+	$insert_tile		= $db->prepare('INSERT IGNORE INTO virtualslide_tiles VALUES (?,?,?,?)');
+	$create_vs			= $db->prepare('INSERT INTO virtualslide (id, scan_date, identifier, label, power, bgcolor, last_modified, created) VALUES (NULL, ?, ?, ?, ?, ?, NOW(), NOW())');
+	$create_level		= $db->prepare('INSERT INTO virtualslide_levels VALUES (?, ?, ?, ?, ?, ?)');
+	$count_tiles		= $db->prepare('SELECT COUNT(*) FROM virtualslide_tiles WHERE slide_id = ?');
+	$delete_tiles		= $db->prepare('DELETE FROM virtualslide_tiles WHERE slide_id = ?');
+	$delete_levels		= $db->prepare('DELETE FROM virtualslide_levels WHERE slide_id = ?');
+	$null				= null;
+
+// database/parameter checks
+// (don't modify/create anything until tiles have been created)
+
+	$select_id->bind_param('s', $identifier);
+	$select_id->execute();
+	$select_id->store_result();
+	$select_id->bind_result($id);
+	$select_id->fetch();
+
+	if ($select_id->errno) {
+		die(sprintf("Error looking up identifier: %s\n", $select_id->error));
+	} else if ($select_id->num_rows > 1) {
+		// duplicate identifiers
+	} else if (DEBUGGING)
+		printf("Found id (%d) for identifier '%s'\n", $id, $identifier);
+
+	if ($id) {
+		$tile_count = 0;
+		// look up tiles
+		$count_tiles->bind_param('i', $id);
+		$count_tiles->execute();
+		$count_tiles->store_result();
+		$count_tiles->bind_result($tile_count);
+		$count_tiles->fetch();
+		if ($tile_count > 0 && !isset($options['f']))
+			die(sprintf("Error:  tiles exist for a virtualslide with this identifier ('%s').\nUse the force option (-f) to overwrite.\n", $identifier));
+		$count_tiles->free_result();
+	}
+
+	$select_id->free_result();
+
+// convert to vips
+// (not strictly necessary, but next step is MUCH faster when reading from vips format)
+
+	$outfile = sprintf($FILE['vips'], $basename);
+	if (isset($options['v'])) echo "Converting image to vips format... ";
+	$start = microtime(1);
+	convert_to_vips($infile, $outfile);
+	if (isset($options['v'])) printf("done (%s).\n", elapsed_time($start));
+	$infile = $outfile;
+
+// rotate
+
+	if (isset($options['r'])) {
+		$outfile = sprintf($FILE['rotate'], $basename);
+		if (isset($options['v'])) echo "Rotating image... ";
+		$start = microtime(1);
+		rotate($options['r'], $infile, $outfile);
+		if (isset($options['v'])) printf("done (%s).\n", elapsed_time($start));
+		if (!isset($options['k'])) unlink($infile);
+		$infile = $outfile;
+	}
+
+// crop
+
+	if (isset($options['c'])) {
+		$outfile = sprintf($FILE['crop'], $basename);
+		$m = isset($options['m']) && is_numeric($options['m']) ? (int)$options['m'] : 1;
+		if (isset($options['v'])) echo "Cropping image... ";
+		$start = microtime(1);
+		crop($crop['width'] * $m, $crop['height'] * $m, $crop['offset_x'] * $m, $crop['offset_y'] * $m, $infile, $outfile);
+		if (isset($options['v'])) printf("done (%s).\n", elapsed_time($start));
+		if (!isset($options['k'])) unlink($infile);
+		$infile = $outfile;
+	}
+
+// convert to tiff
+
+	$outfile = sprintf($FILE['tiff'], $basename);
+	if (isset($options['v'])) echo "Converting to TIFF64... ";
+	$start = microtime(1);
+	convert_raw_to_tiff($infile, $outfile);
+	if (isset($options['v'])) printf("done (%s).\n", elapsed_time($start));
+	if (!isset($options['k'])) unlink($infile);
+	$infile = $outfile;
+
+// tile
+
+	if (isset($options['v'])) printf("Tiling (%d levels)... ", $options['n']);
+	$start = microtime(1);
+	tile($infile, $options['n'], isset($options['p']) ? $options['p'] : DEFAULT_CONCURRENCY);
+	if (isset($options['v'])) printf("done (%s).\n", elapsed_time($start));
+
+	list($width, $height) = get_image_size($infile);
+
+	if (!isset($options['k']))
+		unlink($infile);
+
+// create/modify virtualslide entry
+
+	// read bgcolor
+
+	$bgcolor = isset($options['B']) ? $bgcolor : get_bgcolor(sprintf($FILE['tile'], "$basename,0,0.jpg"));
+
+	// check for existing virtualslide with identifier
+
+	if (!$id) {
+
+		// attempt to get some metadata from the original TIFF header
+		// Aperio inserts some metadata in the SVS/TIFF headers; we'll attempt to use it to automatically
+		// set the scan_date and power columns in the virtualslide table.
+
+		$output = array();
+		$error = 0;
+		$power = 40;
+		$scan_date = null;
+		$label = isset($options['L']) ? $options['L'] : null;
+
+		$command = sprintf('%s -0 %s',
+			$TIFFINFO,
+			$filename
+		);
+		if (DEBUGGING)
+			echo "\n\t$command\n\t";
+		exec("$command 2>&1", $output, $error);
+		if ($error) {
+			if (DEBUGGING)
+				print_r($output);
+			echo "Warning:  error while parsing metadata";
+		} else {
+			$output = implode("\n", $output);
+			if (preg_match('/AppMag = (\d+)/', $output, $match))
+				$power = $match[1];
+			if (preg_match('/Date = (\d+)\/(\d+)\/(\d+)/', $output, $match))
+				$scan_date = '20' . $match[3] . $match[1] . $match[2];
+		}
+
+		// create a new virtualslide row
+		$create_vs->bind_param('issii', $scan_date, $identifier, $label, $power, $bgcolor);
+		$create_vs->execute();
+		if ($create_vs->errno)
+			die(sprintf("Error creating virtualslide:  %s\n", $create_vs->error));
+
+		$id = $db->insert_id;
+
+	} else {
+
+		// delete any pre-existing levels
+		$delete_levels->bind_param('i', $id);
+		$delete_levels->execute();
+		if ($delete_levels->errno)
+			printf("Warning:  error deleting levels:  %s\n", $delete_levels->error);
+
+		// delete any pre-existing tiles
+		$delete_tiles->bind_param('i', $id);
+		$delete_tiles->execute();
+		if ($delete_tiles->errno)
+			printf("Warning:  error deleting tiles:  %s\n", $delete_tiles->error);
+
+		// update virtualslide row for this id
+		$update_vs->bind_param('ii', $bgcolor, $id);
+		$update_vs->execute();
+		if ($update_vs->errno)
+			printf("Warning:  error updating virtualslide:  %s\n", $update_vs->error);
+
+	}
+
+// insert tiles into database
+
+	// get tile size before (potentially) deleting tiles
+	list($tile_width, $tile_height) = get_image_size(sprintf($FILE['tile'], "$basename,0,0.jpg"));
+
+	if (isset($options['v'])) echo "Reading tile filenames... ";
+	$start = microtime(1);
+	$tiles = glob(sprintf($FILE['tile'], "$basename,*.jpg"), GLOB_NOSORT);
+	if (isset($options['v'])) printf("found %d tiles... done (%s).\n", count($tiles), elapsed_time($start));
+
+	if (isset($options['v'])) echo "Inserting tiles into database... ";
+	$start = microtime(1);
+	foreach ($tiles as $tile) {
+		if (count(@list($basename, $z, $i) = explode(',', basename($tile, '.jpg'))) == 3) {
+			// insert tile
+			$image = fopen($tile, 'r');
+			if (!$image) {
+				printf("Warning: failed to open %s for reading!\n", $tile);
+				continue;
+			}
+			$insert_tile->bind_param('iiib', $id, $z, $i, $null);
+			while (!feof($image))
+				$insert_tile->send_long_data(3, fread($image, 16384));
+			fclose($image);
+			$insert_tile->execute();
+			$insert_tile->free_result();
+			if ($insert_tile->errno)
+				printf("Warning:  error inserting tile:  %s\n", $insert_tile->error);
+			else if (!isset($options['k']))
+				unlink($tile);
+		}
+	}
+	$tile = sprintf($FILE['tile'], "$basename-preview.jpg");
+	// move preview image to thumbnail location
+	if (file_exists($tile)) {
+		if (!copy($tile, sprintf($FILE['preview'], $id)))
+			echo "Warning:  error copying thumbnail preview\n";
+		else if (!isset($options['k']))
+			unlink($tile);
+	}
+	if (isset($options['v'])) printf("done (%s).\n", elapsed_time($start));
+
+// create virtualslide_levels
+
+	$level = 0;
+
+	$create_level->bind_param('iiiiii', $id, $level, $width, $height, $tile_width, $tile_height);
+
+	for ($level = 0; $level < $options['n']; $level++) {
+		$tile_width = $options['n'] - $level > UNTILED_LEVELS ? $tile_width : $width;
+		$tile_height = $options['n'] - $level > UNTILED_LEVELS ? $tile_height : $height;
+		if (DEBUGGING)
+			printf("\tINSERT INTO virtualslide_levels VALUES (%d, %d, %d, %d, %d, %d);\n", $id, $level, $width, $height, $tile_width, $tile_height);
+		$create_level->execute();
+		if ($create_level->errno)
+			printf("Warning:  error creating level %d: %s\n", $level, $create_level->error);
+		$width = round($width/2);
+		$height = round($height/2);
+	}
+
+// print slide_id
+
+	if (isset($options['v']))
+		printf("slide_id(%d)\n", $id);
+

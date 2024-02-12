@@ -1,0 +1,284 @@
+#!/usr/bin/php
+<?php
+/*
+	- parse options
+	- check zfatlas.virtualslides for existing
+	- convert to vips
+	- rotate
+	- crop
+	- rotate
+	- tile
+	- create/update zfatlas.virtualslides
+	- insert tiles into database
+	- update zfatlas.virtualslide_levels
+
+	- for an update, we'll have to use UPDATE ...,
+	  which means trickier SQL code (can't just pass
+	  all of the options)
+*/
+
+ini_set('memory_limit', -1);
+define('DEBUGGING', true);
+
+$SIZE = '/usr/bin/header';
+$VIPS = '/usr/bin/vips';
+$TIFF = '/usr/local/bin/raw2tiff64';
+$TIFFINFO = '/usr/bin/tiffinfo';
+$TILE = '/usr/local/bin/tile';
+$FILE = array(
+	'vips'		=> '/tmp/%s.v',
+	'rotate'	=> '/tmp/%s-rotated.v',
+	'crop'		=> '/tmp/%s-cropped.v',
+	'tiff'		=> '/tmp/%s.tiff',
+	'tile'		=> '/tmp/tiles/%s',
+	'preview'	=> '/tmp/010d.jpg'
+);
+
+// initialize virtualslide data structure
+$virtualslide = array(
+	'protocol'				=> null,
+	'user'					=> null,
+	'group'					=> null,
+	'source'				=> null,
+	'is_public'				=> null,
+	'organism_type'			=> null,
+	'organism_age_in_hours'	=> null,
+	'organism_sex'			=> null,
+	'power'					=> null,
+	'identifier'			=> null,
+	'title'					=> null,
+	'description'			=> null,
+	'notes'					=> null,
+	'bgcolor'				=> null,
+	'image_source_md5'		=> null,
+	'image_file_format'		=> null,
+	'image_file_path'		=> null,
+	'fix_date'				=> null,
+	'scan_date'				=> null,
+	'last_modified'			=> null,
+	'created'				=> null
+);
+
+// ---------------------------------------------------------------------------
+// exec_command("/usr/bin/vips", "im_rot90 %s %s", array("infile.v", "outfile.v"));
+// exec_command($VIPS, "im_rot90 %s %s", array("infile.v", "outfile.v"));
+function exec_command($program, $command, $args) {
+	$error = 0;
+	if (DEBUGGING)
+		vprintf("$program $command\n", $args);
+	exec(vsprintf("$program $command 2>&1", $args), $output, $error);
+	if (DEBUGGING)
+		print_r($output);
+	if ($error)
+		die("Error\n");
+	return $output;
+}
+
+// ---------------------------------------------------------------------------
+function print_help() {
+
+	global $argv;
+	$scriptname = basename($argv[0]);
+
+	echo <<<END_HELP
+Usage: $scriptname [OPTIONS]... TIFF
+
+    -a, --area=NUM           set target pixel area for final level (default: 72000)
+    -n, --levels=LEVELS      set number of levels to create
+    -r, --rotate=DEG         degrees to rotate image (clockwise)
+    -c, --crop=GEOM          how to crop image, WIDTHxHEIGHT+LEFT+TOP
+    -m                       factor by which to multiply crop values
+    -k, --keep               keep (don't delete) intermediate files
+    -f, --force              overwrite existing virtualslide without confirmation
+        --protocol=ID        set protocol id
+        --user=ID            set owner id
+        --group=ID           set group id
+        --source=NUM         set source string id
+        --is_public=BOOL     include in search results (default: 1)
+        --organism_type=NUM  set organism type id
+        --organism_age_in_hours=NUM
+                             set organism age
+        --organism_sex=NUM   set organism sex (male=1, fem=2, other=3, undiff=4)
+        --power=NUM          set power (default: determined by tiffinfo)
+        --identifier=STRING  set identifier (default: file basename)
+        --title=TEXT         set title
+        --description=TEXT   set description
+        --notes=TEXT         set notes
+        --bgcolor=NUM        set background color (can be hex, e.g., 0xffffff)
+        --fix_date=DATE      set fixation date
+        --scan_date=DATE     set scan date (default: determined by tiffinfo)
+    -v, --verbose            say more
+    -q, --quiet              say less
+    -h, --help               show this help message
+
+END_HELP;
+	return 1;
+}
+
+// ---------------------------------------------------------------------------
+// parse options
+// ---------------------------------------------------------------------------
+
+	$option = getopt('a:n:r:c:m:p:kqvh', array(
+		'area:',
+		'levels:',
+		'rotate:',
+		'crop:',
+		'keep',
+		'quiet',
+		'verbose',
+		'help',
+
+		// metadata settings
+		'private',
+		'protocol:',
+		'user:',
+		'group:',
+		'source:',
+		'organism_type:',
+		'organism_age_in_hours:',
+		'organism_sex:',
+		'power:',
+		'identifier:',
+		'title:',
+		'description:',
+		'notes:',
+		'bgcolor:',
+		'fix_date:',
+		'scan_date:'
+	));
+
+	if (DEBUGGING) {
+		var_dump($argv);
+		var_dump($option);
+	}
+	// there's no easy, reliable way to find where options stop or remove them from $argv
+	// I'd like to have the trailing argument be the filename.
+	// One way would be to require the filename as an option, e.g., -i <filename>
+	// Another way would be to require a "--" between options and the filename(s).
+
+	if ((isset($option['a']) || isset($option['area'])) && (isset($option['levels']) || isset($option['n'])))
+		die("Error:  area and levels options are mutually exclusive; you can only set one.\n");
+	if (isset($option['help']) || isset($option['h'])) {
+		print_help();
+		exit;
+	}
+
+	foreach ($option as $opt => $val) {
+		switch ($opt) {
+			case 'a':
+				$option['area'] = $val;
+			case 'area':
+				break;
+			case 'n':
+				$option['levels'] = $val;
+			case 'levels':
+				break;
+			case 'r':
+				$option['rotate'] = $val;
+			case 'rotate':
+				break;
+			case 'c':
+				$option['crop'] = $val;
+			case 'crop':
+				break;
+			case 'force': case 'f':
+				$option['force'] = true; break;
+			case 'keep': case 'k':
+				$option['keep'] = true; break;
+			case 'quiet': case 'q':
+				$option['quiet'] = true; break;
+			case 'verbose': case 'v':
+				$option['verbose'] = true; break;
+
+			// metadata options
+
+			case 'private':
+				$virtualslide['is_public'] = 0; break;
+			case 'fix_date':
+			case 'scan_date':
+				if (!ctype_digit($val) || !strlen($val) != 8)
+					die("Error parsing $opt option (doesn't look like a date)");
+				else
+					$virtualslide[$opt] = (int) $val;
+				break;
+			case 'protocol':
+			case 'user':
+			case 'group':
+			case 'source':
+			case 'organism_type':
+			case 'organism_age_in_hours':
+			case 'organism_sex':
+			case 'power':
+				if (!ctype_digit($val))
+					die("Error: $opt is a numeric option");
+				else
+					$virtualslide[$opt] = (int) $val;
+				break;
+			case 'bgcolor':
+				// if (preg_match('/^[0-9a-fA-F]{3}/', $val))
+		}
+	}
+
+// initialize file info
+
+	exit;
+	$basename = pathinfo($infile, PATHINFO_FILENAME);
+
+
+// check for existing slide
+
+// convert to vips
+
+	$infile = convert_to_vips($infile, sprintf($FILE['vips'], $basename));
+
+// rotate
+
+	if ($option['rotate'])
+		$infile = rotate_image($infile, sprintf($FILE['rotate'], $basename), $option['rotate']);
+
+// crop
+
+	if ($option['crop'])
+		$infile = crop_image($infile, sprintf($FILE['crop'], $basename), $option['crop'], $option['m']);
+
+// tile
+
+// update database
+
+	function convert_to_vips($infile, $outfile) {
+		global $VIPS;
+		$output = exec_command($VIPS, '%s %s', array($infile, $outfile));
+		return $outfile;
+	}
+
+	function rotate_image($infile, $outfile, $degrees) {
+		global $VIPS;
+		$args = array($infile, $outfile);
+		switch ($degrees) {
+			case 0: return $infile;
+			case 90: case -270:
+				exec_command($VIPS, 'im_rot90 %s %s', $args);
+				break;
+			case 180: case -180:
+				exec_command($VIPS, 'im_rot180 %s %s', $args);
+				break;
+			case 270: case -90:
+				exec_command($VIPS, 'im_rot270 %s %s', $args);
+				break;
+			// arbitrary rotation
+			default:
+				$ccw =  $degrees < 0;
+				$rad = abs($degrees) * M_PI/180;
+				$sin = sin($rad);
+				$cos = cos($rad);
+				$output = exec_command($VIPS, 'im_affinei_all %s %s -- bicubic %f %f %f %f 0 0',
+					array_merge($args, array(
+						$cos,
+						($ccw ? 1 : -1) * $sin,
+						($ccw ? -1 : 1) * $sin,
+						$cos
+					)));
+		}
+		return $outfile;
+	}

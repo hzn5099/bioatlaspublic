@@ -1,0 +1,27 @@
+
+	- check FSV behavior for error conditions
+
+	x merge duplicate PropertyMap commit (how did I miss *that*?!)
+		x remove duplicated property-map.js from build-slider and phenome-view.twig.html
+	- check 'phenome/' applications, including thumbnail previews in links, like progress.php
+		x edit "onEvent string removal" commit to add build-slider support (remove "vs_properties.in")
+		x revert local.js changes in "Updates key binding code to use vs.Keys" commit
+		- remove vs-with-slider.js from repo?  (after a certain commit)
+		- edit zf-fullscreen-with-slider.js
+			-
+		- remove zf-menu from slider code
+		- since SlideMetadata is removed, we should migrate to SlidingPanel, right?
+		- add long series to atlas.ajax.php
+	- add comment to anti-scrolling code in SlidingPanel commit
+	- God only knows what microct.php needs... that's a mess
+
+	- places that get an atlas JSON representation:
+		- view.php
+		- phenome/microct.php
+		- atlas.ajax.php
+
+	- should have model.php:SQL > function:array/object > function:string > atlas.ajax.php
+
+	get_atlas_by_id()
+	get_atlas_json_by_id()
+

@@ -1,0 +1,79 @@
+{% extends "base.twig.html" %}
+
+{% block content %}
+				<div class="">
+					<div class="column column-1">
+						<div class="shadow-box">
+							<h1>Zebrafish Atlas Slides</h1>
+							<p>There are currently <b>{{ count|default(0) }}</b> slides in the zebrafish atlas.</p>
+							<table id="atlas-table">
+								<col width="19%">
+								<col width="27%">
+								<col width="27%">
+								<col width="27%">
+								<thead>
+									<tr>
+										<th>Ages</th>
+										<th>Coronal<div class="direction">(dorsal to ventral)</div></th>
+										<th>Sagittal<div class="direction">(left to right)</div></th>
+										<th>Transverse<div class="direction">(rostral to caudal)</div></th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr class="priority">
+										<td></td>
+										<td colspan="3" class="priority">Highlighted ages are higher priority and are expected to be completed before other ages.</td>
+									</tr>
+									<tr>
+										<td></td>
+										<td colspan="3" class="labeled">Labeled series:  these series contain annotated slides</td>
+									</tr>
+								</tfoot>
+								<tbody>
+									{% for age in atlas %}
+									<tr>
+										<td{% if age.isPriority %} class="priority"{% endif %}>{{ age.name }}</td>
+										{% for atlas_id, plane in age.plane %}
+										<td{% if plane.isLabeled %} class="labeled"{% endif %}>
+											{% if plane.slides %}
+												{% for index, slide_id in plane.slides %}
+											<a href="view.php?atlas={{ atlas_id }}&amp;s={{ slide_id }}">{{ index + 1 }}</a>
+												{% endfor %}
+											{% endif %}
+										</td>
+										{% endfor %}
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+<div class="shadow-box">
+	<p>(Comparisons have moved to <a href="comparison.php">their own page</a>.)</p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+		<script type="text/javascript" src="javascript/scriptaculous-js-1.9.0/lib/prototype.js"></script>
+		<script type="text/javascript" src="javascript/scriptaculous-js-1.9.0/src/scriptaculous.js?load=effects"></script>
+{% if page.debug %}
+		<script type="text/javascript" src="javascript/vs/base.js"></script>
+		<script type="text/javascript" src="javascript/vs/core/keys.js"></script>
+		<script type="text/javascript" src="javascript/vs/core/slide.js"></script>
+		<script type="text/javascript" src="javascript/vs/core/viewer.js"></script>
+		<script type="text/javascript" src="javascript/vs/core/labels.js"></script>
+		<script type="text/javascript" src="javascript/vs/local.js"></script>
+		<script type="text/javascript" src="javascript/vs/ui/hover.js"></script>
+{% else %}
+		<script type="text/javascript" src="javascript/{{ "vs.js"|get_asset_version }}"></script>
+{% endif %}
+<script type="text/javascript">
+	document.observe('dom:loaded', function() {
+		$$(".content").each(function (e) {
+			zfatlas.addPreviewThumbnails(e, /view\.php\?.*?\bs=\d+/);
+		});
+	});
+</script>
+{% endblock %}

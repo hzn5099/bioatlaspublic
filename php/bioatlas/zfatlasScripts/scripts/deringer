@@ -1,0 +1,82 @@
+#!/bin/bash
+
+# deringer <src> <x_center>
+
+# 1. Get prefix
+# 2. Get count
+# 3. Check destination
+# 4. Create destination if necessary
+# 5. Submit job
+
+# Check...
+# 1.  Correct number of arguments
+# 2.  Existence of source and source/reconstructed paths
+# 3.  If source/deringed has contents
+# NOT IMPLEMENTED:
+# 4.  Uniqueness of file set within source/reconstructed
+
+
+if [ $# -ne 2 ]; then
+	echo "Usage: $0 <source_dir> <x_coord_center>"
+	echo "source_dir is relative to /gpfs/pads/projects/CI-BIR000056/"
+	echo "reconstructed/ and deringed/ subdirs are added automatically"
+	exit 1
+fi
+
+basedir="/gpfs/pads/projects/CI-BIR000056"
+src="${basedir}/${1}/reconstructed"
+dst="${basedir}/${1}/deringed"
+
+if [ ! -d "${src}" ]; then
+	echo "ERROR:  $src does not exist or is not a directory"
+	exit 1
+elif [ ! -r "${src}" ]; then
+	echo "ERROR:  Can't read from $src"
+	exit 1
+elif ! ls "${src}"/*.hdf &>/dev/null; then
+	echo "ERROR:  $src does not contain any .hdf files"
+	exit 1
+fi
+if [ -e "${dst}" ]; then
+	if [ ! -d "${dst}" ]; then
+		echo "ERROR:  $dst is not a directory"
+		exit 1
+	elif [ ! -w "${dst}" ]; then
+		echo "ERROR:  Can't write to $dst"
+		exit 1
+	fi
+elif mkdir "${dst}"; then
+	echo "Created $dst"
+	chmod 2775 "${dst}"
+else
+	echo "ERROR:  Couldn't create $dst"
+	exit 1
+fi
+
+prefix=`basename "${src}"/*00000.hdf 00000.hdf`
+count=`ls "${src}/${prefix}"*.hdf | wc -l`
+
+# Generate the bash script for qsub
+qsub <<-QSUB
+	#!/bin/bash
+
+	#PBS -l nodes=1
+	#PBS -t 0-$(( $count - 1 ))
+	#PBS -q short
+	#PBS -o /dev/null
+	#PBS -e /dev/null
+
+	export LD_LIBRARY_PATH=/soft/szip-2.1-gcc4.1-r1/lib:/soft/hdf4-4.2.5-gcc4.2-r1/lib:/home/glk/teem/arch/linux.amd64/lib:\${LD_LIBRARY_PATH}
+
+	basename=\$(printf "${prefix}%05d" \$PBS_ARRAYID)
+
+	/home/glk/bin/hdf2nrrd -i "${src}/\${basename}.hdf" -dering true -cent ${2} 1023 -angle 23 -nsmp 80 -blur gauss:6,4 -o "${dst}/\${basename}.hdr"
+QSUB
+echo "---------------------------------------"
+echo "Source:		$src"
+echo "Destination:	$dst"
+echo "Image prefix:	$prefix"
+echo "Image count:	$count"
+echo "---------------------------------------"
+echo Submitted deringing job: `date`
+exit 0

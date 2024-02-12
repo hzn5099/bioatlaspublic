@@ -1,0 +1,49 @@
+#!/usr/bin/nip2 -s
+/*
+	This all-in-one script is ~54% faster than the separate vips commands,
+	and it doesn't seem to tax the CPU as badly either.
+*/
+
+Interpolate_bicubic = Interpolate Interpolate_type.BICUBIC [];
+
+_rotate angle im
+	= rot90  im, angle == 90  || angle == -270
+	= rot180 im, angle == 180 || angle == -180
+	= rot270 im, angle == 270 || angle == -90
+	= rotate Interpolate_bicubic angle im;
+
+_flip axis im
+	= fliplr im, axis == 1
+	= fliptb im, axis == 2
+	= im;
+
+main
+	= cropped, is_image cropped
+	= error "Failed to generate image"
+{
+
+	/* Read arguments
+		infile <flip 0 1 2> <rotate> <multiplier> <width> <height> <offsetX> <offsetY> -o <outfile>
+		flip axis: 0, none; 1, horizontal; 2, vertical
+	*/
+	infile	= Image_file argv?1;
+	axis	= parse_int argv?2;
+	angle	= parse_int argv?3;
+	scale	= parse_int argv?4;
+	width	= scale * parse_int argv?5;
+	height	= scale * parse_int argv?6;
+	left	= scale * parse_int argv?7;
+	top		= scale * parse_int argv?8;
+
+	/* Process image
+	*/
+	_rotate'= _rotate angle;
+	flipped	= _flip axis infile.value;
+	rotated	= _rotate' flipped;
+	mask	= _rotate' (image_new infile.width infile.height 1 0 0 1 255 0 0);
+	bg_fill	= image_new (get_width rotated) (get_height rotated) 1 0 0 1 243 0 0;
+	blended	= blend mask rotated bg_fill;
+	cropped	= extract_area left top width height blended;
+
+}
+

@@ -1,0 +1,157 @@
+#!/bin/bash
+
+# so get_last_commit() will work regardless of cwd
+export GIT_DIR=/srv/git/zfatlas-www.git
+
+STYLES=( \
+	viewer.css \
+	zfatlas.css \
+	reference.css \
+)
+
+LOGFILES=( \
+	comments.txt \
+	search.log
+)
+
+get_last_commit()
+{
+	# get short commit hash for last file modification
+	echo $(git log -n1 --pretty=%h -- "$1")
+}
+
+# this script will receive as parameters a list of updated refs in the following form:
+# refs/heads/(branch name)
+# e.g., refs/heads/label-editing-now
+
+for ref in "$@"; do
+
+	case $ref in
+		refs/heads/master)
+			export GIT_WORK_TREE=/var/www/zfatlas/current
+			;;
+		refs/heads/label-editing-now)
+			export GIT_WORK_TREE=/var/www/localhost/htdocs/zfatlas-label-editing
+			;;
+		*)
+			continue
+			;;
+	esac
+
+# ------------------------------------------------------------------------
+# mkdir
+# ------------------------------------------------------------------------
+
+	echo "------------------------------------------------------------------------"
+	echo "Setting up $GIT_WORK_TREE"
+	echo "------------------------------------------------------------------------"
+
+	if ! [ -d "${GIT_WORK_TREE}" ]; then
+		if ! mkdir "${GIT_WORK_TREE}"; then
+			echo "Failed to mkdir"
+			continue
+		fi
+	elif [ -e "${GIT_WORK_TREE}"/inc/assets.php && -e "${GIT_WORK_TREE}"/javascript/vs.js ]; then
+		LAST_VS=$(sed -n "s/.*['\"]vs\.js['\"].*['\"]\([[:alnum:]]\+\)['\"].*/\\1/p" "${GIT_WORK_TREE}"/inc/assets.php)
+		# need to checkout first...
+		CURRENT_VS=$(get_last_commit javascript/vs/)
+		echo "Current vs.js [$CURRENT_VS]; last [$LAST_VS]"
+	else
+		LAST_VS=""
+	fi
+
+# ------------------------------------------------------------------------
+# checkout
+# ------------------------------------------------------------------------
+
+	echo -n "Checking out ${ref#refs/heads/}... "
+	git checkout -f "${ref#refs/heads/}" &>/dev/null
+
+	if [ $? -eq 0 ]; then
+		echo "[OK]"
+	else
+		echo "[failed]"
+		continue
+	fi
+
+# ------------------------------------------------------------------------
+# build javascript/vs.js (and vs-with-slider.js)
+# ------------------------------------------------------------------------
+
+# this should check old version first
+	echo -n "Building javascript/vs.js "
+	(cd "${GIT_WORK_TREE}/javascript/vs" && OUTFILE=../vs.js ./build; rm -f ../vs.js.previous)
+
+	if [ $? -eq 0 ]; then
+		echo "[OK]"
+	else
+		echo "[failed]"
+	fi
+
+	# build-slider for phenome pages
+	# (this currently fails to build)
+
+	# echo -n "Building javascript/vs-with-slider.js "
+	# (cd "${GIT_WORK_TREE}/javascript/vs" && OUTFILE=../vs.js ./build-slider; rm -f ../vs-with-slider.js.previous)
+
+	# if [ $? -eq 0 ]; then
+		# echo "[OK]"
+	# else
+		# echo "[failed]"
+	# fi
+
+# ------------------------------------------------------------------------
+# compress CSS
+# ------------------------------------------------------------------------
+
+	echo -n "Compressing CSS files "
+	(cd "${GIT_WORK_TREE}/styles" && \
+	/usr/bin/java -jar /usr/local/bin/yuicompressor.jar -o '.css$:-min.css' ${STYLES[@]}
+
+	if [ $? -eq 0 ]; then
+		echo "[OK]"
+	else
+		echo "[failed]"
+	fi
+
+	for style in ${STYLES[@]}; do
+		mv "${style/.css/-min.css}" "$style"
+	done)
+
+# ------------------------------------------------------------------------
+# write inc/assets.php
+# ------------------------------------------------------------------------
+
+	echo "Creating inc/assets.php"
+	(cd "${GIT_WORK_TREE}" && \
+	cat > inc/assets.php <<-END
+	<?php
+
+	\$asset_versions = array(
+	END
+
+	# styles/
+	for style in ${STYLES[@]}; do
+		echo "	'${style}'	=>	'$(get_last_commit styles/$style)'," >> inc/assets.php
+	done
+
+	# compiled vs.js
+	# (** is not currently supported but may be coming soon)
+	# echo "	'vs.js'		=>	'$(get_last_commit javascript/vs/**.js)'," >> inc/assets.php
+	echo "	'vs.js'		=>	'$(get_last_commit javascript/vs/)'," >> inc/assets.php
+
+	echo ");" >> inc/assets.php)
+
+# ------------------------------------------------------------------------
+# create server-side datafiles
+# ------------------------------------------------------------------------
+
+	for FILE in "${LOGFILES[@]}"; do
+		if ! [ -e "${GIT_WORK_TREE}/${FILE}" ]; then
+			touch "${GIT_WORK_TREE}/${FILE}" && \
+				chmod 666 "${GIT_WORK_TREE}/${FILE}"
+		fi
+	done
+
+done
+

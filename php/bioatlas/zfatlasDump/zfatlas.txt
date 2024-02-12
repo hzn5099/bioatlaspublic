@@ -1,0 +1,292 @@
+CREATE TABLE virtualslide (
+	id INT UNSIGNED ZEROFILL AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	protocol_id INT UNSIGNED,			-- id of protocol
+	owner_id INT UNSIGNED,				-- uid of slide owner
+	contributor_id INT UNSIGNED,		-- gid of contributing lab
+
+	power TINYINT UNSIGNED,				-- objective lens power
+
+	organism_type_id INT UNSIGNED,
+	organism_birth DATETIME,
+	organism_death DATETIME,
+	organism_age_in_hours INT UNSIGNED,	-- to be used if b/d is unknown
+	organism_sex ENUM('male','female',  -- a NULL value implies "unknown"
+		'other','undifferentiated'),
+
+	fix_date DATE,						-- date specimen was fixed/mounted
+	scan_date DATE,						-- date slide was scanned
+	identifier VARCHAR(127),			-- user-defined id/catalog number
+	label VARCHAR(255),					-- A short, descriptive title
+	description TEXT,					-- A more narrative description of the slide content.
+	notes TEXT,							-- Other technical details (image manipulation, protocol, source, etc)
+
+	image_source_md5 CHAR(40),			-- a unique "signature" of the source file (of the SVS file in our case)
+	image_file_path VARCHAR(255),		-- location of file
+	image_file_format VARCHAR(63),		-- format of file
+	lastmod TIMESTAMP NOT NULL,			-- auto-updating timestamp
+	created TIMESTAMP NOT NULL			-- when the record was made
+);
+
+CREATE TABLE organism_type (
+	id INT UNSIGNED ZEROFILL AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	genus VARCHAR(63) NOT NULL,
+	species VARCHAR(63) NOT NULL,
+	strain VARCHAR(63),
+	common_name VARCHAR(127),
+	-- is_mutant BOOLEAN,
+	ncbi_id INT UNSIGNED
+);
+
+CREATE TABLE protocols (
+	id INT UNSIGNED ZEROFILL AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	title VARCHAR(255) NOT NULL,
+	contributor_id INT UNSIGNED,
+	`date` DATE,
+	protocol TEXT
+);
+
+CREATE TABLE user (
+	id INT UNSIGNED ZEROFILL AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	username VARCHAR(63) NOT NULL,
+	password CHAR(40),
+	admin BOOLEAN DEFAULT FALSE,
+	group_id INT UNSIGNED,
+	email VARCHAR(127),
+	contact_info VARCHAR(255),
+	firstname VARCHAR(63),
+	lastname VARCHAR(63),
+	since DATETIME NOT NULL
+);
+
+CREATE TABLE group (
+	id INT UNSIGNED ZEROFILL AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	owner_id INT UNSIGNED,
+	name VARCHAR(127) NOT NULL,
+	institution VARCHAR(255),
+	department VARCHAR(255),
+	contact_info VARCHAR(255),
+	since DATETIME NOT NULL
+);
+
+CREATE TABLE users_groups (
+	user_id INT UNSIGNED ZEROFILL NOT NULL,
+	group_id INT UNSIGNED ZEROFILL NOT NULL
+);
+
+
+-- Organization tables
+
+CREATE TABLE virtualslide_levels (
+	slide_id INT UNSIGNED ZEROFILL NOT NULL,
+	level TINYINT UNSIGNED NOT NULL,
+	image_width INT UNSIGNED NOT NULL,
+	image_height INT UNSIGNED NOT NULL,
+	tile_width SMALLINT UNSIGNED NOT NULL,
+	tile_height SMALLINT UNSIGNED NOT NULL
+	-- Consider moving tile sizes to tiles table, like width,height for each tile.
+	-- Tile size could still be read via:  SELECT tile_width,tile_height FROM ... WHERE slide_id=??? AND level=? AND tile_id=0
+	-- The only problem is that the assumption is made for "small" image that resize is proportional to the larger image &
+	--   if they aren't "filled out", the reported magnification will be wrong.  In that case, maybe we should store magnification, too?
+);
+
+CREATE TABLE virtualslide_tiles (
+	slide_id INT UNSIGNED ZEROFILL NOT NULL,
+	level TINYINT UNSIGNED NOT NULL,		-- Starting with 0 for highest magnification
+	tile_id INT UNSIGNED NOT NULL,			-- Starting with 0 for first tile
+	image MEDIUMBLOB NOT NULL
+);
+
+CREATE TABLE atlas (
+	id SMALLINT ZEROFILL AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	name VARCHAR(127) NOT NULL,
+	description TEXT
+);
+
+CREATE TABLE zebrafish_atlas (
+	atlas_id SMALLINT ZEROFILL NOT NULL,
+	slide_id INT UNSIGNED ZEROFILL NOT NULL,
+	age_in_hours SMALLINT UNSIGNED NOT NULL,
+	plane ENUM("Transverse","Coronal","Sagittal"),
+	`order` MEDIUMINT UNSIGNED -- Microns, or ordinal numbers as placeholders
+);
+
+-- ZFIN Ontological Tables
+
+CREATE TABLE zebrafish_ontology_terms (
+	id CHAR(11) NOT NULL PRIMARY KEY,
+	alt_id CHAR(11),
+	xref VARCHAR(24) NOT NULL,
+	name VARCHAR(255) NOT NULL,
+	def TEXT,
+	def_xref VARCHAR(24),
+	comment TEXT,
+	is_obsolete BOOLEAN NOT NULL DEFAULT FALSE
+);
+CREATE TABLE zebrafish_ontology_synonyms (
+	id CHAR(11) NOT NULL,
+	synonym VARCHAR(255) NOT NULL,
+	plural BOOLEAN NOT NULL DEFAULT FALSE,
+	xref VARCHAR(24)
+);
+CREATE TABLE zebrafish_ontology_relationships (
+	id1 CHAR(11) NOT NULL,
+	id2 CHAR(11) NOT NULL,
+	type ENUM("start","end","part_of","develops_from") NOT NULL
+);
+
+
+
+CREATE TABLE access (
+	ts DATETIME NOT NULL,		-- timestamp
+	ip INT UNSIGNED NOT NULL,	-- IP address
+	host VARCHAR(255),			-- host lookup
+	slide INT ZEROFILL NOT NULL,-- slide id
+	ua VARCHAR(255) NOT NULL	-- user agent string
+);
+
+-- Rollback tables for slide versioning
+
+CREATE TABLE virtualslide_levels_rollback (
+	slide_id INT UNSIGNED ZEROFILL NOT NULL,
+	version SMALLINT UNSIGNED NOT NULL,
+	level TINYINT UNSIGNED NOT NULL,
+	image_width INT UNSIGNED NOT NULL,
+	image_height INT UNSIGNED NOT NULL,
+	tile_width SMALLINT UNSIGNED NOT NULL,
+	tile_height SMALLINT UNSIGNED NOT NULL
+);
+
+CREATE TABLE virtualslide_tiles_rollback (
+	slide_id INT UNSIGNED ZEROFILL NOT NULL,
+	version SMALLINT UNSIGNED NOT NULL,	-- Keep a version number & return newest by default.
+	level TINYINT UNSIGNED NOT NULL,	-- Starting with 0 for highest magnification
+	tile_id INT UNSIGNED NOT NULL,		-- Starting with 0 for first tile
+	image MEDIUMBLOB NOT NULL
+);
+
+-- Create indicies:
+CREATE UNIQUE INDEX tile_index ON virtualslide_tiles (slide_id,level,tile_id);
+CREATE UNIQUE INDEX level_index ON virtualslide_levels (slide_id,level);
+CREATE INDEX atlas_index ON atlas_collection (slide_id);
+CREATE FULLTEXT INDEX ft_index ON virtualslide (label,description,notes);
+CREATE INDEX id_index ON zebrafish_ontology_synonyms (id);
+
+-- Initial data
+
+INSERT INTO organism_type VALUES(NULL,'Danio','rerio','WT Connor (wild-type)','Zebrafish',7955);
+INSERT INTO organism_type VALUES(NULL,'Danio','rerio','WT Ekkwill (wild-type)','Zebrafish',7955);
+
+INSERT INTO users VALUES (NULL,'kcheng',NULL,TRUE,'kcheng76@gmail.com',NULL,'Keith','Cheng',NOW());
+INSERT INTO users VALUES (NULL,'sep16',SHA1('testing'),TRUE,'sep16@psu.edu',NULL,'Steven','Peckins',NOW());
+INSERT INTO groups VALUES (NULL,LAST_INSERT_ID(),'Cheng Lab','The Pennsylvania State University','Jake Gittlen Cancer Research Institute',NULL,NULL);
+INSERT INTO atlas VALUES(NULL,"Zebrafish, normal","");
+INSERT INTO atlas VALUES(NULL,"Zebrafish, normal, with labels","");
+
+
+-- Example SQL queries:
+
+-- save old values to rollback tables
+INSERT INTO virtualslide_levels_rollback
+	SELECT slide_id,(SELECT @version:=IFNULL(MAX(version)+1,0) FROM virtualslide_levels_rollback WHERE slide_id=%d),level,image_width,image_height,tile_width,tile_height FROM virtualslide_levels WHERE slide_id=%d;
+
+INSERT INTO virtualslide_tiles_rollback
+	SELECT %d,@version,level,tile_id,image FROM virtualslide_tiles WHERE slide_id=%d;
+
+-- clear old values
+DELETE FROM virtualslide_levels WHERE slide_id=%d;
+DELETE FROM virtualslide_tiles WHERE slide_id=%d;
+-- insert new values
+INSERT INTO virtualslide_levels VALUES();
+INSERT INTO virtualslide_tiles VALUES();
+
+
+-- rollback
+DELETE FROM virtualslide_levels WHERE slide_id=%d;
+DELETE FROM virtualslide_tiles WHERE slide_id=%d;
+INSERT INTO virtualslide_levels SELECT %d,level,image_width,image_height,tile_width,tile_height FROM virtualslide_levels_rollback WHERE slide_id=%d AND version=(SELECT @version:=MAX(version) FROM virtualslide_levels_rollback WHERE slide_id=%d)
+INSERT INTO virtualslide_tiles SELECT %d,level,tile_id,image FROM virtualslide_tiles_rollback WHERE slide_id=%d AND version=@version;
+
+-- New atlas organization tables
+-- cf. http://dev.mysql.com/tech-resources/articles/hierarchical-data.html
+CREATE TABLE atlas (
+	id INT UNSIGNED ZEROFILL AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	name VARCHAR NOT NULL,
+	description VARCHAR,
+	to_left int UNSIGNED NOT NULL,
+	to_right int UNSIGNED NOT NULL
+);
+CREATE TABLE atlas_slides (
+	atlas_id INT UNSIGNED ZEROFILL NOT NULL,
+	slide_id INT UNSIGNED ZEROFILL NOT NULL,
+	position MEDIUMINT UNSIGNED NOT NULL -- ordinal position or microns from some point, their relative order
+);
+
+-- Procedures for manipulating atlas tree
+DELIMITER !!!
+CREATE PROCEDURE atlasDisplay()
+    BEGIN
+        SELECT
+            node.id,
+            IF(count, count, '-') AS count,
+            CONCAT(REPEAT(' ',2 * COUNT(parent.name) - 1), node.name) AS name,
+            node.description,
+            node.to_left,
+            node.to_right
+        FROM
+            _atlas AS node
+            JOIN _atlas AS parent
+            JOIN (SELECT id, SUM(slide_id IS NOT NULL) AS count FROM _atlas LEFT JOIN _atlas_slides ON _atlas.id=atlas_id GROUP BY id) AS atlas_count
+                ON node.id = atlas_count.id
+        WHERE
+            node.to_left BETWEEN parent.to_left AND parent.to_right
+        GROUP BY node.id
+        ORDER BY node.to_left;
+    END!!!
+CREATE PROCEDURE atlasInsertEnd(end_of_id INT UNSIGNED, name VARCHAR(255), description VARCHAR(255))
+	main: BEGIN
+		DECLARE end_right INT UNSIGNED;
+		SELECT to_right INTO end_right FROM atlas WHERE id=end_of_id;
+		IF end_right IS NULL THEN LEAVE main; END IF;
+		UPDATE atlas SET to_right = to_right + 2 WHERE to_right >= end_right;
+		UPDATE atlas SET to_left = to_left + 2 WHERE to_left >= end_right ORDER BY to_left DESC;
+		INSERT INTO atlas VALUES(NULL,name,description,end_right,end_right+1);
+	END!!!
+CREATE PROCEDURE atlasInsertAfter(end_of_id INT UNSIGNED, name VARCHAR(255), description VARCHAR(255))
+	main: BEGIN
+		DECLARE end_right INT UNSIGNED;
+		SELECT to_right INTO end_right FROM atlas WHERE id=end_of_id;
+		IF end_right IS NULL THEN LEAVE main; END IF;
+		UPDATE atlas SET to_right = to_right + 2 WHERE to_right > end_right;
+		UPDATE atlas SET to_left = to_left + 2 WHERE to_left > end_right ORDER BY to_left DESC;
+		INSERT INTO atlas VALUES(NULL,name,description,end_right+1,end_right+2);
+	END!!!
+CREATE PROCEDURE atlasInsertTop(top_id INT UNSIGNED, name VARCHAR(255), description VARCHAR(255))
+	main: BEGIN
+		DECLARE start_left INT UNSIGNED;
+		SELECT to_left INTO start_left FROM atlas WHERE id=top_id;
+		IF start_left IS NULL THEN LEAVE main; END IF;
+		UPDATE atlas SET to_right = to_right + 2 WHERE to_right > start_left;
+		UPDATE atlas SET to_left = to_left + 2 WHERE to_left > start_left ORDER BY to_left DESC;
+		INSERT INTO atlas VALUES(NULL,name,description,start_left+1,start_left+2);
+	END!!!
+CREATE PROCEDURE atlasInsertBefore(before_id INT UNSIGNED, name VARCHAR(255), description VARCHAR(255))
+	main: BEGIN
+		DECLARE start_left INT UNSIGNED;
+		SELECT to_left INTO start_left FROM atlas WHERE id=before_id;
+		IF start_left IS NULL THEN LEAVE main; END IF;
+		UPDATE atlas SET to_right = to_right + 2 WHERE to_right >= start_left;
+		UPDATE atlas SET to_left = to_left + 2 WHERE to_left >= start_left ORDER BY to_left DESC;
+		INSERT INTO atlas VALUES(NULL,name,description,start_left,start_left+1);
+	END!!!
+CREATE PROCEDURE atlasPruneNode(node_id INT UNSIGNED)
+    main: BEGIN
+        DECLARE left_side INT UNSIGNED;
+        DECLARE right_side INT UNSIGNED;
+        SELECT to_left,to_right INTO left_side,right_side FROM _atlas WHERE id=node_id;
+        IF left_side IS NULL OR right_side IS NULL THEN LEAVE main; END IF;
+        DELETE FROM _atlas WHERE to_left BETWEEN left_side AND right_side;
+        UPDATE _atlas SET to_left  = to_left  - (1 + right_side - left_side) WHERE to_left  > right_side ORDER BY to_left;
+        UPDATE _atlas SET to_right = to_right - (1 + right_side - left_side) WHERE to_right > right_side ORDER BY to_right;
+    END!!!
+
+DELIMITER ;

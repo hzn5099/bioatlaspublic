@@ -1,0 +1,41 @@
+{% extends "base.twig.html" %}
+
+{% block content %}
+	{% include "search-form.twig.html" %}
+	{% block search_results %}
+		{% if search.was_submitted %}
+	<div id="results" class="search-results">
+		<div class="shadow-box search-results-summary">
+			<form action=compare.php method=get>
+			<!-- Start form here for comparisons -->
+			{% if search.current_page > 1 %}
+			Displaying results {{ search.current_page_start }} - {{ search.current_page_end }} of {{ search.total_results }}
+			{% else %}
+			Your search
+				{% if search.q %}
+				for &quot;<b>{{ search.q }}</b>&quot;
+				{% endif %}
+			returned <b>{{ search.total_results }}</b> {{ "item"|s(search.total_results, true) }}.
+			{% endif %}
+			<div class="comparisons" style="text-align:right">
+				Compare selected slides stacked 
+				<input type="submit" name="layout" value="vertical">
+				<input type="submit" name="layout" value="horizontal">
+			</div>
+			{% if page.debug %}
+			<p>Executed {{ "query"|s(search.query_count) }} in {{ search.query_time }} seconds</p>
+			{% endif %}
+		</div>
+			{% for result_index, result in search.results %}
+				{% include "search-result-" ~ result.type ~ ".twig.html" %}
+			{% endfor %}
+		</form>
+	</div>
+			{% if search.current_page < search.last_page %}
+	<div class="shadow-box search-results-navigation">
+		<a href="?{{ search.get|merge({'page': search.current_page + 1})|http_build_query }}#results" rel="next">More results</a>
+	</div>
+			{% endif %}
+		{% endif %}
+	{% endblock %}
+{% endblock %}

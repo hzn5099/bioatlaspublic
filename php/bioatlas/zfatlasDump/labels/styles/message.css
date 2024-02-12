@@ -1,0 +1,56 @@
+/*
+-------------------------------------------------------------------------------
+	message classes
+-------------------------------------------------------------------------------
+*/
+.message {
+	margin-bottom:		4px;
+	padding:		0 16px 8px;
+	border:			1px solid;
+	color:			#000;
+	background-color:	#fff;
+}
+.message .title {
+	margin:			0 -16px 4px;
+	padding:		2px 4px;
+	border-bottom:		1px solid;
+	font:			bold larger Verdana,Arial,sans-serif;
+}
+.message P {
+	margin:			0;
+}
+.message.Note {
+	color:			#000;
+	background:		#fff;
+	border-color:		#fff;
+}
+.message.Note .title {
+	color:			#fff;
+	background:		#39f;
+}
+.message.Warning { }
+.message.Warning .title {
+	color:			#000;
+	background:		#ff0;
+}
+.message.Error .title {
+	color:			#fff;
+	background:		#c00;
+}
+.message.Error {
+	border-color:		#c00;
+	font-weight:		bold;
+}
+.message.Debug {
+	color:			#000;
+	background:		#ccc;
+	border-color:		#000;
+}
+.message.Debug P {
+	margin:			2px -12px;
+	border:			1px solid #ddd;
+	font-size:		smaller;
+	overflow:		auto;
+	white-space:		pre-wrap;
+}
+

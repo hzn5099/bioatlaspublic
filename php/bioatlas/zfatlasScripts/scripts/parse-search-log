@@ -1,0 +1,145 @@
+#!/usr/bin/php
+<?php
+
+	require_once '../current/inc/connect.php';
+	require_once '../current/inc/base.php';
+
+$sql = array();
+// --------------------------------------------------------------------------
+// SQL:  Get organism types from database for SELECT
+// --------------------------------------------------------------------------
+$sql['get_species_list'] = <<<'SQL'
+SELECT opt, val FROM (
+	/* get individual organisms */
+	(SELECT
+			IFNULL(organism_type_id, "unknown") AS val,
+			IFNULL(CONCAT(common_name, " (", genus, " ", species, ") ", IFNULL(strain, "")), "Unknown or unspecified") AS opt,
+			common_name,
+			0 AS is_group
+		FROM
+			virtualslides LEFT JOIN organism_types USING (organism_type_id)
+		WHERE
+			is_public
+		GROUP BY
+			organism_type_id
+	/* get organisms grouped by common_name */
+	) UNION (SELECT
+			GROUP_CONCAT(DISTINCT organism_type_id ORDER BY organism_type_id) AS val,
+			CONCAT(common_name, " (ALL variants)") AS opt,
+			common_name,
+			1 AS is_group
+		FROM
+			organism_types LEFT JOIN virtualslides USING (organism_type_id)
+		WHERE
+			is_public
+		GROUP BY
+			common_name
+		HAVING COUNT(DISTINCT organism_type_id) > 1
+	)
+	/* sort them */
+	ORDER BY
+		/* put zebrafish first */
+		common_name = "Zebrafish" DESC,
+		/* then sort alphabetically, grouped organisms first */
+		common_name, is_group DESC,
+		/* put unknown organisms at the end */
+		val = "unknown"
+	) AS organisms
+SQL;
+
+// --------------------------------------------------------------------
+// Set default options and search options
+// --------------------------------------------------------------------
+
+$options = array(
+	'organism'	=> array(
+		'text'		=> array('ANY'),
+		'values'	=> array('all')
+	),
+	'age_units'	=> array(
+		'text'		=> array('hours', 'days', 'months', 'years'),
+		'values'	=> array(    '1',   '24',    '720',  '8760')
+	),
+	'sex'		=> array(
+		'text'		=> array('ANY', 'male', 'female', 'other', 'undifferentiated'),
+		'values'	=> array('all',    '1',      '2',     '3',                '4')
+	)
+);
+
+// --------------------------------------------------------------------
+// Fill organism options from database
+// --------------------------------------------------------------------
+
+$result = zf_mysql_query($sql['get_species_list']);
+if ($result) {
+	while ($row = mysql_fetch_row($result)) {
+		$options['organism']['text'  ][] = $row[0];
+		$options['organism']['values'][] = $row[1];
+	}
+} else {
+	echo "No species results\n";
+	if (mysql_errno())
+		printf("MySQL error: %s\n", mysql_error());
+}
+
+// --------------------------------------------------------------------
+// Open file and format search log
+// --------------------------------------------------------------------
+
+$log = file('../current/search.log');
+foreach($log as $line) {
+	$search = unserialize($line);
+	echo "--------------------------------------------------------------------------------\n";
+	printf("%s (%s) page %d / %d results%s\n",
+		date('r', $search['ts']),
+		long2ip($search['ip']),
+		$search['p'],
+		$search['n'],
+		$search['get']['thumbnails'] ? ' with thumbnails' : ''
+	);
+
+	// search query string
+	if ($search['get']['q'])
+		printf("\t\"[1;36m%s[0m\"\n", $search['get']['q']);
+
+	// species
+	if (array_key_exists('organism', $search['get']) && is_array($search['get']['organism']) && !in_array('all', $search['get']['organism'], true)) {
+		foreach ($search['get']['organism'] as $organism) {
+			printf("\t+ %s \n", $options['organism']['text'][array_search($organism, $options['organism']['values'], true)]);
+		}
+	}
+	// species, age, sex, atlas, thumbnails?
+	// age range
+	if (isset($search['get']['age_fr_units']) && in_array($search['get']['age_fr_units'], $options['age_units']['values'], true) && isset($search['get']['age_fr']) && ctype_digit($search['get']['age_fr'])) {
+		$age_fr = sprintf('%d %s', $search['get']['age_fr'], $options['age_units']['text'][array_search($search['get']['age_fr_units'], $options['age_units']['values'])], true);
+	}
+	if (isset($search['get']['age_to_units']) && in_array($search['get']['age_to_units'], $options['age_units']['values'], true) && isset($search['get']['age_to']) && ctype_digit($search['get']['age_to'])) {
+		$age_to = sprintf('%d %s', $search['get']['age_to'], $options['age_units']['text'][array_search($search['get']['age_to_units'], $options['age_units']['values'])], true);
+	}
+	if ($age_to || $age_fr) {
+		printf("\t+ age:%s - %s\n", $age_fr, $age_to);
+	}
+	// sex
+	if (array_key_exists('sex', $search['get']) && is_array($search['get']['sex']) && !in_array('all', $search['get']['sex'], true)) {
+		foreach ($search['get']['sex'] as $sex) {
+			printf("\t+ sex:%s \n", $options['sex']['text'][array_search($sex, $options['sex']['values'], true)]);
+		}
+	}
+
+}
+
+exit(0);
+
+		// --------------------------------------------------------------------------
+		// log searches
+		// --------------------------------------------------------------------------
+		if (!DEBUGGING) {
+			file_put_contents('search.log', serialize(array(
+				'ts'	=> time(),
+				'ip'	=> ip2long($_SERVER['REMOTE_ADDR']),
+				'n'		=> $search['total_results'],
+				'p'		=> $search['current_page'],
+				'get'	=> $_GET
+			)) . "\n", FILE_APPEND | LOCK_EX);
+		}
+// SELECT opt, val FROM ( (SELECT IFNULL(organism_type_id, "unknown") AS val, IFNULL(CONCAT(common_name, " (", genus, " ", species, ") ", IFNULL(strain, "")), "Unknown or unspecified") AS opt, common_name, 0 AS is_group FROM virtualslides LEFT JOIN organism_types USING (organism_type_id) WHERE is_public GROUP BY organism_type_id) UNION (SELECT GROUP_CONCAT(DISTINCT organism_type_id ORDER BY organism_type_id) AS val, CONCAT(common_name, " (ALL variants)") AS opt, common_name, 1 AS is_group FROM organism_types LEFT JOIN virtualslides USING (organism_type_id) WHERE is_public GROUP BY common_name HAVING COUNT(DISTINCT organism_type_id) > 1) ORDER BY common_name = "Zebrafish" DESC, common_name, is_group DESC, val = "unknown") AS organisms;

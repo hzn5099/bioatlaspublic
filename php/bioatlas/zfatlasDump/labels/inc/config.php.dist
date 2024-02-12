@@ -1,0 +1,14 @@
+<?php
+
+# Database connection parameters
+$zf_mysql_host			= 'localhost';
+$zf_mysql_port			= '';
+$zf_mysql_db			= 'zfatlas';
+$zf_mysql_user			= 'zfuser';
+$zf_mysql_user_pass		= '';
+$zf_mysql_admin			= 'zfadmin';
+$zf_mysql_admin_pass	= '';
+
+# E-mail address list (contact.php)
+$zf_contact_emails = array(
+);

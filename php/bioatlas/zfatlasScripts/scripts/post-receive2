@@ -1,0 +1,115 @@
+#!/bin/bash
+
+# this script will receive as parameters a list of updated refs in the following form:
+# refs/heads/(branch name)
+# e.g., refs/heads/label-editing-now
+
+#export GIT_WORK_TREE="/var/www/localhost/htdocs/zfatlas-label-editing"
+#export GIT_WORK_TREE="/srv/www/zfatlas-label-editing"
+
+STYLES=( \
+	viewer.css \
+	zfatlas.css \
+	reference.css \
+)
+
+get_last_commit()
+{
+	# get short commit hash for last file modification
+	echo $(git log -n1 --pretty=%h -- "$1")
+}
+
+for ref in $@; do
+
+	case $ref in
+		refs/heads/master)
+			export GIT_WORK_TREE=/tmp/zfatlas-current
+			;;
+		refs/heads/label-editing-now)
+			export GIT_WORK_TREE=/tmp/zfatlas-label-editing
+			;;
+		*)
+			continue
+			;;
+	esac
+
+# ------------------------------------------------------------------------
+# checkout
+# ------------------------------------------------------------------------
+
+	echo -n "Checking out ${ref#refs/heads/}... "
+	git checkout -f "${ref#refs/heads/}"
+
+	if [ $? -eq 0 ]; then
+		echo "[OK]"
+	else
+		echo "[failed]"
+		continue
+	fi
+
+# ------------------------------------------------------------------------
+# build javascript/vs.js
+# ------------------------------------------------------------------------
+
+	echo -n "Building javascript/vs.js "
+	(cd "${GIT_WORK_TREE}/javascript/vs" && ./build)
+
+	if [ $? -eq 0 ]; then
+		echo "[OK]"
+	else
+		echo "[failed]"
+	fi
+
+	# build-slider for phenome pages
+
+# ------------------------------------------------------------------------
+# compress CSS
+# ------------------------------------------------------------------------
+
+	echo -n "Compressing CSS files "
+	(cd "${GIT_WORK_TREE}/styles" && \
+	/usr/bin/java -jar /usr/local/bin/yuicompressor.jar -o '.css$:-min.css' ${STYLES[@]}
+
+	if [ $? -eq 0 ]; then
+		echo "[OK]"
+	else
+		echo "[failed]"
+	fi
+
+	for style in ${STYLES[@]}; do
+		mv "${style/.css/-min.css}" "$style"
+	done)
+
+# ------------------------------------------------------------------------
+# write inc/assets.php
+# ------------------------------------------------------------------------
+
+	echo "Creating inc/assets.php"
+	(cd "${GIT_WORK_TREE}" && \
+	cat > inc/assets.php <<-END
+	<?php
+
+	\$asset_versions = array(
+	END
+
+	# styles/
+	for style in ${STYLES[@]}; do
+		echo "	'${style}'	=>	'$(get_last_commit styles/$style)'," >> inc/assets.php
+	done
+
+	# compiled vs.js
+	echo "	'vs.js'		=>	'$(get_last_commit javascript/vs/**.js)'," >> inc/assets.php
+
+	echo ");" >> inc/assets.php)
+
+# ------------------------------------------------------------------------
+# remove unwanted files
+# ------------------------------------------------------------------------
+
+	# these could be included in an .EXCLUDE as currently done with rsync
+	# since we must rsync to zfatlas.psu.edu anyway
+	# echo "Removing javascript/vs"
+	# rm -rf "${GIT_WORK_TREE}/javascript/vs"
+
+done
+

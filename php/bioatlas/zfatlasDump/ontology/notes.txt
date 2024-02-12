@@ -1,0 +1,8 @@
+July 17, 2015 New Ontology
+
+*http://purl.obolibrary.org/obo/zfa.obo
+https://github.com/cerivs/zebrafish-anatomical-ontology
+http://zfin.org/zf_info/downloads.html#ad
+
+Do labels connect to the assigned IDs?  Keep consistent? Update vs replace?
+Yes term_id is in labels table.

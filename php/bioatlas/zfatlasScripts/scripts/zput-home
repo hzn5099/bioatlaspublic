@@ -1,0 +1,89 @@
+#!/bin/bash
+
+# this is more efficient if re-using an ssh connection like
+# ControlMaster/ControlPath with ControlPersist in ~/.ssh/config
+
+# This can be set at connect-time using -o options:
+# ssh -o ControlMaster=auto -o ControlPath=/tmp/ssh_mux_backup_zfatlas -o ControlPersist=5m ...
+# ...
+# ssh -o ControlPath=/tmp/ssh_mux_backup_zfatlas -O exit $DST_HOST
+
+# (Special characters, if present, will need to be escaped in $DST.)
+SRC="/var/www/zfatlas"
+DST="chenglab:/gpfs/gpfs1/backup/zfatlas"
+
+VERBOSE=""
+RSYNC_OPTS=( -av --hard-links --delete --exclude=".*sw?" --exclude={thumbnails,movies}/ )
+
+# Check time of day to reduce accidental overwrites
+# if doing incremental backups, this is less important
+
+	if [ $(date +"%p") != "AM" ]; then
+		echo -n "It's late; are you sure? (y/N) "
+		read confirm
+		if [ "$confirm" != "y" ]; then
+			echo "Quitting."
+			exit 1
+		fi
+	fi
+
+# Warn/fail if swap files are present
+
+	SWAPFILES=$(find "${SRC}" -type f -name ".*sw?")
+	if ! [ -z "${SWAPFILES}" ]; then
+		echo "[1;33mPossible vim swapfiles are present (is your work saved?).[0m"
+		echo "${SWAPFILES}"
+		echo -n "Waiting 5 seconds before continuing anyway (press Ctrl-C to abort)..."
+		for i in {5..1}; do
+			echo -n " $i"
+			sleep 1
+		done
+		echo
+	fi
+
+# Set variables
+
+	DST_HOST=${DST%%:*}
+	DST_PATH=${DST#*:}
+	SSH="/usr/bin/ssh ${DST_HOST}"
+	CURRENT="${DST_PATH}/$(date --rfc-3339=seconds)"
+	LATEST="${DST_PATH}/latest"
+
+	echo "Backing up from: $SRC"
+	echo "Backing up to  : $CURRENT"
+	echo "Remote host    : $DST_HOST"
+	echo "Remote path    : $DST_PATH"
+
+	echo "Waiting for 5 seconds...."
+	sleep 5
+
+# Copy latest -> CURRENT
+
+	echo "Looking for latest backup..."
+	echo $SSH "test -L '${LATEST}' && readlink -f '${LATEST}'"
+	PREVIOUS=$($SSH "test -L '${LATEST}' && readlink -f '${LATEST}'")
+	echo "Found: $PREVIOUS"
+	if [ -n "${PREVIOUS}" ]; then
+		echo "Copying latest to $CURRENT..."
+		if ! $SSH "cp $VERBOSE -al '${PREVIOUS}' '${CURRENT}'"; then
+			echo "cp exited with non-zero status"
+		fi
+	fi
+
+# Rsync SRC to DST/CURRENT
+
+	echo "Rsyncing to remote..."
+	echo rsync "${RSYNC_OPTS[@]}" $VERBOSE "${SRC}/" "${DST_HOST}":"'${CURRENT}'"
+	if ! (rsync "${RSYNC_OPTS[@]}" $VERBOSE "${SRC}/" "${DST_HOST}":"'${CURRENT}'" | sed -e 's/^deleting /\x1b[1;31m&\x1b[0m/'); then
+		echo "rsync exited with non-zero status"
+	fi
+
+# re-symlink DST/latest -> DST/CURRENT
+
+	echo "Creating 'latest' symlink..."
+	# -r option (relative) to ln not yet supported on chenglab.rcc.psu.edu; neither is realpath.
+	echo $SSH "(cd '${DST_PATH}' && ln -sfT '$(basename "${CURRENT}")' '$(basename "${LATEST}")')"
+	if ! $SSH "(cd '${DST_PATH}' && ln -sfT '$(basename "${CURRENT}")' '$(basename "${LATEST}")')"; then
+		echo "remote symlink exited with non-zero value"
+	fi
+

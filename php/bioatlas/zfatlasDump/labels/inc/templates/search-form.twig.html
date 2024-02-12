@@ -1,0 +1,42 @@
+{% import "forms.twig.html" as form %}
+	{% block search_form %}
+	<form method="get" action="#results" class="shadow-box search-box" id="search-form">
+		<p>
+			<div class="input-100-wrapper">
+				<input type="text" name="q" value="{{ search.q }}">
+			</div>
+		</p>
+		<div id="search-additional">
+			<fieldset>
+				<legend>species</legend>
+				{% if options.organism.values | length > 8 %}
+				{{ form.create_select("organism[]", options.organism, search.organism, "multiple", 8) }}
+				{% else %}
+				{{ form.create_select("organism[]", options.organism, search.organism, "multiple", options.organism.values|length) }}
+				{% endif %}
+			</fieldset>
+			<fieldset>
+				<legend>age</legend>
+				<div>from</div>
+				<input type="text" size="4" maxlength="10" name="age_fr" value="{{ search.age_fr }}">
+				{{ form.create_select('age_fr_units', options.age_units, search.age_fr_units) }}
+				<div>to</div>
+				<input type="text" size="4" maxlength="10" name="age_to" value="{{ search.age_to }}">
+				{{ form.create_select("age_to_units", options.age_units, search.age_to_units) }}
+			</fieldset>
+			<fieldset>
+				<legend>sex</legend>
+				{{ form.create_select("sex[]", options.sex, search.sex, "multiple", 5) }}
+			</fieldset>
+			<div style="clear:both">
+				{{ form.create_checkbox("thumbnails", "Show thumbnail images with results", search.thumbnails) }}
+			</div>
+		</div>
+		<p>
+			<button type="submit">Search</button>
+			<button style="font-weight:normal" type="reset">Clear form</button>
+			{{ form.create_select("rpp", options.results_per_page, search.results_per_page) }}
+			results per page
+		</p>
+	</form>
+	{% endblock %}

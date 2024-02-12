@@ -1,0 +1,19 @@
+<?php
+/**
+ * MySQL Database Connection
+ *
+ * Replace the values inside the single quotes below with the values for your
+ * MySQL configuration. If not using the default port 3306, then append a colon
+ * and port number to the hostname (e.g. $hostname = 'example.com:3307';).
+ */
+
+$zf_mysql_host          = '{{ mysql_host }}';
+$zf_mysql_port          = '{{ mysql_port }}';
+$zf_mysql_db            = '{{ mysql_db }}';
+$zf_mysql_user          = '{{ mysql_user }}';
+$zf_mysql_user_pass     = '{{ mysql_pass }}';
+$zf_mysql_admin         = '{{ mysql_admin }}';
+$zf_mysql_admin_pass    = '{{ mysql_admin_pass }}';
+
+// you must provide the path of the key file, the certificate file, and certificate authority file.
+$db_ssl_ca = '/data/php/bioatlas/bioatlas/zfatlasDump/ca.pem';  // e.g., 'etc/mysql/ssl/ca-cert.pem'
