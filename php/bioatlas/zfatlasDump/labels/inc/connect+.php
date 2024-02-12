@@ -1,6 +1,7 @@
 <?php
 
-require '/dev/php/bioatlas/zfatlasScripts/scripts/bulk_upload';
+//require '/data/php/bioatlas/bioatlas/zfatlasDump/config.php';
+require '/home/khoa/bioatlas/php/bioatlas/zfatlasDump/labels/inc/config.php';
 
 // ------------------------------------------------------------------------
 // Connect

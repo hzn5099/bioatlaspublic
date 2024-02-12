@@ -1,0 +1,107 @@
+# Change pip's cache directory to be inside the project directory since we can
+# only cache local items.
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+# Pip's cache doesn't store the python packages
+# https://pip.pypa.io/en/stable/reference/pip_install/#caching
+#
+# If you want to also cache the installed packages, you have to install
+# them in a virtualenv and cache it as well.
+cache:
+  key: bioatlas-ansible
+  paths:
+    - .cache/pip
+    - .venv
+
+before_script:
+- eval $(ssh-agent -s)
+- ssh-add <(echo "$SSH_PRIVATE_KEY")
+- echo $SSH_AGENT_PID > ssh_agent.pid
+- mkdir -p ~/.ssh
+- echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+- echo $CI_PROJECT_NAME
+
+after_script:
+# Kill ssh-agent
+- export SSH_AGENT_PID=$(cat ssh_agent.pid)
+- ssh-agent -k
+
+# Job template to have a job only run when the source code changes
+.on_source_change:
+  only:
+    changes:
+    - .gitlab-ci.yml
+    - ansible/deploy.yml
+    - php/**/*
+    - histology.spec
+
+# Job template to have a job only run when the ansible code changes
+.on_ansible_change:
+  only:
+    changes:
+    - .gitlab-ci.yml
+    - ansible/**/*
+
+# Job template to run ansible. Specify the ANS_ARGS environment variable to add
+# arbitrary comment line arguments to the ansible command.
+.run_ansible:
+  environment: $CI_COMMIT_REF_NAME
+  only:
+    refs:
+    - develop
+    - beta
+    - stage
+    - prod
+  script:
+  - . /opt/rh/rh-python36/enable
+  - python -m venv .venv
+  - source .venv/bin/activate
+  - pip install -r ansible/requirements.txt
+  - cd ansible
+  - ansible-galaxy install -p roles -r requirements.yml -f
+  - echo "$VAULT_PASSWORD" > vault_pass.txt
+  - ansible-playbook site.yml -i "$CI_COMMIT_REF_NAME" -u ansible --vault-password-file vault_pass.txt --extra-vars "ansible_become_pass=$BECOME_PASS" $ANS_ARGS
+
+
+stages:
+- build
+- publish
+- deploy
+
+package:
+    stage: build
+    script: 
+    - rm -Rf dist
+    - cd php
+    - make VERSION=$CI_PIPELINE_ID
+    - mv dist ../
+    artifacts:
+      paths:
+      - dist/
+
+stash:
+    only:
+    - develop
+    - beta
+    stage: publish
+    environment: $CI_COMMIT_REF_NAME
+    script:
+    - scp dist/"$CI_PROJECT_NAME"-"$CI_PIPELINE_ID"-1.noarch.rpm "$PACKAGE_SERVER":/srv/yum/7/noarch/
+    - ssh "$PACKAGE_SERVER" chmod 644 /srv/yum/7/noarch/"$CI_PROJECT_NAME"-"$CI_PIPELINE_ID"-1.noarch.rpm
+    - ssh "$PACKAGE_SERVER" 'createrepo /srv/yum/7'
+
+configure:
+    extends:
+    - .on_source_change
+    - .on_ansible_change
+    - .run_ansible
+    only:
+    - develop
+    - beta
+    stage: deploy
+    dependencies:
+    - stash
+    needs:
+    - job: stash
+      artifacts: false

@@ -1,6 +1,6 @@
 <?php
 
-	include 'inc/twig.php';
+	include '../inc/twig.php';
 
 	ob_start();
 

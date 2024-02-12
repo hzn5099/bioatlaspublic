@@ -4,7 +4,6 @@ define('DEBUGGING', false);
 
 // slide-fetching mode:
 if (isset($_GET, $_GET['s']) && ctype_digit($_GET['s'])) {
-
     include 'inc/base.php';
     include 'inc/connect.php';
     include 'inc/model.php';
@@ -14,8 +13,7 @@ if (isset($_GET, $_GET['s']) && ctype_digit($_GET['s'])) {
 
     // normal page rendering mode:
 } else {
-
-    include 'inc/twig.php';
+    include '../inc/twig.php';
 
     $scripts = array();
 

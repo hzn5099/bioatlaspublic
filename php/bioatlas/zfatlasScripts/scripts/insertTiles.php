@@ -2,7 +2,7 @@
 
 ini_set('memory_limit', -1);
 
-require '/dev/php/bioatlas/zfatlasDump/labels/inc/connect+.php';
+require '/var/www/zfatlas/working/inc/connect+.php';
 
 // Get a quick file count
 

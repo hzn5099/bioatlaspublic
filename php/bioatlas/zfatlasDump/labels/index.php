@@ -3,7 +3,10 @@
 	include 'inc/twig.php';
 
 	ob_start();
-
+if ($_SERVER['REQUEST_URI'] === '/') {
+    header('Location: /index.php');
+    exit;
+}
 ?>
 
 				<div class="two-column-layout">

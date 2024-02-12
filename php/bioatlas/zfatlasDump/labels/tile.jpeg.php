@@ -5,7 +5,6 @@ if (isset($_GET['s'], $_GET['z'], $_GET['i'])
     && ctype_digit($_GET['z'])
     && ctype_digit($_GET['i'])
 ) {
-
     include 'inc/connect.php';
     include 'inc/base.php';
 

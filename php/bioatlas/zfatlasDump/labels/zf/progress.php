@@ -1,8 +1,7 @@
 <?php
-
-	include 'inc/base.php';
-	include 'inc/connect.php';
-	include 'inc/twig.php';
+	include '../inc/base.php';
+	include '../inc/connect.php';
+	include '../inc/twig.php';
 
 $labeled_atlases = array(
 	4,		// 4dpf (3.7mm) coronal

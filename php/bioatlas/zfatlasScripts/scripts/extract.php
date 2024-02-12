@@ -13,7 +13,7 @@ if (!ctype_digit($argv[1]) || !ctype_digit($argv[2]))
 
 ini_set('memory_limit', -1);
 
-require '/dev/php/bioatlas/zfatlasDump/labels/inc/connect+.php';
+require '/var/www/zfatlas/zfatlas/inc/connect+.php';
 
 $identifier = mysql_result(zf_mysql_query('SELECT identifier FROM virtualslides WHERE slide_id=%d', $argv[1]), 0);
 

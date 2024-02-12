@@ -14,7 +14,7 @@ galaxy_info:
   - web
 dependencies:
 - name: mellon
-  src: git+git@toolchest.med.psu.edu:research-informatics/ansible-mellon.git
+  src: git+https://toolchest.med.psu.edu/research-informatics/ansible-mellon.git
   version: remotes/origin/1.x
 - name: php-ldap
   src: git+https://toolchest.med.psu.edu/research-informatics/ansible-php-ldap.git
