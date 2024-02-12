@@ -1,5 +1,5 @@
 <?php
-    require '/data/php/bioatlas/bioatlas/zfatlasScripts/scripts/bulk_upload';
+    require '/dev/php/bioatlas/zfatlasScripts/scripts/bulk_upload';
     include 'inc/twig.php';
 ?>
 
