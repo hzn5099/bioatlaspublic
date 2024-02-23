@@ -1,19 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirect</title>
-    <script>
-        window.location.href = '/dev/php/bioatlas/zfatlasDump/labels/';
-    </script>
-</head>
-<body>
-    <p>If you are not redirected automatically, <a href="/dev/php/bioatlas/zfatlasDump/labels/">click here</a>.</p>
-</body>
-</html>
-
-
 # BioAtlas
 Virtual slide technology enables users to view high-resolution imagery with a significantly reduced download time.
 Virtual slides are panned and magnified in a manner similar to a traditional microscope but offer constant context with
