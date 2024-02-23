@@ -1,0 +1,2 @@
+gettid()                                = 63
+epoll_wait(9,  <detached ...>

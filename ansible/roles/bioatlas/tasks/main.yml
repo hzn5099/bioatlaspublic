@@ -18,7 +18,7 @@
 
 - name: write the bioatlas configuration files
   template:
-    dest: '/data/php/bioatlas/bioatlas/zfatlasDump/{{ item[:-3] }}'
+    dest: '/dev/php/bioatlas/zfatlasDump/{{ item[:-3] }}'
     group: bioatlas
     mode: 0440
     owner: bioatlas
@@ -32,7 +32,7 @@
 
 - name: Enable file uploads
   template:
-    dest: '/etc/opt/rh/rh-php56/php.d/99-bioatlas.ini'
+    dest: '/etc/php/5.6/cli/conf.d/99-bioatlas.ini'
     src: 'templates/99-bioatlas.ini.j2'
     group: root
     mode: 0644
@@ -62,28 +62,28 @@
     state: link
     force: true
   with_items:
-    - { src: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/javascript/',
-        dest: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/zf/javascript' }
-    - { src: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/javascript/',
-        dest: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/human/javascript' }
-    - { src: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/styles/',
-        dest: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/zf/styles' }
-    - { src: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/styles/',
-        dest: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/human/styles' }
-    - { src: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/thumbnails/',
-        dest: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/zf/thumbnails' }
-    - { src: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/thumbnails/',
-        dest: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/human/thumbnails' }
-    - { src: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/inc/',
-        dest: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/zf/inc' }
-    - { src: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/inc/',
-        dest: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/human/inc' }
-    - { src: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/images/',
-        dest: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/zf/images' }
-    - { src: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/view.php',
-        dest: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/zf/view.php' }
-    - { src: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/view.php',
-        dest: '/data/php/bioatlas/bioatlas/zfatlasDump/labels/human/view.php' }
+    - { src: '/dev/php/bioatlas/zfatlasDump/labels/javascript/',
+        dest: '/dev/php/bioatlas/zfatlasDump/labels/zf/javascript' }
+    - { src: '/dev/php/bioatlas/zfatlasDump/labels/javascript/',
+        dest: '/dev/php/bioatlas/zfatlasDump/labels/human/javascript' }
+    - { src: '/dev/php/bioatlas/zfatlasDump/labels/styles/',
+        dest: '/dev/php/bioatlas/zfatlasDump/labels/zf/styles' }
+    - { src: '/dev/php/bioatlas/zfatlasDump/labels/styles/',
+        dest: '/dev/php/bioatlas/zfatlasDump/labels/human/styles' }
+    - { src: '/dev/php/bioatlas/zfatlasDump/labels/thumbnails/',
+        dest: '/dev/php/bioatlas/zfatlasDump/labels/zf/thumbnails' }
+    - { src: '/dev/php/bioatlas/zfatlasDump/labels/thumbnails/',
+        dest: '/dev/php/bioatlas/zfatlasDump/labels/human/thumbnails' }
+    - { src: '/dev/php/bioatlas/zfatlasDump/labels/inc/',
+        dest: '/dev/php/bioatlas/zfatlasDump/labels/zf/inc' }
+    - { src: '/dev/php/bioatlas/zfatlasDump/labels/inc/',
+        dest: '/dev/php/bioatlas/zfatlasDump/labels/human/inc' }
+    - { src: '/dev/php/bioatlas/zfatlasDump/labels/images/',
+        dest: '/dev/php/bioatlas/zfatlasDump/labels/zf/images' }
+    - { src: '/dev/php/bioatlas/zfatlasDump/labels/view.php',
+        dest: '/dev/php/bioatlas/zfatlasDump/labels/zf/view.php' }
+    - { src: '/dev/php/bioatlas/zfatlasDump/labels/view.php',
+        dest: '/dev/php/bioatlas/zfatlasDump/labels/human/view.php' }
 
 - name: install the database certificate authorities
   copy:
@@ -101,7 +101,7 @@
 
 - name: create uploads directory
   file:
-    dest: '/data/php/uploads/'
+    dest: '/dev/php/uploads/'
     state: directory
     owner: apache 
     group: apache
@@ -117,7 +117,7 @@
     group: bioatlas
     mode: 0550
     owner: bioatlas
-    path: '/data/php/bioatlas/bioatlas/zfatlasScripts/scripts/bulk_upload'
+    path: '/dev/php/bioatlas/zfatlasScripts/scripts/bulk_upload'
     setype: httpd_sys_rw_content_t
 
 - name: verify insert-tiles permissions
@@ -125,7 +125,7 @@
     group: bioatlas
     mode: 0550
     owner: bioatlas
-    path: '/data/php/bioatlas/bioatlas/zfatlasScripts/scripts/insert-tiles'
+    path: '/dev/php/bioatlas/zfatlasScripts/scripts/insert-tiles'
     setype: httpd_sys_script_exec_t
 
 - name: verify zoomlevels permissions
@@ -133,7 +133,7 @@
     group: bioatlas
     mode: 0550
     owner: bioatlas
-    path: '/data/php/bioatlas/bioatlas/zfatlasScripts/scripts/zoomlevels'
+    path: '../../zfatlasScripts/scripts/zoomlevels'
     setype: httpd_sys_script_exec_t
 
 - name: verify tile-vips permissions
@@ -141,12 +141,12 @@
     group: bioatlas
     mode: 0550
     owner: bioatlas
-    path: '/data/php/bioatlas/bioatlas/zfatlasScripts/scripts/tile-vips'
+    path: '/dev/php/bioatlas/zfatlasScripts/scripts/tile-vips'
     setype: httpd_sys_script_exec_t
 
 - name: set thumbnail directory permissions
   file:
-    path: /data/php/bioatlas/bioatlas/zfatlasDump/labels/thumbnails
+    path: /dev/php/bioatlas/zfatlasDump/labels/thumbnails
     state: directory
     recurse: yes
     mode: 0777
