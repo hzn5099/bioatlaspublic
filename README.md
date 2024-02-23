@@ -16,3 +16,5 @@ See the [change log][changelog], [contributing guide][contributing],
 [install]: INSTALL.md
 [license]: LICENSE.md
 [upgrade]: UPGRADE.md
+[index]: index.html
+[phpinfo]: phpinfo.php
