@@ -15,3 +15,4 @@ $zf_contact_emails = array(
 	'speckins@operamail.com',
 	'giardine@bx.psu.edu',
 );
+$db_ssl_ca = 'php/bioatlas/zfatlasDump/ca.pem';  // e.g., 'etc/mysql/ssl/ca-cert.pem'

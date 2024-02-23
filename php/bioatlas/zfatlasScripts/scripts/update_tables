@@ -1,6 +1,6 @@
 <?php
 
-require '/data/php/bioatlas/bioatlas/zfatlasDump/config.php';
+require '/dev/php/bioatlas/zfatlasDump/config.php';
 
 # Start loop over csv file of metadata
 $firstElement = true;

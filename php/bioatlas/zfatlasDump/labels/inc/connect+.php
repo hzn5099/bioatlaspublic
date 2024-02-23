@@ -1,7 +1,7 @@
 <?php
 
-//require '/data/php/bioatlas/bioatlas/zfatlasDump/config.php';
-require '/home/khoa/bioatlas/php/bioatlas/zfatlasDump/labels/inc/config.php';
+//require '/dev/php/bioatlas/zfatlasDump/config.php';
+require 'config.php';
 
 // ------------------------------------------------------------------------
 // Connect

@@ -1,4 +1,4 @@
-%define appdir /data/php/bioatlas
+%define appdir /dev/php/bioatlas
 
 Summary: A tool for the examining virtual slides.
 Name: %{_name}
@@ -38,7 +38,7 @@ find %buildroot -type f \( -name '*.so' -o -name '*.so.*' \) -exec chmod 775 {} 
 
 %pre
 if [ "$1" = 1 ]; then
-    useradd -d /data/php/bioatlas -s /sbin/nologin --system bioatlas
+    useradd -d /dev/php/bioatlas -s /sbin/nologin --system bioatlas
     usermod -a -G bioatlas apache
 fi
 

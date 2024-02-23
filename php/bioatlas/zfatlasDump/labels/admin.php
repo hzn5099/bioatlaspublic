@@ -1,6 +1,6 @@
 <?php
 
-    require '/home/khoa/bioatlas/php/bioatlas/zfatlasScripts/scripts/bulk_upload';
+    require '../../zfatlasScripts/scripts/bulk_upload';
     include 'inc/twig.php';
 ?>
 
@@ -48,7 +48,7 @@
 </div>
 
 <?php
-    $target_dir = "/data/php/uploads/";
+    $target_dir = "/dev/php/uploads/";
     $target_file = $target_dir . "metadata.csv";
     $_exit = 0;
 

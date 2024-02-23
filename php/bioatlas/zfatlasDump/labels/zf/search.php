@@ -103,9 +103,9 @@
 		- Render search page
 
 */
-	require_once '/home/khoa/bioatlas/php/bioatlas/zfatlasDump/labels/inc/base.php';
-	require_once '/home/khoa/bioatlas/php/bioatlas/zfatlasDump/labels/inc/twig.php';
-	require_once '/home/khoa/bioatlas/php/bioatlas/zfatlasDump/labels/inc/connect+.php';
+	require_once '/dev/php/bioatlas/zfatlasDump/labels/inc/base.php';
+	require_once '/dev/php/bioatlas/zfatlasDump/labels/inc/twig.php';
+	require_once '/dev/php/bioatlas/zfatlasDump/labels/inc/connect+.php';
 
 // "Slices" out a "column" from a multidimensional array
 function array_part($key, &$array) {

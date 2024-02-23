@@ -23,7 +23,7 @@ mellon_domain: pennstatehealth.net
 
 ssl_only: true
 crt_private_key: '{{ vault_crt_private_key }}'
-db_ca_path: /data/php/bioatlas/bioatlas/zfatlasDump/ca.pem
+db_ca_path: /dev/php/bioatlas/zfatlasDump/ca.pem
 db_ca: |
     -----BEGIN CERTIFICATE-----
     MIIIOTCCByGgAwIBAgIRAKh+sJcGPwLNntBYNRCfefYwDQYJKoZIhvcNAQELBQAwdjELMAkGA1UE

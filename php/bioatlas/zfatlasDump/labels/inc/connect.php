@@ -1,6 +1,6 @@
 <?php
 
-require '/home/khoa/bioatlas/php/bioatlas/zfatlasDump/labels/inc/config.php';
+require 'config.php';
 
 // ------------------------------------------------------------------------
 // Connect

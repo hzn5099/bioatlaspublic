@@ -23,7 +23,7 @@
 
 ini_set('memory_limit', -1);
 
-require '/data/php/bioatlas/bioatlas/zfatlasDump/config.php';
+require '/dev/php/bioatlas/zfatlasDump/config.php';
 
 // connect to database
     $zfatlas = mysqli_init();
@@ -130,7 +130,7 @@ foreach ($jpeg_files as $file) {
 		$id = getId(basename($file, '-preview.jpg'));
 		if (!$id) continue;
 
-		rename($file, sprintf('/data/php/bioatlas/bioatlas/zfatlasDump/labels/thumbnails/preview/%010d.jpg', $id));
+		rename($file, sprintf('/dev/php/bioatlas/zfatlasDump/labels/thumbnails/preview/%010d.jpg', $id));
 
 	}
 

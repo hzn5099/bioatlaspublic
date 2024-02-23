@@ -5,12 +5,13 @@ $zfatlas;
 
 function run_upload($metafile, $s_dir) {
 
-  require '/data/php/bioatlas/bioatlas/zfatlasDump/config.php';
+  require '../../zfatlasDump/labels/inc/config.php';
 
   $firstElement = true;
 
   $arguments = getopt("m:s:");
   $logging_on = false;
+
 
   if ($arguments['m'] && $arguments['s']) {
     $metadatafile = $arguments['m'];
@@ -26,7 +27,7 @@ function run_upload($metafile, $s_dir) {
   $out_msg = '';
 
   $metadatafile = fopen($metadatafile,"r");
-  $fp = fopen('/data/php/uploads/skipped_slides_log.txt', 'w');
+  $fp = fopen('/dev/php/uploads/skipped_slides_log.txt', 'w');
   
   $zfatlas = mysqli_init();
   mysqli_options($zfatlas, MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
@@ -105,7 +106,7 @@ function run_upload($metafile, $s_dir) {
           print("Running zoomlevels script");
           print("\n");
         }
-        $zoomlevels_sql=shell_exec("/data/php/bioatlas/bioatlas/zfatlasScripts/scripts/zoomlevels -a 72000 $vipsloc");
+        $zoomlevels_sql=shell_exec("../../zfatlasScripts/scripts/zoomlevels -a 72000 $vipsloc");
 
         $v_s_sql = $zfatlas->prepare('INSERT INTO virtualslides (identifier, power, title, description, notes, fix_date, scan_date, user_id, group_id, source_id, protocol_id, organism_sex, organism_age_in_hours, organism_type_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
         $v_s_sql->bind_param('sissssssiiisii', $identifier, $power, $title, $description, $notes, $fix_date, $scan_date, $user_id, $group_id, $source_id, $protocol_id, $organism_sex, $organism_age_in_hours, $organism_type_id);
@@ -181,7 +182,7 @@ function run_upload($metafile, $s_dir) {
           }
         }
 
-        $tilevip = exec("/data/php/bioatlas/bioatlas/zfatlasScripts/scripts/tile-vips -a 72000 $vipsloc", $output, $return);
+        $tilevip = exec("/dev/php/bioatlas/zfatlasScripts/scripts/tile-vips -a 72000 $vipsloc", $output, $return);
         if ($return != 0) {
         if ($logging_on) {
           print('Tiles not created, skipping slide');
@@ -193,7 +194,7 @@ function run_upload($metafile, $s_dir) {
           continue;
         }
 
-        $insert = exec("php /data/php/bioatlas/bioatlas/zfatlasScripts/scripts/insert-tiles", $output, $return);
+        $insert = exec("php /dev/php/bioatlas/zfatlasScripts/scripts/insert-tiles", $output, $return);
         if ($return != 0) {
         if ($logging_on) {
           print('Tiles not inserted, skipping slide');
@@ -210,14 +211,14 @@ function run_upload($metafile, $s_dir) {
     }
   }
   fclose($fp);
-  shell_exec("rm -R -f /data/php/uploads/*");
+  shell_exec("rm -R -f /dev/php/uploads/*");
   $out_msg .= "Upload Script Complete";
   return ($out_msg);
 }
 
 
 function delete_slides($error_message, $slide_id='', $atlas_id='', $identifier='') {
-  require '/data/php/bioatlas/bioatlas/zfatlasDump/config.php';
+  require '../../zfatlasDump/labels/inc/config.php';
   global $fp, $zfatlas;
 
   $delete_slide = $zfatlas->prepare("DELETE FROM virtualslides WHERE slide_id=?");

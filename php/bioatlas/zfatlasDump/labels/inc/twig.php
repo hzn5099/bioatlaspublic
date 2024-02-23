@@ -1,6 +1,6 @@
 <?php
 
-require '/home/khoa/bioatlas/php/bioatlas/zfatlasDump/labels/inc/lib/Twig/Autoloader.php';
+require 'lib/Twig/Autoloader.php';
 include 'assets.php';
 
 Twig_Autoloader::register();
