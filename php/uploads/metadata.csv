@@ -1,0 +1,2 @@
+﻿identifier *,power *,title *,description,notes,fix_date,scan_date,user_id,group_id,source_id,protocol_id,organism_sex,organism_age_in_hours,organism_type_id,atlas_id,atlas_position
+1727,40,3dpf coronal,,,,,1,1,1,1,,,1,20,
