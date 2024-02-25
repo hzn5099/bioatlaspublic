@@ -60,7 +60,7 @@ if (isset($_GET['slide_id']) && ctype_digit($_GET['slide_id'])) {
 
 
 // ----------------------------------------------------------------------------
-} 
+// }
 	// else if ($_POST['labels'] && $labels = json_decode($_POST['labels'], true)) {
 // // create, update, and delete labels
 // // ----------------------------------------------------------------------------
@@ -100,7 +100,7 @@ if (isset($_GET['slide_id']) && ctype_digit($_GET['slide_id'])) {
 // 	// Return responses
 // 	echo json_encode(array_values(array_filter($responses)), JSON_NUMERIC_CHECK);
 
-// } else {
+ } else {
 	// slide_id not set
 	echo "[/* slide_id not set. */]\n";
 }

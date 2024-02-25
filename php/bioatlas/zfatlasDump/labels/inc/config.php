@@ -2,12 +2,12 @@
 
 # Database connection parameters (connect.php, connect+.php)
 $zf_mysql_host			= 'localhost';
-$zf_mysql_port			= '';
-$zf_mysql_db			= 'zfatlas';
-$zf_mysql_user			= 'zfuser';
-$zf_mysql_user_pass		= 'MonA9592148';
-$zf_mysql_admin			= 'zfadmin';
-$zf_mysql_admin_pass	= '11422GhAnA';
+$zf_mysql_port			= '3306';
+$zf_mysql_db			= 'bioatlas';
+$zf_mysql_user			= 'root';
+$zf_mysql_user_pass		= 'password';
+$zf_mysql_admin			= 'root';
+$zf_mysql_admin_pass	= 'password';
 
 # E-mail address list (contact.php)
 $zf_contact_emails = array(
@@ -15,4 +15,3 @@ $zf_contact_emails = array(
 	'speckins@operamail.com',
 	'giardine@bx.psu.edu',
 );
-$db_ssl_ca = 'php/bioatlas/zfatlasDump/ca.pem';  // e.g., 'etc/mysql/ssl/ca-cert.pem'

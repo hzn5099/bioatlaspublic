@@ -33,7 +33,7 @@ function run_upload($metafile, $s_dir) {
   mysqli_options($zfatlas, MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
   mysqli_ssl_set($zfatlas, null, null, $db_ssl_ca, null , null);
   mysqli_real_connect($zfatlas, $zf_mysql_host, $zf_mysql_admin, $zf_mysql_admin_pass, $zf_mysql_db, $zf_mysql_port, null, 64);
-  
+
   if ($zfatlas->connect_errno) {
     die(sprintf("Error connecting to database: %s\n", $zfatlas->connect_error));
   }
