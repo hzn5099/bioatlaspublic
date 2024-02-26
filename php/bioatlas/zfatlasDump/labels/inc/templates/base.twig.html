@@ -11,10 +11,10 @@
 	<!--[if IE 9]><title>This is IE 9</title><![endif]-->
 	{% endif %}
 	<title>Bio-Atlas - {{ page.title|default('Bio-Atlas') }}</title>
-	<link rel="stylesheet" type="text/css" href="styles/{{ "zfatlas.css"|get_asset_version }}">
+	<link rel="stylesheet" type="text/css" href="/styles/{{ "zfatlas.css"|get_asset_version }}">
 	{% block styles %}
 	{% for style in page.styles %}
-	<link rel="stylesheet" type="text/css" href="styles/{{ style|get_asset_version }}">
+	<link rel="stylesheet" type="text/css" href="/styles/{{ style|get_asset_version }}">
 	{% endfor %}
 	{% endblock %}
 	<!-- MSIE Specific CSS -->
@@ -41,7 +41,7 @@
 <div id="header">
 	<div class="content-width">
 		<div id="title" href="/index.php">
-			<a id="zfatlas-title" href="/index.php"></a>
+			<a id="zfatlas-title" href="/index.php">Bio-Atlas</a>
 			{% if page.speciesimage %}
 			<div id="species" align="right"><a href="{{ page.specieslink }}"><img src={{ page.speciesimage }} width="128" height="33" alt="{{ page.speciesimagetext }}" ></div>
 			{% elseif page.species %}
@@ -59,7 +59,7 @@
 			<div class="nav-link-summary">search our slides</div>
 		</div>
 		<div class="nav-link">
-			<div class="nav-link-title"><a href="progress.php">Zebrafish Atlas</a></div>
+			<div class="nav-link-title"><a href="../progress.php">Zebrafish Atlas</a></div>
 			<div class="nav-link-summary">the lifespan atlas</div>
 		</div>
 		<div class="nav-link">

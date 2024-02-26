@@ -148,47 +148,31 @@ LABEL
 */
 #header
 {
-	width:			70%;
-	margin:			0 auto;
 	position:		relative;
-	padding:		20px 0 0 20px;
+	padding:		10px 0 0 10px;
 	border-bottom:		1px solid;
-	background:		#fff;
-	/*background:		-moz-linear-gradient(top, #001427 0%, #00529A 100%);
+	background:		#036;
+	background:		-moz-linear-gradient(top, #001427 0%, #00529A 100%);
 	background:		-webkit-linear-gradient(top, #001427 0%, #00529A 100%);
-	background:		-o-linear-gradient(top, #001427 0%, #00529A 100%); */
-	/*filter:			progid:DXImageTransform.Microsoft.gradient( startColorstr='#001427', endColorstr='#00529A',GradientType=0); /* IE6-9 */
+	background:		-o-linear-gradient(top, #001427 0%, #00529A 100%);
+	filter:			progid:DXImageTransform.Microsoft.gradient( startColorstr='#001427', endColorstr='#00529A',GradientType=0); /* IE6-9 */
 	background:		-ms-linear-gradient(top, #001427 0%, #00529A 100%);
 	background:		linear-gradient(top, #001427 0%, #00529A 100%); /* W3C */
 }
-#subheader
-{
-	width:			100%;
-	margin:			0 auto;
-	position:		relative;
-	background:		#00529b;
-	text-align:		center;
-}
 #footer
 {
-	color:			#00539b;
 	padding:		40px;
-	background:		#e8ecef;
-	/*background:		-moz-linear-gradient(bottom, #001427 0%, #00529A 100%);
+	background:		#036;
+	background:		-moz-linear-gradient(bottom, #001427 0%, #00529A 100%);
 	background:		-webkit-linear-gradient(bottom, #001427 0%, #00529A 100%);
-	background:		-o-linear-gradient(bottom, #001427 0%, #00529A 100%); */
-	/*filter:			progid:DXImageTransform.Microsoft.gradient( startColorstr='#00529A', endColorstr='#001427',GradientType=0); /* IE6-9 */
+	background:		-o-linear-gradient(bottom, #001427 0%, #00529A 100%);
+	filter:			progid:DXImageTransform.Microsoft.gradient( startColorstr='#00529A', endColorstr='#001427',GradientType=0); /* IE6-9 */
 	background:		-ms-linear-gradient(bottom, #001427 0%, #00529A 100%);
 	background:		linear-gradient(bottom, #001427 0%, #00529A 100%); /* W3C */
 }
-#copyright-footer
-{
-	background:		#fff;
-	color:			#000;
-}
 #title {
 	position:		relative;
-	background:		transparent url(../images/psu_new_logo.png) no-repeat;
+	background:		transparent url(../images/psu_white_long.png) no-repeat;
 	margin:			0 10px 10px 0;
 	width:			679px;
 	height:			79px;
@@ -196,19 +180,18 @@ LABEL
 A#zfatlas-title {
 	position:		absolute;
 	display:		block;
-	top:			58px;
 	bottom:			10px;
-	right:			508px;
-	font-size:		25px;
-	color:			#003366;
+	right:			279px;
+	font-size:		40px;
+	color:			#fff;
 	font-weight:		normal;
 }
 #gittlen-title {
 	position:		absolute;
-	bottom:			8px;
-	right:			270px;
+	bottom:			0;
+	right:			279px;
 	font-size:		13px;
-	color:			#003366;
+	color:			#ddd;
 	text-align:		justify;
 	cursor:			default;
 }
@@ -221,56 +204,39 @@ A#zfatlas-title {
 	font-weight:            normal;
 }
 #nav-links {
-	vertical-align:		middle;
-	text-align:		middle;
+	text-align:		right;
 	padding:		0 2% 20px;
 	overflow:		auto;
 }
 #nav-links A
 {
-	vertical-align:		middle;
-	text-transform:		uppercase;
-	font-size:		16px;
-	font-family:		"sans-serif";
 	font-weight:		bold;
-	color:			#fff;
+	color:			#ff9;
 }
 #nav-links .nav-link
 {
 	float:			right;
-	margin-left:		50px;
-	padding-left:		50px;
-	padding-top:		5px;
-	margin-top:		15px;
+	margin-left:		16px;
+	border-left:		1px solid #fff;
+	padding-left:		16px;
 }
 #nav-links .nav-link:last-child
 {
 	border-left:		0;
 }
-#nav-links .nav-link .nav-link-summary /* Need another alternative to font 0pt */
+#nav-links .nav-link .nav-link-summary
 {
-	font-size:		0px;
-	color:			#000;
-}
-.center
-{
-	margin:			auto;
-}
-.container
-{
-	width:			80%;
-	margin:			0 auto;
-	padding:		20px;
+	font-size:		13px;
+	color:			#ddd;
 }
 .content
 {
 	position:		relative;
 	margin:			0;
-	padding:		3% 1% 1%;
-	background-color:	#fff;
+	padding:		3% 4%;
+	background-color:	#69c;
 	font:			normal 1em Georgia, "Times New Roman", serif;
 	overflow:		auto;
-	font-family:		'sans-serif';
 }
 .content-width
 {
@@ -285,14 +251,6 @@ A#zfatlas-title {
 	overflow:		auto;
 	padding:		8px;
 	padding-left:		10%;
-}
-#footer-title
-{
-	font-size: 		18px;
-}
-#footer-list li
-{
-	padding-top:		7px;
 }
 .footer-links-column {
 	float:			left;
@@ -380,9 +338,14 @@ A#zfatlas-title {
 }
 .shadow-box
 {
-	padding:		0px;
+	-moz-border-radius:	8px;
+	-webkit-border-radius:	8px;
+	border-radius:		8px;
+	-moz-box-shadow:	2px 2px 2px rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow:	2px 2px 2px rgba(0, 0, 0, 0.5);
+	box-shadow:		2px 2px 2px rgba(0, 0, 0, 0.5);
+	padding:		20px;
 	overflow:		auto;
-	width:			80%;
 }
 .shadow-box H1
 {
@@ -393,7 +356,7 @@ A#zfatlas-title {
 {
 	/* replaces and adds some space below the H1 from above,
 	 * which has been pushed to its edge with negative margins */
-	margin-top:		50px;
+	margin-top:		40px;
 }
 TABLE.shadow-box
 {
@@ -430,15 +393,15 @@ TABLE.shadow-box IMG
 
 BODY
 {
-	background-color:	#fff;
+	background-color:	#001427;
 	color:			#fff;
 }
 A {
-	color:			#00539b;
+	color:			#9cf;
 }
 .content A
 {
-	color:			#6699CC;
+	color:			#ff9;
 }
 .shadow-box
 {
@@ -453,13 +416,6 @@ A {
 {
 	color:			#fff;
 	background-color:	#036;
-}
-.shadow-box H2
-{
-	font-size:		35px;
-	font-weight:		bold;
-	font-family:		'sans-serif';
-
 }
 /* Wrapper for 100% width form elements */
 .input-100-wrapper
@@ -830,4 +786,3 @@ P.confirmation
 @media touch {
 
 }
-
