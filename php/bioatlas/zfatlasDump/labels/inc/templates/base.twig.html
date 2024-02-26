@@ -11,10 +11,10 @@
 	<!--[if IE 9]><title>This is IE 9</title><![endif]-->
 	{% endif %}
 	<title>Bio-Atlas - {{ page.title|default('Bio-Atlas') }}</title>
-	<link rel="stylesheet" type="text/css" href="styles/{{ "zfatlas.css"|get_asset_version }}">
+	<link rel="stylesheet" type="text/css" href="/styles/{{ "zfatlas.css"|get_asset_version }}">
 	{% block styles %}
 	{% for style in page.styles %}
-	<link rel="stylesheet" type="text/css" href="styles/{{ style|get_asset_version }}">
+	<link rel="stylesheet" type="text/css" href="/styles/{{ style|get_asset_version }}">
 	{% endfor %}
 	{% endblock %}
 	<!-- MSIE Specific CSS -->
@@ -41,7 +41,6 @@
 <div id="header">
 	<div class="content-width">
 		<div id="title" href="/index.php">
-			<a id="zfatlas-title" href="/index.php"></a>
 			{% if page.speciesimage %}
 			<div id="species" align="right"><a href="{{ page.specieslink }}"><img src={{ page.speciesimage }} width="128" height="33" alt="{{ page.speciesimagetext }}" ></div>
 			{% elseif page.species %}
@@ -198,5 +197,13 @@
 <script type="text/javascript" src="javascript/{{ script|get_asset_version }}"></script>
 {% endfor %}
 {% endblock %}
+<!-- JS Script for home button -->
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		document.getElementById('title').addEventListener('click', function() {
+			window.location.href = '/index.php';
+		})
+	})
+</script>
 </BODY>
 </HTML>
