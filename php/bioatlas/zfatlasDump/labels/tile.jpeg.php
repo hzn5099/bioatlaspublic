@@ -13,7 +13,6 @@ if (isset($_GET['s'], $_GET['z'], $_GET['i'])
     $query ='SELECT SQL_NO_CACHE image FROM virtualslide_tiles WHERE slide_id=%d AND level=%d AND tile_id=%d';
     $result = zf_mysql_query($query, $_GET['s'], $_GET['z'], $_GET['i']);
     var_dump($result);
-    echo "s:" . $_GET['s'] . "z:" . $_GET['z'] . "i:" . $_GET['i'];
 
     if (!$result) {
 

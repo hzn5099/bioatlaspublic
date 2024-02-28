@@ -28,7 +28,7 @@ function run_upload($metafile, $s_dir) {
 
   $metadatafile = fopen($metadatafile,"r");
   $fp = fopen('/dev/php/uploads/skipped_slides_log.txt', 'w');
-  
+
   $zfatlas = mysqli_init();
   mysqli_options($zfatlas, MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
   mysqli_ssl_set($zfatlas, null, null, $db_ssl_ca, null , null);
@@ -37,7 +37,7 @@ function run_upload($metafile, $s_dir) {
   if ($zfatlas->connect_errno) {
     die(sprintf("Error connecting to database: %s\n", $zfatlas->connect_error));
   }
-  
+
   while (($array = fgetcsv($metadatafile)) !== FALSE) {
     if ($firstElement) {
         $firstElement = false;
@@ -101,7 +101,7 @@ function run_upload($metafile, $s_dir) {
           $out_msg .= $error_message . "</br>";
           delete_slides($error_message);
           continue;
-        }       
+        }
         if ($logging_on) {
           print("Running zoomlevels script");
           print("\n");
