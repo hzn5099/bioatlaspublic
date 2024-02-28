@@ -182,7 +182,7 @@ function run_upload($metafile, $s_dir) {
           }
         }
 
-        $tilevip = exec("/dev/php/bioatlas/zfatlasScripts/scripts/tile-vips -a 72000 $vipsloc", $output, $return);
+        $tilevip = exec("../../zfatlasScripts/scripts/tile-vips -a 72000 $vipsloc", $output, $return);
         if ($return != 0) {
         if ($logging_on) {
           print('Tiles not created, skipping slide');
@@ -200,6 +200,7 @@ function run_upload($metafile, $s_dir) {
           print('Tiles not inserted, skipping slide');
           print("\n");
         }
+          $outpout_msgut = '';
           $error_message = "Tiles not inserted, returned error code "  . $return . ", skipping slide \n";
           $outpout_msgut .= $error_message . "</br>";
           delete_slides($error_message, $last_slide_id, $atlas_id);
