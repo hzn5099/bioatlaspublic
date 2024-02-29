@@ -17,7 +17,7 @@ Zebrafish (<i>Danio rerio</i>) have become an increasingly popular genetic model
 </p>
 
 							<figure class="right">
-								<img src="images/zebrafish.png" alt="adult wild-type zebrafish" width="256" height="66">
+								<img src="../images/zebrafish.png" alt="adult wild-type zebrafish" width="256" height="66">
 								<figcaption>Adult, wild-type zebrafish (<i>Danio rerio</i>)</figcaption>
 							</figure>
 
@@ -72,7 +72,7 @@ Virtual slide technology enables users to view high resolution imagery with a si
 		'page' => array(
 			'content' => ob_get_clean(),
 			'species' => 'zebrafish',
-                        'speciesimage' => 'images/zebrafishNoBack.png',
+                        'speciesimage' => '../images/zebrafishNoBack.png',
 			'speciesimagetext' => 'Zebrafish atlas',
                         'specieslink' => './'
 		)

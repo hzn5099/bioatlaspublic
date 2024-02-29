@@ -1088,7 +1088,7 @@ echo $twig->render('search.twig.html', array(
 	'page' => array(
 		'title'	=> $search['results'] ? 'Search results' : 'Search',
 		'species' => 'zebrafish',
-                'speciesimage' => 'images/zebrafishNoBack.png',
+                'speciesimage' => '../images/zebrafishNoBack.png',
                 'specieslink' => './',
 		'scripts' => array(
 			'scriptaculous-js-1.9.0/lib/prototype.js',

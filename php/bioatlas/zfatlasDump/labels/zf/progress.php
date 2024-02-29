@@ -124,7 +124,7 @@ echo $twig->render('progress.twig.html', array(
 			'viewer.css',
 		),
                 'species' => 'zebrafish',
-                'speciesimage' => 'images/zebrafishNoBack.png',
+                'speciesimage' => '../images/zebrafishNoBack.png',
                 'specieslink' => './',
 		'debug'		=> isset($_GET['dev'])
 	)

@@ -44,7 +44,7 @@ if (isset($_GET, $_GET['s']) && ctype_digit($_GET['s'])) {
         'page' => array(
         'title' => 'Anatomy Reference',
         'species'   => 'zebrafish',
-                    'speciesimage' => 'images/zebrafishNoBack.png',
+                    'speciesimage' => '../images/zebrafishNoBack.png',
                     'specieslink' => './',
         'debug' => DEBUGGING,
         'styles' => array(
