@@ -28,7 +28,7 @@ function run_upload($metafile, $s_dir) {
 
   $metadatafile = fopen($metadatafile,"r");
   $fp = fopen('/dev/php/uploads/skipped_slides_log.txt', 'w');
-  
+
   $zfatlas = mysqli_init();
   mysqli_options($zfatlas, MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
   mysqli_ssl_set($zfatlas, null, null, $db_ssl_ca, null , null);
@@ -37,7 +37,7 @@ function run_upload($metafile, $s_dir) {
   if ($zfatlas->connect_errno) {
     die(sprintf("Error connecting to database: %s\n", $zfatlas->connect_error));
   }
-  
+
   while (($array = fgetcsv($metadatafile)) !== FALSE) {
     if ($firstElement) {
         $firstElement = false;
@@ -101,7 +101,7 @@ function run_upload($metafile, $s_dir) {
           $out_msg .= $error_message . "</br>";
           delete_slides($error_message);
           continue;
-        }       
+        }
         if ($logging_on) {
           print("Running zoomlevels script");
           print("\n");
@@ -182,7 +182,7 @@ function run_upload($metafile, $s_dir) {
           }
         }
 
-        $tilevip = exec("/dev/php/bioatlas/zfatlasScripts/scripts/tile-vips -a 72000 $vipsloc", $output, $return);
+        $tilevip = exec("../../zfatlasScripts/scripts/tile-vips -a 72000 $vipsloc", $output, $return);
         if ($return != 0) {
         if ($logging_on) {
           print('Tiles not created, skipping slide');
@@ -200,6 +200,7 @@ function run_upload($metafile, $s_dir) {
           print('Tiles not inserted, skipping slide');
           print("\n");
         }
+          $outpout_msgut = '';
           $error_message = "Tiles not inserted, returned error code "  . $return . ", skipping slide \n";
           $outpout_msgut .= $error_message . "</br>";
           delete_slides($error_message, $last_slide_id, $atlas_id);

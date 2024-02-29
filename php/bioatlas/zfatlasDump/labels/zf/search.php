@@ -103,9 +103,9 @@
 		- Render search page
 
 */
-	require_once '/dev/php/bioatlas/zfatlasDump/labels/inc/base.php';
-	require_once '/dev/php/bioatlas/zfatlasDump/labels/inc/twig.php';
-	require_once '/dev/php/bioatlas/zfatlasDump/labels/inc/connect+.php';
+	require_once '../inc/base.php';
+	require_once '../inc/twig.php';
+	require_once '../inc/connect+.php';
 
 // "Slices" out a "column" from a multidimensional array
 function array_part($key, &$array) {
@@ -1088,7 +1088,7 @@ echo $twig->render('search.twig.html', array(
 	'page' => array(
 		'title'	=> $search['results'] ? 'Search results' : 'Search',
 		'species' => 'zebrafish',
-                'speciesimage' => 'images/zebrafishNoBack.png',
+                'speciesimage' => '../images/zebrafishNoBack.png',
                 'specieslink' => './',
 		'scripts' => array(
 			'scriptaculous-js-1.9.0/lib/prototype.js',
