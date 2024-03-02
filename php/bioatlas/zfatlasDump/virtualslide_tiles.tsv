@@ -8,8 +8,4 @@ PRIMARY KEY (slide_id, level, tile_id),
 KEY `slide_id` (`slide_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-INSERT INTO `virtualslide_tiles` VALUES (157,5,11,LOAD_FILE('labels/thumbnails/12mpf_s157/image11.jpg')),(157,5,10,LOAD_FILE('labels/thumbnails/12mpf_s157/image10.jpg')),
-(157,5,9,LOAD_FILE('labels/thumbnails/12mpf_s157/image9.jpg')),(157,5,8,LOAD_FILE('labels/thumbnails/12mpf_s157/image8.jpg')),(157,5,7,LOAD_FILE('labels/thumbnails/12mpf_s157/image7.jpg')),
-(157,5,6,LOAD_FILE('labels/thumbnails/12mpf_s157/image6.jpg')),(157,5,5,LOAD_FILE('labels/thumbnails/12mpf_s157/image5.jpg')),(157,5,4,LOAD_FILE('labels/thumbnails/12mpf_s157/image4.jpg')),
-(157,5,3,LOAD_FILE('labels/thumbnails/12mpf_s157/image3.jpg')),(157,5,2,LOAD_FILE('labels/thumbnails/12mpf_s157/image2.jpg')),(157,5,1,LOAD_FILE('labels/thumbnails/12mpf_s157/image1.jpg')),
-(157,5,0,LOAD_FILE('labels/thumbnails/12mpf_s157/image0.jpg')),(157,6,0,LOAD_FILE('labels/thumbnails/12mpf_s157/image12.jpg')), (1761,2,561,LOAD_FILE('mnt/c/users/khoa/documents/github/dev/php/bioatlas/zfatlasDump/labels/images/zebrafish.png'));
+INSERT INTO virtualslide_tiles (slide_id, level, tile_id, image) VALUES (1727, 4, 0, LOAD_FILE('/tmp/tiles/1727_4_0'));
