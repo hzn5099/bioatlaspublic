@@ -8,4 +8,3 @@ PRIMARY KEY (slide_id, level, tile_id),
 KEY `slide_id` (`slide_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-INSERT INTO virtualslide_tiles (slide_id, level, tile_id, image) VALUES (1727, 4, 0, LOAD_FILE('/tmp/tiles/1727_4_0'));
