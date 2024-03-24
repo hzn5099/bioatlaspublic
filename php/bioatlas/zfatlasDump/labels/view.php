@@ -95,11 +95,21 @@ ini_set('display_errors', 1);
 	}
 
 	// render view
-	echo $twig->render('view.twig.html', array(
+	echo $twig->render('openseadragonview.twig.html', array(
 		'page'		=> array(
 			'debug'	=> isset($_GET['dev'])
 		),
 		'slide'		=> $slide,
 		'atlas'		=> $atlas
 	));
+
+    echo $twig->render('view.twig.html', array(
+        'page'		=> array(
+            'debug'	=> isset($_GET['dev'])
+        ),
+        'slide'		=> $slide,
+        'atlas'		=> $atlas
+    ));
+
+
 

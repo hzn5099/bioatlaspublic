@@ -1,79 +1,79 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html class="vsFullScreen">
-	<head>
-{% if page.base %}
-		<base href="{{ page.base }}"><!--[if lt IE 7]></base><![endif]-->
-{% endif %}
-		<title>Zebrafish Atlas VirtualSlide Viewer</title>
-		<!-- For mobile devices -->
-		<meta name="viewport" content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, width=device-width">
-		<!-- meta name="apple-mobile-web-app-capable" content="yes" (not yet)-->
-		<meta name="description" content="{{ slide.description }}">
-		<link rel="stylesheet" type="text/css" href="styles/{{ "viewer.css"|get_asset_version }}">
-{% block styles %}
-{% endblock %}
-		<!-- BEGIN MSIE-specific code -->
-		<!--[if lt IE 8]><link rel="stylesheet" type="text/css" href="styles/ie67.css"><![endif]-->
-		<meta http-equiv="imagetoolbar" content="no">
-		<meta http-equiv="imagetoolbar" content="false">
-		<!-- END MSIE-specific code -->
-        <script>
-                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
-                Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-                ga('create', 'UA-67605604-2', 'auto');
-                ga('send', 'pageview');
-        </script>
-	</head>
-	<body class="vsFullScreen">
+<head>
+	{% if page.base %}
+	<base href="{{ page.base }}"><!--[if lt IE 7]></base><![endif]-->
+	{% endif %}
+	<title>Zebrafish Atlas VirtualSlide Viewer</title>
+	<!-- For mobile devices -->
+	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, width=device-width">
+	<!-- meta name="apple-mobile-web-app-capable" content="yes" (not yet)-->
+	<meta name="description" content="{{ slide.description }}">
+	<link rel="stylesheet" type="text/css" href="styles/{{ "viewer.css"|get_asset_version }}">
+	{% block styles %}
+	{% endblock %}
+	<!-- BEGIN MSIE-specific code -->
+	<!--[if lt IE 8]><link rel="stylesheet" type="text/css" href="styles/ie67.css"><![endif]-->
+	<meta http-equiv="imagetoolbar" content="no">
+	<meta http-equiv="imagetoolbar" content="false">
+	<!-- END MSIE-specific code -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+		Date();a=s.createElement(o),
+				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-67605604-2', 'auto');
+		ga('send', 'pageview');
+	</script>
+</head>
+<body class="vsFullScreen">
 {% block content %}
 {% endblock %}
-		<script type="text/javascript" src="javascript/scriptaculous-js-1.9.0/lib/prototype.js"></script>
-		<script type="text/javascript" src="javascript/scriptaculous-js-1.9.0/src/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="javascript/scriptaculous-js-1.9.0/lib/prototype.js"></script>
+<script type="text/javascript" src="javascript/scriptaculous-js-1.9.0/src/scriptaculous.js?load=effects"></script>
 {% if page.debug %}
-		<script type="text/javascript" src="javascript/vs/base.js"></script>
-		<script type="text/javascript" src="javascript/vs/property-map.js"></script>
-		<script type="text/javascript" src="javascript/vs/core/keys.js"></script>
-		<script type="text/javascript" src="javascript/vs/core/slide.js"></script>
-		<script type="text/javascript" src="javascript/vs/core/viewer.js"></script>
-		<script type="text/javascript" src="javascript/vs/core/viewerwidget.js"></script>
-		<script type="text/javascript" src="javascript/vs/core/viewerlink.js"></script>
-		<script type="text/javascript" src="javascript/vs/core/labels.js"></script>
-		<script type="text/javascript" src="javascript/vs/core/touch.js"></script>
-		<script type="text/javascript" src="javascript/vs/widget/thumbnail.js"></script>
-		<script type="text/javascript" src="javascript/vs/widget/hyperlink.js"></script>
-		<script type="text/javascript" src="javascript/vs/widget/scalebar.js"></script>
-		<script type="text/javascript" src="javascript/vs/widget/zoom.js"></script>
-		<script type="text/javascript" src="javascript/vs/widget/touch-zoom.js"></script>
-		<script type="text/javascript" src="javascript/vs/widget/iterator.js"></script>
-		<script type="text/javascript" src="javascript/vs/widget/ajax-iterator.js"></script>
-		<script type="text/javascript" src="javascript/vs/widget/slidelabel.js"></script>
-		<script type="text/javascript" src="javascript/vs/widget/labels.js"></script>
-		<script type="text/javascript" src="javascript/vs/local.js"></script>
-		<script type="text/javascript" src="javascript/vs/widget/zf-ruler.js"></script>
-		<script type="text/javascript" src="javascript/vs/widget/square.js"></script>
-		<script type="text/javascript" src="javascript/vs/widget/zf-hyperlink.js"></script>
-		<script type="text/javascript" src="javascript/vs/widget/zf-thumbnail.js"></script>
-		<script type="text/javascript" src="javascript/vs/widget/zf-iterator.js"></script>
-		<script type="text/javascript" src="javascript/vs/widget/zf-series-navigator.js"></script>
-		<script type="text/javascript" src="javascript/vs/widget/zf-slidelabel.js"></script>
-		<script type="text/javascript" src="javascript/vs/widget/zf-label-search.js"></script>
-		<script type="text/javascript" src="javascript/vs/ui/hover.js"></script>
-		<script type="text/javascript" src="javascript/vs/ui/zf-inset.js"></script>
-		<script type="text/javascript" src="javascript/vs/ui/zf-keys.js"></script>
-		<script type="text/javascript" src="javascript/vs/ui/zf-sliding-panel.js"></script>
-		<script type="text/javascript" src="javascript/vs/ui/zf-help.js"></script>
-		<script type="text/javascript" src="javascript/vs/app/zf-fullscreen.js"></script>
-		<script type="text/javascript" src="javascript/vs/app/comparison.js"></script>
-		<script type="text/javascript" src="javascript/vs/app/zf-comparison.js"></script>
+<script type="text/javascript" src="javascript/vs/base.js"></script>
+<script type="text/javascript" src="javascript/vs/property-map.js"></script>
+<script type="text/javascript" src="javascript/vs/core/keys.js"></script>
+<script type="text/javascript" src="javascript/vs/core/slide.js"></script>
+<script type="text/javascript" src="javascript/vs/core/viewer.js"></script>
+<script type="text/javascript" src="javascript/vs/core/viewerwidget.js"></script>
+<script type="text/javascript" src="javascript/vs/core/viewerlink.js"></script>
+<script type="text/javascript" src="javascript/vs/core/labels.js"></script>
+<script type="text/javascript" src="javascript/vs/core/touch.js"></script>
+<script type="text/javascript" src="javascript/vs/widget/thumbnail.js"></script>
+<script type="text/javascript" src="javascript/vs/widget/hyperlink.js"></script>
+<script type="text/javascript" src="javascript/vs/widget/scalebar.js"></script>
+<script type="text/javascript" src="javascript/vs/widget/zoom.js"></script>
+<script type="text/javascript" src="javascript/vs/widget/touch-zoom.js"></script>
+<script type="text/javascript" src="javascript/vs/widget/iterator.js"></script>
+<script type="text/javascript" src="javascript/vs/widget/ajax-iterator.js"></script>
+<script type="text/javascript" src="javascript/vs/widget/slidelabel.js"></script>
+<script type="text/javascript" src="javascript/vs/widget/labels.js"></script>
+<script type="text/javascript" src="javascript/vs/local.js"></script>
+<script type="text/javascript" src="javascript/vs/widget/zf-ruler.js"></script>
+<script type="text/javascript" src="javascript/vs/widget/square.js"></script>
+<script type="text/javascript" src="javascript/vs/widget/zf-hyperlink.js"></script>
+<script type="text/javascript" src="javascript/vs/widget/zf-thumbnail.js"></script>
+<script type="text/javascript" src="javascript/vs/widget/zf-iterator.js"></script>
+<script type="text/javascript" src="javascript/vs/widget/zf-series-navigator.js"></script>
+<script type="text/javascript" src="javascript/vs/widget/zf-slidelabel.js"></script>
+<script type="text/javascript" src="javascript/vs/widget/zf-label-search.js"></script>
+<script type="text/javascript" src="javascript/vs/ui/hover.js"></script>
+<script type="text/javascript" src="javascript/vs/ui/zf-inset.js"></script>
+<script type="text/javascript" src="javascript/vs/ui/zf-keys.js"></script>
+<script type="text/javascript" src="javascript/vs/ui/zf-sliding-panel.js"></script>
+<script type="text/javascript" src="javascript/vs/ui/zf-help.js"></script>
+<script type="text/javascript" src="javascript/vs/app/zf-fullscreen.js"></script>
+<script type="text/javascript" src="javascript/vs/app/comparison.js"></script>
+<script type="text/javascript" src="javascript/vs/app/zf-comparison.js"></script>
 {% else %}
-		<script type="text/javascript" src="javascript/{{ "vs.js"|get_asset_version }}"></script>
+<script type="text/javascript" src="javascript/{{ "vs.js"|get_asset_version }}"></script>
 {% endif %}
-		<script type="text/javascript">
-{% block setup %}
-{% endblock %}
-		</script>
-	</body>
+<script type="text/javascript">
+	{% block setup %}
+	{% endblock %}
+</script>
+</body>
 </html>

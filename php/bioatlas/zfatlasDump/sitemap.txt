@@ -1830,3 +1830,5 @@ http://bio-atlas.psu.edu/view.php?s=35598
 
 /*Testing values below*/
 localhost:8000/view.php?s=35532
+localhost:8000/view.php?s=35536
+localhost:8000/view.php?s=35537

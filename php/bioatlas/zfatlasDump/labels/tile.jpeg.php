@@ -7,8 +7,8 @@ if (isset($_GET['s'], $_GET['z'], $_GET['i'])
     && ctype_digit($_GET['z'])
     && ctype_digit($_GET['i'])
 ) {
-    include 'inc/connect.php';
-    include 'inc/base.php';
+    include 'inc/connect.php'; // Include your database connection file
+    include 'inc/base.php'; // Include any other necessary files
 
     $query ='SELECT SQL_NO_CACHE image FROM virtualslide_tiles WHERE slide_id=%d AND level=%d AND tile_id=%d';
     $result = zf_mysql_query($query, $_GET['s'], $_GET['z'], $_GET['i']);
