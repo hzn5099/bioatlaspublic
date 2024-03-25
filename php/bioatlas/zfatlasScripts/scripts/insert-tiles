@@ -130,7 +130,7 @@ foreach ($jpeg_files as $file) {
 		$id = getId(basename($file, '-preview.jpg'));
 		if (!$id) continue;
 
-		rename($file, sprintf('/mnt/c/users/khoa/documents/github/dev/php/bioatlas/zfatlasDump/labels/thumbnails/preview/%010d.jpg', $id));
+		rename($file, sprintf('../../zfatlasDump/labels/thumbnails/preview/%010d.jpg', $id));
 
 	}
 

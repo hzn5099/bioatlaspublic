@@ -101,7 +101,7 @@
 
 - name: create uploads directory
   file:
-    dest: '/mnt/c/users/khoa/documents/github/dev/php/uploads/'
+    dest: '../../../../php/uploads/'
     state: directory
     owner: apache 
     group: apache

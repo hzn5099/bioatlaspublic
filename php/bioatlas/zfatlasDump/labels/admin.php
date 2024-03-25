@@ -58,7 +58,7 @@ include 'inc/twig.php';
 
 <?php
 // Server-side directory setup for file uploads.
-$target_dir = "/mnt/c/users/khoa/documents/github/dev/php/uploads/";
+$target_dir = "../../../uploads/";
 $target_file = $target_dir . "metadata.csv";
 $_exit = 0;
 

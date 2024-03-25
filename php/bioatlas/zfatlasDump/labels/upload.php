@@ -6,7 +6,7 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false); 
 header("Pragma: no-cache"); 
  
-$targetDir = "/mnt/c/users/khoa/documents/github/dev/php/uploads/";
+$targetDir = "../../../uploads/";
 $cleanupTargetDir = true;
 $maxFileAge = 5 * 3600;
  
