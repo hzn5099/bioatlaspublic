@@ -29,7 +29,7 @@ function run_upload($metafile, $s_dir) {
   $out_msg = '';
 
   $metadatafile = fopen($metadatafile,"r");
-  $fp = fopen('/mnt/c/users/khoa/documents/github/dev/php/uploads/skipped_slides_log.txt', 'w');
+  $fp = fopen('../../../uploads/skipped_slides_log.txt', 'w');
 
   $zfatlas = mysqli_init();
   mysqli_options($zfatlas, MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
@@ -184,7 +184,7 @@ function run_upload($metafile, $s_dir) {
           }
         }
 
-$tilevip = exec("/mnt/c/users/khoa/documents/github/dev/php/bioatlas/zfatlasScripts/scripts/tile-vips -a 72000 $vipsloc", $output, $return);
+$tilevip = exec("./tile-vips -a 72000 $vipsloc", $output, $return);
 if ($return != 0) {
     if ($logging_on) {
         print('Tiles not created, skipping slide');
@@ -203,7 +203,7 @@ if ($return != 0) {
 }
 
 
-        $insert = exec("php /mnt/c/users/khoa/documents/github/dev/php/bioatlas/zfatlasScripts/scripts/insert-tiles", $output, $return);
+        $insert = exec("php ./insert-tiles", $output, $return);
         if ($return != 0) {
         if ($logging_on) {
           print('Tiles not inserted, skipping slide');
