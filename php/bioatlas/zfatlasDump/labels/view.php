@@ -95,11 +95,25 @@ ini_set('display_errors', 1);
 	}
 
 	// render view
-	echo $twig->render('view.twig.html', array(
-		'page'		=> array(
-			'debug'	=> isset($_GET['dev'])
-		),
-		'slide'		=> $slide,
-		'atlas'		=> $atlas
-	));
+// Render the second Twig template extending openseadragon.twig.html
+$openseadragonContent = $twig->render('openseadragonview.twig.html', array(
+    'page'  => array(
+        'debug' => isset($_GET['dev'])
+    ),
+    'slide' => $slide,
+    'atlas' => $atlas
+));
+
+// Render the first Twig template extending viewer.twig.html
+echo $twig->render('view.twig.html', array(
+    'page'  => array(
+        'debug' => isset($_GET['dev'])
+    ),
+    'slide' => $slide,
+    'atlas' => $atlas,
+    'openseadragonContent' => $openseadragonContent  // Pass the rendered content of openseadragon_view.twig.html
+));
+
+
+
 

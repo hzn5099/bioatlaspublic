@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 5);
+
 /*
 	(This is intended to be run from the command-line: php -f insert-tiles.php)
 
@@ -23,7 +26,7 @@ ini_set('memory_limit', -1);
 
 // connect to database
 
-	$zfatlas = new mysqli('localhost', 'zfadmin', '11422GhAnA', 'zfatlas');
+	$zfatlas = new mysqli('localhost', 'root', 'password', 'bioatlas');
 
 	if ($zfatlas->connect_errno)
 		die(sprintf("Error connecting to database: %s\n", $zfatlas->connect_error));

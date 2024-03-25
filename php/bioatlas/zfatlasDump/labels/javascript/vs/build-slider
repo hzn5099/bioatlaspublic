@@ -2,7 +2,7 @@
 
 # compiler.jar is Google's Closure compiler (https://developers.google.com/closure/compiler/)
 
-OUTFILE=${OUTFILE:-../vs-with-slider.js}
+OUTFILE=${OUTFILE:../vs-with-slider.js}
 COMPILER=/usr/local/bin/compiler.jar
 
 # Add git commit hash that last affected files under javascript/vs/

@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 $fp;
 $zfatlas;
@@ -27,7 +29,7 @@ function run_upload($metafile, $s_dir) {
   $out_msg = '';
 
   $metadatafile = fopen($metadatafile,"r");
-  $fp = fopen('/dev/php/uploads/skipped_slides_log.txt', 'w');
+  $fp = fopen('../../../uploads/skipped_slides_log.txt', 'w');
 
   $zfatlas = mysqli_init();
   mysqli_options($zfatlas, MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
@@ -161,7 +163,7 @@ function run_upload($metafile, $s_dir) {
         $zfatlas->next_result();
         }
         if (!$zoom_levels_sql || $zfatlas->errno) {
-          # If duplicate identiefier, remove current zoomelevels and upload duplicate slide.
+          # If duplicate identifier, remove current zoomlevels and upload duplicate slide.
           if ($zfatlas->errno == 1062) {
             $error_message = "Zoomlevels not created for "  . $identifier . ", skipping slide. Possible duplicate identifier. Try uploading slide again under new identifier. \n";
             $out_msg .= $error_message . "</br>";
@@ -182,19 +184,26 @@ function run_upload($metafile, $s_dir) {
           }
         }
 
-        $tilevip = exec("../../zfatlasScripts/scripts/tile-vips -a 72000 $vipsloc", $output, $return);
-        if ($return != 0) {
-        if ($logging_on) {
-          print('Tiles not created, skipping slide');
-          print("\n");
-        }
-          $error_message = "Tiles not created, returned error code "  . $return . ", skipping slide \n";
-          $out_msg .= $error_message . "</br>";
-          delete_slides($error_message, $last_slide_id, $atlas_id);
-          continue;
-        }
+$tilevip = exec("./tile-vips -a 72000 $vipsloc", $output, $return);
+if ($return != 0) {
+    if ($logging_on) {
+        print('Tiles not created, skipping slide');
+        print("\n");
+    }
+    $error_message = "Tiles not created, returned error code "  . $return . ", skipping slide \n";
+    $out_msg .= $error_message . "</br>";
+    delete_slides($error_message, $last_slide_id, $atlas_id);
+    continue;
+} else {
+    if ($logging_on) {
+        print('Tiles created successfully');
+        print("\n");
+    }
+    $out_msg .= "Tiles created successfully for slide " . $identifier . "</br>";
+}
 
-        $insert = exec("php /dev/php/bioatlas/zfatlasScripts/scripts/insert-tiles", $output, $return);
+
+        $insert = exec("php ./insert-tiles", $output, $return);
         if ($return != 0) {
         if ($logging_on) {
           print('Tiles not inserted, skipping slide');

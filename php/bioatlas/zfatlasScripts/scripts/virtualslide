@@ -1,5 +1,8 @@
 #!/usr/bin/php
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 4);
+
 /*
 	- This was initially written in September 2012; it's a compiliation of several formerly
 	separate scripts into a single workflow (tile, process, zoomlevels, insert-tiles, etc).
@@ -440,7 +443,7 @@ function get_bgcolor($in, $size = 3, $offset = 0) {
 
 // connect to database and prepare statements
 
-	$db = new mysqli('localhost', 'zfadmin', '11422GhAnA', 'zfatlas');
+	$db = new mysqli('localhost', 'root', 'password', 'bioatlas');
 	if ($db->connect_errno)
 		die(sprintf("Error connecting to database: %s\n", $db->connect_error));
 

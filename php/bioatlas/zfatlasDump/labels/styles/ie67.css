@@ -42,10 +42,12 @@ FIGURE.centered IMG
 	viewer CSS
 -------------------------------------------------------------------------------
 */
+/*
 .vsWidgetZoomControl BUTTON
 {
 	width:			50px;
 }
+ */
 
 /* IE6-7 don't support 'inherit' for properties other than direction and visibility */
 .zf-widget A
