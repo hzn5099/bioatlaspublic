@@ -5,46 +5,52 @@ include 'inc/twig.php';
 ob_start();
 
 ?>
-    <div class="two-column-layoutt">
-        <div class="column column-1">
-            <div class="shadow-box center">
-
-                <h1>Atlas</h1>
-                <!--
-                                            <p>
-                                            Atlases separated by species.  Species without a separate page can be searched from the here.
-                                            <ul><li><a href="./human/index.php"><img src="images/croppedVitruvianMan.jpg" alt="Vitruvian Man" width="128" height="33"></a> Image credit <a target="_BLANK" href="http://www.Lucnix.be">Luc Viatour</a><br/>
-                                                <a href="./human/index.php">Human atlas</a></li>
-                                                <li><a href="./zf/index.php"><img src="images/zebrafish.png" alt="Zebrafish atlas" width="128" height="33"></a>
-                                                <br/><a href="./zf/index.php">Zebrafish atlas</a></li>
-                                            </ul>
-                                            </p>
-                -->
-
-                <figure class="left">
-                    <a href="https://bio-atlas.psu.edu/zf/view.php?s=1761&amp;z=2&amp;c=22013,10742"><img src="https://bio-atlas.psu.edu/tile.jpeg.php?s=1761&amp;z=2&amp;i=561" alt="zebrafish tissue section" width="512" height="512"></a>
-                </figure>
-
-                <h2>Overview of Bio-Atlas efforts</h2>
+    <div id="picturecontentbox">
+        <div id="contentboxgrey">
+            <div class="mini-content-width">
+                <h1>The Atlas</h1>
 
                 <hr>
 
                 <p>
-                    The atlas project was originally focused on the microanatomy of zebrafish and
-                    humans, viewable as <em>virtual slides</em>.
-                    The content is being re-organized to have subsections devoted to zebrafish,
-                    humans, mice, and other model systems. We are working on ways to present
-                    <em>microCT</em>-based 3D histology.  We welcome ideas and high-resolution
-                    slides and images from the community and are seeking collaborations that would
-                    make the resource more valuable.
+                    We're thrilled to introduce our latest addition to enhancing your
+                    slide viewing experience: OpenSeadragon. This cutting-edge image
+                    viewer offers unparalleled versatility and performance, allowing
+                    you to seamlessly explore our high-resolution images with fluid
+                    zooming and smooth navigation. Click on the button below to get
+                    started!
                 </p>
-                <p>
-                    The Bio-Atlas is organized with subsections devoted to humans, zebrafish, mice, and other model systems. The project was originally focused on the microanatomy of zebrafish. To address the need for a more human orientation, we introduce the Bio-Atlas as a platform for coordination of data between human and other model systems.
-                </p>
-                <p>
-                    Since pathophysiological mechanisms in humans are reflected in tissue architecture, morphological changes in the best models of human disease will involve similar phenotypes as in humans. We welcome ideas and high-resolution 2D and 3D images from the community and are seeking collaborations to expand this resource.
-                </p>
+                <div class="access-viewer-btn">
+                    <a href="view.php?s=1761&z=2&c=22013,10742" alt="bioatlas viewer">Access the viewer</a>
+                </div>
             </div>
+        </div>
+    </div>
+    <div id="contentboxwhite">
+        <div class="mini-content-width">
+            <h1>Our Goal</h1>
+
+            <hr>
+
+            <p>
+                The atlas project was originally focused on the microanatomy of zebrafish and
+                humans, viewable as <em>virtual slides</em>.
+                The content is being re-organized to have subsections devoted to zebrafish,
+                humans, mice, and other model systems. We are working on ways to present
+                <em>microCT</em>-based 3D histology.  We welcome ideas and high-resolution
+                slides and images from the community and are seeking collaborations that would
+                make the resource more valuable.
+            </p>
+            <p>
+                The Bio-Atlas is organized with subsections devoted to humans, zebrafish, mice, and other model systems. The project was originally focused on the microanatomy of zebrafish. To address the need for a more human orientation, we introduce the Bio-Atlas as a platform for coordination of data between human and other model systems.
+            </p>
+            <p>
+                Since pathophysiological mechanisms in humans are reflected in tissue architecture, morphological changes in the best models of human disease will involve similar phenotypes as in humans. We welcome ideas and high-resolution 2D and 3D images from the community and are seeking collaborations to expand this resource.
+            </p>
+        </div>
+    </div>
+    <div class="two-column-layoutt">
+        <div class="column column-1">
         </div>
 
         <!--<div class="column column-2">
