@@ -32,45 +32,6 @@
 {% endblock %}
 <script type="text/javascript" src="javascript/scriptaculous-js-1.9.0/lib/prototype.js"></script>
 <script type="text/javascript" src="javascript/scriptaculous-js-1.9.0/src/scriptaculous.js?load=effects"></script>
-{% if page.debug %}
-<script type="text/javascript" src="javascript/vs/base.js"></script>
-<script type="text/javascript" src="javascript/vs/property-map.js"></script>
-<script type="text/javascript" src="javascript/vs/core/keys.js"></script>
-<script type="text/javascript" src="javascript/vs/core/slide.js"></script>
-<script type="text/javascript" src="javascript/vs/core/viewer.js"></script>
-<script type="text/javascript" src="javascript/vs/core/viewerwidget.js"></script>
-<script type="text/javascript" src="javascript/vs/core/viewerlink.js"></script>
-<script type="text/javascript" src="javascript/vs/core/labels.js"></script>
-<script type="text/javascript" src="javascript/vs/core/touch.js"></script>
-<script type="text/javascript" src="javascript/vs/widget/thumbnail.js"></script>
-<script type="text/javascript" src="javascript/vs/widget/hyperlink.js"></script>
-<script type="text/javascript" src="javascript/vs/widget/scalebar.js"></script>
-<script type="text/javascript" src="javascript/vs/widget/zoom.js"></script>
-<script type="text/javascript" src="javascript/vs/widget/touch-zoom.js"></script>
-<script type="text/javascript" src="javascript/vs/widget/iterator.js"></script>
-<script type="text/javascript" src="javascript/vs/widget/ajax-iterator.js"></script>
-<script type="text/javascript" src="javascript/vs/widget/slidelabel.js"></script>
-<script type="text/javascript" src="javascript/vs/widget/labels.js"></script>
-<script type="text/javascript" src="javascript/vs/local.js"></script>
-<script type="text/javascript" src="javascript/vs/widget/zf-ruler.js"></script>
-<script type="text/javascript" src="javascript/vs/widget/square.js"></script>
-<script type="text/javascript" src="javascript/vs/widget/zf-hyperlink.js"></script>
-<script type="text/javascript" src="javascript/vs/widget/zf-thumbnail.js"></script>
-<script type="text/javascript" src="javascript/vs/widget/zf-iterator.js"></script>
-<script type="text/javascript" src="javascript/vs/widget/zf-series-navigator.js"></script>
-<script type="text/javascript" src="javascript/vs/widget/zf-slidelabel.js"></script>
-<script type="text/javascript" src="javascript/vs/widget/zf-label-search.js"></script>
-<script type="text/javascript" src="javascript/vs/ui/hover.js"></script>
-<script type="text/javascript" src="javascript/vs/ui/zf-inset.js"></script>
-<script type="text/javascript" src="javascript/vs/ui/zf-keys.js"></script>
-<script type="text/javascript" src="javascript/vs/ui/zf-sliding-panel.js"></script>
-<script type="text/javascript" src="javascript/vs/ui/zf-help.js"></script>
-<script type="text/javascript" src="javascript/vs/app/zf-fullscreen.js"></script>
-<script type="text/javascript" src="javascript/vs/app/comparison.js"></script>
-<script type="text/javascript" src="javascript/vs/app/zf-comparison.js"></script>
-{% else %}
-<script type="text/javascript" src="javascript/{{ "vs.js"|get_asset_version }}"></script>
-{% endif %}
 <script type="text/javascript">
 	{% block setup %}
 	{% endblock %}
