@@ -4,6 +4,9 @@
 				slide = {{ slide|json_encode(constant('JSON_NUMERIC_CHECK'))|raw }},
 				viewer = zfatlas.FullScreenViewer("vs", slide, atlas);
 {% endblock %}
+{% block customContent %}
+	{% include 'openseadragonview.twig.html' %}
+{% endblock %}
 {% block content %}
 		<div id="blackout" style="display:none"></div>
 		<div id="vs" class="vsFullScreen"></div>
