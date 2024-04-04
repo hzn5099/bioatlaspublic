@@ -1,24 +1,25 @@
 {% extends "viewer.twig.html" %}
 
 {% block setup %}
-	var atlas = {{ atlas|json_encode(constant('JSON_NUMERIC_CHECK'))|raw }},
-		slide = {{ slide|json_encode(constant('JSON_NUMERIC_CHECK'))|raw }},
-		viewer = zfatlas.FullScreenViewer("vs", slide, atlas);
+var atlas = {{ atlas|json_encode(constant('JSON_NUMERIC_CHECK'))|raw }},
+slide = {{ slide|json_encode(constant('JSON_NUMERIC_CHECK'))|raw }},
+viewer = zfatlas.FullScreenViewer("vs", slide, atlas);
 {% endblock %}
 
 {% block content %}
-	<!-- OpenSeadragon container should fill the entire screen and stay on top -->
-	<div id="openseadragon-content" style="width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 999999999;">
+<div style="position: relative; width: 100%; height: 100%;">
+	<!-- OpenSeadragon container -->
+	<div id="openseadragon-content" style="position: relative; width: 100%; height: 100%; top: 0; left: 0; z-index: 1;">
 		{{ openseadragonContent|raw }}
 	</div>
 
-	<!-- The FullScreenViewer below will be covered by the OpenSeadragon content -->
-	<div id="vs" class="vsFullScreen" style="width: 100%; height: 100%;"></div>
-
-	<!-- Blackout div, if used for an overlay, should be positioned accordingly -->
-	<div id="blackout" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9998;"></div>
+	<!-- Viewer content from viewer.twig.html -->
+	<div style="position: relative; width: 100%; height: 100%; top: 0; left: 0; z-index: 2;">
+		{% include 'viewer.twig.html' %}
+	</div>
+</div>
 {% endblock %}
 
 {% block customContent %}
-	{% include 'openseadragonview.twig.html' %}
+{% include 'openseadragonview.twig.html' %}
 {% endblock %}
