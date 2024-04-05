@@ -1,70 +1,76 @@
 {% extends "base.twig.html" %}
 {% block content %}
 
-			<div class="">
-				<div class="column column-1">
-					<div class="shadow-box">
+			<div id="contentboxgrey">
+				<div class="mini-content-width">
+					<h1 class="title-header">Contact Us</h1>
+				</div>
+			</div>
+			<div id="contactbox">
+				<div class="mini-content-width">
+					<div class="column column-1">
+						<div class="shadow-box">
 
-						<h1>Contact Us</h1>
+							{% if comment_submitted %}
 
-						{% if comment_submitted %}
+							<p class="confirmation">Thank you for your feedback!</p>
+							<p id="return" style="display:none"><a href="javascript:history.go(-2)">Return to previous page</a></p>
+							<script type="text/javascript">
+								document.getElementById("return").style.display = "block";
+							</script>
 
-						<p class="confirmation">Thank you for your feedback!</p>
-						<p id="return" style="display:none"><a href="javascript:history.go(-2)">Return to previous page</a></p>
-						<script type="text/javascript">
-							document.getElementById("return").style.display = "block";
-						</script>
+							{% else %}
 
-						{% else %}
+							<p><b>We invite you to submit your comments, suggestions, and feedback
+								here.  We would also like to hear suggestions from the zebrafish
+								community regarding site features that would be useful for your
+								research.</b></p>
 
-						<p>We invite you to submit your comments, suggestions, and feedback
-						here.  We would also like to hear suggestions from the zebrafish
-						community regarding site features that would be useful for your
-						research.</p>
+							<p><b>Be sure to include your e-mail address if you would like us to get
+								back to you.</b></p>
 
-						<p>Be sure to include your e-mail address if you would like us to get
-						back to you.</p>
+							<form action="" method="post" id="contact-form">
+								<p><b>Your comments &amp; feedback</b></p>
+								<div class="input-100-wrapper"><textarea name="comment"></textarea></div>
+								<div style="float:left; width:48%">
+									<p><b>Your name <span class="optional">(optional)</span></b></p>
+									<div class="input-100-wrapper"><input type="text" name="name" value=""></div>
+								</div>
+								<div style="float:right; width:48%">
+									<p><b>Your e-mail address <span class="optional">(optional)</span></b></p>
+									<div class="input-100-wrapper"><input type="text" name="email" value=""></div>
+								</div>
+								<div style="clear:both" id="contact-form-questions">
+									<p>In an attempt to filter out automated submissions, please answer these two silly questions.</p>
+									<p>
+										Are you a robot?
+										<label><input type="radio" name="question_1" value="yes" CHECKED> Yes</label><label><input type="radio" name="question_1" value="no"> No</label>
+									</p>
+									<p>
+										Are you a fish?
+										<label><input type="radio" name="question_2" value="yes"> Yes</label><label><input type="radio" name="question_2" value="no" CHECKED> No</label>
+									</p>
+								</div>
+								<p><button type="submit">Submit feedback</button></p>
+							</form>
 
-						<form action="" method="post" id="contact-form">
-							<p>Your comments &amp; feedback</p>
-							<div class="input-100-wrapper"><textarea name="comment"></textarea></div>
-							<div style="float:left; width:48%">
-								<p>Your name <span class="optional">(optional)</span></p>
-								<div class="input-100-wrapper"><input type="text" name="name" value=""></div>
-							</div>
-							<div style="float:right; width:48%">
-								<p>Your e-mail address <span class="optional">(optional)</span></p>
-								<div class="input-100-wrapper"><input type="text" name="email" value=""></div>
-							</div>
-							<div style="clear:both" id="contact-form-questions">
-								<p>In an attempt to filter out automated submissions, please answer these two silly questions.</p>
-								<p>
-									Are you a robot?
-									<label><input type="radio" name="question_1" value="yes" CHECKED> Yes</label><label><input type="radio" name="question_1" value="no"> No</label>
-								</p>
-								<p>
-									Are you a fish?
-									<label><input type="radio" name="question_2" value="yes"> Yes</label><label><input type="radio" name="question_2" value="no" CHECKED> No</label>
-								</p>
-							</div>
-							<p><button type="submit">Submit feedback</button></p>
-						</form>
-
-						<table style="width:75%; margin:auto">
-							<thead>
+							<!--<table style="width:75%; margin:auto">
+								<thead>
 								<tr>
 									<td colspan="2">your comments &amp; feedback</td>
 								</tr>
-							</thead>
-							<tbody>
+								</thead>
+								<tbody>
 								<tr>
 									<td colspan="2"><div class="input-100-wrapper"><textarea name="comment"></textarea></div></td>
 								</tr>
-							</tbody>
-						</table>
-						{% endif %}
-					</form>
+								</tbody>
+							</table>-->
+							{% endif %}
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
+
 {% endblock %}

@@ -26,9 +26,9 @@ ob_start();
             </div>
         </div>
     </div>
-    <div id="contentboxwhite">
+    <div id="contentboxwhite-extended" class="padding">
         <div class="mini-content-width">
-            <h1>Our Goal</h1>
+            <h2 class="right padding-main-page"><b>A Collaborative Platform for Comparative Microanatomy</b></h2>
 
             <hr>
 
@@ -42,18 +42,24 @@ ob_start();
                 make the resource more valuable.
             </p>
             <p>
-                The Bio-Atlas is organized with subsections devoted to humans, zebrafish, mice, and other model systems. The project was originally focused on the microanatomy of zebrafish. To address the need for a more human orientation, we introduce the Bio-Atlas as a platform for coordination of data between human and other model systems.
+                The Bio-Atlas is organized with subsections devoted to humans, zebrafish, mice,
+                and other model systems. The project was originally focused on the microanatomy
+                of zebrafish. To address the need for a more human orientation, we introduce the
+                Bio-Atlas as a platform for coordination of data between human and other model systems.
             </p>
             <p>
-                Since pathophysiological mechanisms in humans are reflected in tissue architecture, morphological changes in the best models of human disease will involve similar phenotypes as in humans. We welcome ideas and high-resolution 2D and 3D images from the community and are seeking collaborations to expand this resource.
+                Since pathophysiological mechanisms in humans are reflected in tissue architecture,
+                morphological changes in the best models of human disease will involve similar phenotypes
+                as in humans. We welcome ideas and high-resolution 2D and 3D images from the community and
+                are seeking collaborations to expand this resource.
             </p>
         </div>
     </div>
-    <div class="two-column-layoutt">
+    <!--<div class="two-column-layoutt">
         <div class="column column-1">
         </div>
 
-        <!--<div class="column column-2">
+        <div class="column column-2">
             <div class="shadow-box news">
 
                 <h2>Publications</h2>
@@ -74,7 +80,6 @@ ob_start();
 
                   PMID: 29157956
 </p>
-                <!--
                 <h4>2013 December 17</h4>
 
                 <p>Extra functionality in the virtualslide viewer has been moved to a
@@ -86,7 +91,7 @@ ob_start();
         <!--</div>-->
 
     </div>
-    </div>
+    </div>-->
 <?php
 
 echo $twig->render('base.twig.html', array(

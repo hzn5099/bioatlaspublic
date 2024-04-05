@@ -8,52 +8,61 @@ require '../../zfatlasScripts/scripts/bulk_upload';
 include 'inc/twig.php';
 ?>
 
+<div id="contentboxgrey">
+    <div class="mini-content-width">
+        <h1 class="title-header">Slide Import</h1>
+    </div>
+</div>
+
 <!-- HTML content for the user interface, providing instructions and file upload capabilities -->
-<div id="background" class="shadow-box">
-    <h1>Slide Import</h1>
-    <p>The general steps to follow to upload slides to bioatlas:</p>
-    <p>You may use the file selector to add multiple .tif files. Selecting the Upload Slides button will then upload each .tif file
-        to be available to import into the atlas.</p>
-
-    <p>Note you must also upload a metadata.csv file which rows correspond with the .tif files to be imported. Any .tif slides not
-        specified in the metadata.csv file will not be imported.</p>
-    <p>After uploading the desired files, you may then select the Import Uploaded Files into Atlas button. This will then verify that a
-        metadata.csv file exists and then perform the import. If the import is successful, it will display a success message. If there were issues
-        with the import, the import for that slide will be aborted and error messages will be displayed. In both cases, the uploaded metadata.csv file along
-        with the uploaded .tif slides will be deleted, and will need to be uploaded again through the Upload Slides button if you wish to try to import them
-        into the atlas again.</p>
+<div id="contentboxwhite">
+    <div id="background" class="shadow-box mini-content-width">
+        <h3><b>The general steps to follow to upload slides to Bioatlas:</b></h3>
+        <OL>
+            <li><p>You may use the file selector to add multiple .tif files. Selecting the Upload Slides button will then upload each .tif file
+                    to be available to import into the atlas.</p></li>
+            <li><p>Note you must also upload a metadata.csv file which rows correspond with the .tif files to be imported. Any .tif slides not
+                    specified in the metadata.csv file will not be imported.</p></li>
+            <li><p>After uploading the desired files, you may then select the Import Uploaded Files into Atlas button. This will then verify that a
+                    metadata.csv file exists and then perform the import. If the import is successful, it will display a success message. If there were issues
+                    with the import, the import for that slide will be aborted and error messages will be displayed. In both cases, the uploaded metadata.csv file along
+                    with the uploaded .tif slides will be deleted, and will need to be uploaded again through the Upload Slides button if you wish to try to import them
+                    into the atlas again.</p></li>
+            <li><p>TO BE UPDATED....</p></li>
+        </OL>
+    </div>
 </div>
-
 <!-- Form for selecting files to upload -->
-<div id="background" class="shadow-box">
-    <div class="form-group">
-        <label><b>Select Files:</b></label>
+<div class="mini-content-width padding-bottom">
+    <div id="background" class="shadow-box">
+        <div class="form-group">
+            <label><b>Select Files:</b></label>
+            </br>
+            <input type="file" class="form-control" id="fileInput">
+        </div>
+
+        <div id="fileList"></div>
         </br>
-        <input type="file" class="form-control" id="fileInput">
+
+        <!-- Button to trigger file upload -->
+        <div class="form-group">
+            <a id="uploadBtn" href="javascript:;" class="btn btn-success">Upload Files</a>
+        </div>
+        </br>
+
+        <!-- Progress bar and status response list for visual feedback during upload -->
+        <div class="progress"></div>
+        </br>
+
+        <div id="statusResponseList"></div>
     </div>
-
-    <div id="fileList"></div>
     </br>
-
-    <!-- Button to trigger file upload -->
-    <div class="form-group">
-        <a id="uploadBtn" href="javascript:;" class="btn btn-success">Upload Files</a>
+    <!-- Form for submitting the request to import files into the atlas -->
+    <div id="background" class="shadow-box">
+        <form action="admin.php" method="post" enctype="multipart/form-data">
+            <input id="submit" type="submit" value="Import Uploaded Files into Atlas" name="submit">
+        </form>
     </div>
-    </br>
-
-    <!-- Progress bar and status response list for visual feedback during upload -->
-    <div class="progress"></div>
-    </br>
-
-    <div id="statusResponseList"></div>
-</div>
-</br>
-
-<!-- Form for submitting the request to import files into the atlas -->
-<div id="background" class="shadow-box">
-    <form action="admin.php" method="post" enctype="multipart/form-data">
-        <input id="submit" type="submit" value="Import Uploaded Files into Atlas" name="submit">
-    </form>
 </div>
 
 <?php

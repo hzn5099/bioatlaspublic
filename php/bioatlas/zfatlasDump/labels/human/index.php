@@ -5,7 +5,37 @@
 
 ?>
 
-				<div class="two-column-layout">
+
+    <div id="contentboxgrey">
+        <h1 class="mini-content-width title-header">The Human Atlas</h1>
+    </div>
+    <div id="contentboxwhite">
+        <div class="mini-content-width">
+            <h2><b>Understanding Human Morbidity and Mortality Through Tissue Architecture</b></h2>
+
+            <hr>
+
+            <p>
+                Virtually all causes of human morbidity and mortality are associated with
+                changes in tissue architecture.  Accordingly, the long-term goal of this
+                work is to provide a foundation for comparing phenotypes across model systems
+                using human tissue architecture as an anchor.  Tissue architecture provides
+                context for molecular mechanisms. Good models of human disease show comparable
+                patterns of change.
+            </p>
+            <p>
+                Scans of human slides began with Fred Dee's collection at the University of Iowa.
+                We are now adding more from Penn State, and enthusiastically invite collaborations
+                to incorporate high-quality slide sets from other institutions. Contributors will
+                be given proper academic or other credit by citation within the website.
+            </p>
+            <div class="access-viewer-btn">
+                <a href="view.php?s=1761&z=2&c=22013,10742" alt="bioatlas viewer">Access the viewer here</a>
+            </div>
+
+        </div>
+    </div>
+<!--				<div class="two-column-layout">
 					<div class="column column-1">
 						<div class="shadow-box">
 
@@ -52,7 +82,7 @@ Virtual slide technology enables users to view high resolution imagery with a si
 
 					</div>
 -->
-				</div>
+				</div>-->
 <?php
 
 	echo $twig->render('base.twig.html', array(
