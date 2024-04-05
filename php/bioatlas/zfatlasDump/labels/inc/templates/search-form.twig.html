@@ -1,12 +1,43 @@
 {% import "forms.twig.html" as form %}
 	{% block search_form %}
-	<form method="get" action="#results" class="shadow-box search-box" id="search-form">
+<div id="contentboxgrey">
+	<div class="mini-content-width">
+		<h1 class="title-header">
+			{% if page.is_human_search %}
+			Human Search
+			{% elseif page.is_zf_search %}
+			Zebrafish Search
+			{% else %}
+			Advanced Search
+			{% endif %}
+		</h1>
+	</div>
+</div>
+<div class="padding padding-bottom">
+	<form method="get" action="#results" class="shadow-box search-box content-width" id="search-form">
 		<p>
+		<div class="mini-content-width">
+			<h3><b>Type a term to get started...</b></h3>
+			{% if page.is_human_search %}
+			<!-- Hidden input field for specifying organism as human -->
+			<div class="input-100-wrapper">
+				<!--May not return results...-->
+				<input type="text" name="q" value="Human" readonly> <!--value="{{ search.q }}"-->
+			</div>
+			{% elseif page.is_zf_search %}
+			<!-- Hidden input field for specifying organism as zf -->
+			<div class="input-100-wrapper">
+				<!--May not return results...-->
+				<input type="text" name="q" value="Zebrafish" readonly> <!--value="{{ search.q }}"-->
+			</div>
+			{% else %}
 			<div class="input-100-wrapper">
 				<input type="text" name="q" value="{{ search.q }}">
 			</div>
+			{% endif %}
+		</div>
 		</p>
-		<div id="search-additional">
+		<div id="search-additional" class="mini-content-width">
 			<fieldset>
 				<legend>species</legend>
 				{% if options.organism.values | length > 8 %}
@@ -32,11 +63,13 @@
 				{{ form.create_checkbox("thumbnails", "Show thumbnail images with results", search.thumbnails) }}
 			</div>
 		</div>
-		<p>
+		<p class="mini-content-width">
 			<button type="submit">Search</button>
 			<button style="font-weight:normal" type="reset">Clear form</button>
 			{{ form.create_select("rpp", options.results_per_page, search.results_per_page) }}
 			results per page
 		</p>
 	</form>
+</div>
+
 	{% endblock %}
