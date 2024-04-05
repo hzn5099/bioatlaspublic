@@ -516,7 +516,7 @@ svg_label_dict['Transverse_3dpf']={
 
 }
 svg_label_dict['Coronal_3dpf']={
-    '20_1731_3-3dpfC3can':'../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/20_1731_3-3dpfC3can.svg',
+    '20_1731_3-3dpfC3can':'../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/dzi_output.svg',
     '20_1727_10-3dpfC10can':'../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/20_1727_10-3dpfC10can.svg',
     '20_1728_11-3dpfC11can':'../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/20_1728_11-3dpfC11can.svg',
 }
