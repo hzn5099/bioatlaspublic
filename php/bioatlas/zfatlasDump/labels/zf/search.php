@@ -1082,6 +1082,8 @@ $search['query_time' ] = $zf_mysql_query_time;
 // Render page
 // --------------------------------------------------------------------------
 
+$is_zf_search = (strpos($_SERVER['PHP_SELF'], 'zf') !== false);
+
 echo $twig->render('search.twig.html', array(
 	'search' => $search,
 	'options' => $options,
@@ -1094,6 +1096,7 @@ echo $twig->render('search.twig.html', array(
 			'scriptaculous-js-1.9.0/lib/prototype.js',
 			'search.js'
 		),
-		'debug'	=> DEBUGGING
+		'debug'	=> DEBUGGING,
+        'is_zf_search' => $is_zf_search
 	)
 ));

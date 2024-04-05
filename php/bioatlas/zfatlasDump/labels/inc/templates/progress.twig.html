@@ -1,11 +1,16 @@
 {% extends "base.twig.html" %}
 
 {% block content %}
-<div class="">
-	<div class="column column-1">
-		<div class="shadow-box">
-			<h1>Zebrafish Atlas Slides</h1>
-			<p>There are currently <b>609</b> slides in the zebrafish atlas.</p>
+<div id="atlas-table-contentbox">
+	<div id="">
+		<div class="mini-content-width">
+			<h1 class="title-header">Zebrafish Atlas Slides</h1>
+		</div>
+	</div>
+	<div class="content-width">
+		<div class="">
+			<!--<h1>Zebrafish Atlas Slides</h1>-->
+			<p id="slide-count">There are currently <b>609</b> slides in the zebrafish atlas.</p>
 			<table id="atlas-table">
 				<col width="19%">
 				<col width="27%">
@@ -22,16 +27,16 @@
 				<tfoot>
 				<tr class="priority">
 					<td></td>
-					<td colspan="3" class="priority">Highlighted ages are higher priority and are expected to be completed before other ages.</td>
+					<td colspan="3" class="priority">..</td>
 				</tr>
 				<tr>
 					<td></td>
-					<td colspan="3" class="labeled">Labeled series:  these series contain annotated slides</td>
+					<td colspan="3" class="labeled">Now Live: Interactive Annotations</td>
 				</tr>
 				</tfoot>
 				<tbody>
 				<tr>
-					<td>24hpf (1.9mm)</td>
+					<td class="table-title">24hpf (1.9mm)</td>
 					<td>
 					</td>
 					<td>
@@ -40,7 +45,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>30hpf (2.5mm)</td>
+					<td class="table-title">30hpf (2.5mm)</td>
 					<td>
 					</td>
 					<td>
@@ -49,7 +54,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>36hpf (2.7mm)</td>
+					<td class="table-title">36hpf (2.7mm)</td>
 					<td>
 					</td>
 					<td>
@@ -58,7 +63,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>42hpf (2.9mm)</td>
+					<td class="table-title">42hpf (2.9mm)</td>
 					<td>
 					</td>
 					<td>
@@ -67,7 +72,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="priority">48hpf (3.1mm)</td>
+					<td class="table-title">48hpf (3.1mm)</td>
 					<td>
 					</td>
 					<td>
@@ -76,7 +81,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>60hpf (3.3mm)</td>
+					<td class="table-title">60hpf (3.3mm)</td>
 					<td>
 					</td>
 					<td>
@@ -85,7 +90,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="priority">3dpf (3.5mm)</td>
+					<td class="table-title">3dpf (3.5mm)</td>
 					<td>
 						<a href="view.php?atlas=20&amp;s=35537">3</a>
 						<a href="view.php?atlas=20&amp;s=35532">10</a>
@@ -97,16 +102,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="priority">4dpf (3.7mm)</td>
-					<td class="labeled">
-					</td>
-					<td class="labeled">
-					</td>
-					<td class="labeled">
-					</td>
-				</tr>
-				<tr>
-					<td class="priority">5dpf (3.9mm)</td>
+					<td class="table-title">4dpf (3.7mm)</td>
 					<td>
 					</td>
 					<td>
@@ -115,7 +111,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>6dpf (4.2mm)</td>
+					<td class="table-title">5dpf (3.9mm)</td>
 					<td>
 					</td>
 					<td>
@@ -124,7 +120,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="priority">7-13dpf (4.5mm)</td>
+					<td class="table-title">6dpf (4.2mm)</td>
 					<td>
 					</td>
 					<td>
@@ -133,7 +129,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>14-20dpf (6.2mm)</td>
+					<td class="table-title">7-13dpf (4.5mm)</td>
 					<td>
 					</td>
 					<td>
@@ -142,16 +138,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="priority">21-29dpf (7.8mm)</td>
-					<td class="labeled">
-					</td>
-					<td class="labeled">
-					</td>
-					<td>
-					</td>
-				</tr>
-				<tr>
-					<td class="priority">30-44dpf (10mm)</td>
+					<td class="table-title">14-20dpf (6.2mm)</td>
 					<td>
 					</td>
 					<td>
@@ -160,7 +147,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="priority">45-89dpf (14mm)</td>
+					<td class="table-title">21-29dpf (7.8mm)</td>
 					<td>
 					</td>
 					<td>
@@ -169,7 +156,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="priority">3mpf male</td>
+					<td class="table-title">30-44dpf (10mm)</td>
 					<td>
 					</td>
 					<td>
@@ -178,7 +165,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="priority">3mpf female</td>
+					<td class="table-title">45-89dpf (14mm)</td>
 					<td>
 					</td>
 					<td>
@@ -187,7 +174,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>6mpf</td>
+					<td class="table-title">3mpf male</td>
 					<td>
 					</td>
 					<td>
@@ -196,7 +183,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="priority">12mpf male</td>
+					<td class="table-title">3mpf female</td>
 					<td>
 					</td>
 					<td>
@@ -205,7 +192,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="priority">12mpf female</td>
+					<td class="table-title">6mpf</td>
 					<td>
 					</td>
 					<td>
@@ -214,7 +201,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>18mpf</td>
+					<td class="table-title">12mpf male</td>
 					<td>
 					</td>
 					<td>
@@ -223,7 +210,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="priority">24mpf male</td>
+					<td class="table-title">12mpf female</td>
 					<td>
 					</td>
 					<td>
@@ -232,7 +219,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="priority">24mpf female</td>
+					<td class="table-title">18mpf</td>
 					<td>
 					</td>
 					<td>
@@ -241,7 +228,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>30mpf</td>
+					<td class="table-title">24mpf male</td>
 					<td>
 					</td>
 					<td>
@@ -250,7 +237,25 @@
 					</td>
 				</tr>
 				<tr>
-					<td>36mpf</td>
+					<td class="table-title">24mpf female</td>
+					<td>
+					</td>
+					<td>
+					</td>
+					<td>
+					</td>
+				</tr>
+				<tr>
+					<td class="table-title">30mpf</td>
+					<td>
+					</td>
+					<td>
+					</td>
+					<td>
+					</td>
+				</tr>
+				<tr>
+					<td class="table-title">36mpf</td>
 					<td>
 					</td>
 					<td>
@@ -262,10 +267,6 @@
 			</table>
 		</div>
 	</div>
-</div>
-
-<div class="shadow-box">
-	<p>(Comparisons have moved to <a href="comparison.php">their own page</a>.)</p>
 </div>
 {% endblock %}
 
