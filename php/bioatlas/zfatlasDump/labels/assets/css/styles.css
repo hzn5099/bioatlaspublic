@@ -53,6 +53,31 @@ body{
     /* user-select: none; */
     /* pointer-events: none; */
 }
+.openseadragon-container .navigator {
+    position: fixed !important; /* Fixed relative to the viewport */
+    top: 40px !important; /* 10px from the top */
+    right: 350px !important; /* 10px from the right */
+    width: 15vw !important; /* 20% of the viewport width */
+    height: 13vw !important; /* 20% of the viewport height */
+    background-color: white !important;
+    z-index: 9999 !important; /* High z-index to ensure it's above other elements */
+}
+
+.navigator-label {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    color: black; /* Or any color you prefer */
+    font-size: 20px; /* Adjust the size as needed */
+}
+
+.navigator-label.anterior {
+    top: 0;
+}
+
+.navigator-label.posterior {
+    bottom: 0;
+}
 
 .navbar {
     background-color: white;
