@@ -31,6 +31,28 @@ body{
     cursor: pointer;
 
 }
+#stack_indicator_line{
+    position:absolute;
+    opacity: .7;
+    z-index: 3;
+    /* background-color: white; */
+    font-size:75%;
+    text-align: right;
+    /* color:white; */
+    cursor:col-resize;
+    border-style: solid;
+    border-width: 3px;
+    border-color: black;
+    background-color: #000000ba
+    /* -webkit-touch-callout: none; */
+    /* -webkit-user-select: none; */
+    /* -khtml-user-select: none; */
+    /* -moz-user-select: none; */
+    /* -ms-user-select: none; */
+    /* -o-user-select: none; */
+    /* user-select: none; */
+    /* pointer-events: none; */
+}
 
 .navbar {
     background-color: white;
