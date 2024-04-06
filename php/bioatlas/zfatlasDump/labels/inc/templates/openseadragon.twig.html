@@ -123,7 +123,7 @@ checkbox_8140 = splanchnocranium (Spc)
             'checkbox_2000': 'cls-10',
             'checkbox_2300': 'cls-10',
             'checkbox_5000': ['cls-3','cls-13'],
-            'checkbox_5400': ['cls-3','cls-13'],
+            'checkbox_5400': ['cls-13','cls-3'],
             'checkbox_6000': ['cls-4','cls-12','cls-11','cls-19','cls-9','cls-5','cls-16','cls-14','cls-15','cls-2','cls-6','cls-7','cls-17','cls-1'],
             'checkbox_6100': ['cls-4','cls-12','cls-11','cls-19','cls-9','cls-5','cls-16','cls-14','cls-15','cls-2','cls-6'],
             'checkbox_6120': ['cls-4','cls-12'],
@@ -143,49 +143,149 @@ checkbox_8140 = splanchnocranium (Spc)
             'checkbox_8140': ['cls-18','cls-8']
         };
 
+        const checkbox0 = document.getElementById('checkbox_0');
         const checkbox2000 = document.getElementById('checkbox_2000');
         const checkbox2300 = document.getElementById('checkbox_2300');
-        const checkbox0 = document.getElementById('checkbox_0');
+        const checkbox5000 = document.getElementById('checkbox_5000');
+        const checkbox5400 = document.getElementById('checkbox_5400');
+        const checkbox6000 = document.getElementById('checkbox_6000');
+        const checkbox6100 = document.getElementById('checkbox_6100');
+        const checkbox6120 = document.getElementById('checkbox_6120');
+        const checkbox6110 = document.getElementById('checkbox_6110');
+        const checkbox6140 = document.getElementById('checkbox_6140');
+        const checkbox6160 = document.getElementById('checkbox_6160');
+        const checkbox6170 = document.getElementById('checkbox_6170');
+        const checkbox6130 = document.getElementById('checkbox_6130');
+        const checkbox6190 = document.getElementById('checkbox_6190');
+        const checkbox6191 = document.getElementById('checkbox_6191');
+        const checkbox6400 = document.getElementById('checkbox_6400');
+        const checkbox6500 = document.getElementById('checkbox_6500');
+        const checkbox6510 = document.getElementById('checkbox_6510');
+        const checkbox6200 = document.getElementById('checkbox_6200');
+        const checkbox8000 = document.getElementById('checkbox_8000');
+        const checkbox8100 = document.getElementById('checkbox_8100');
+        const checkbox8140 = document.getElementById('checkbox_8140');
 
         Object.keys(checkboxes).forEach(checkboxId => {
             const checkbox = document.getElementById(checkboxId);
-            checkbox.checked = true;
-
-            const svgElements = document.querySelectorAll(`.${checkboxes[checkboxId].join(', .')}`);
-            svgElements.forEach(element => {
-                element.style.display = 'block';  // Ensure associated SVG elements are visible by default
-            });
+            checkbox.checked = true; // Set each checkbox to be checked by default
 
             checkbox.addEventListener('change', () => {
-                const svgElements = document.querySelectorAll(`.${checkboxes[checkboxId].join(', .')}`);
+                if (checkbox === checkbox0) {
+                    Object.keys(checkboxes).forEach(id => {
+                        if (id !== checkboxId) {
+                            document.getElementById(id).checked = false;
+                        }
+                    });
+                } else if (checkbox === checkbox2000) {
+                    if (checkbox2000.checked) {
+                        checkbox2300.checked = true;
+                    } else {
+                        checkbox2300.checked = false;
+                    }
+                } else if (checkbox === checkbox2300) {
+                    checkbox2000.checked = false;
+                } else if (checkbox === checkbox5000) {
+                    if (checkbox5000.checked) {
+                        checkbox5400.checked = true;
+                    } else {
+                        checkbox5400.checked = false;
+                    }
+                } else if (checkbox === checkbox5400) {
+                    checkbox5000.checked = false;
+                } else if (checkbox === checkbox6000) {
+                   if (checkbox6000.checked) {
+                       checkbox6100.checked = true;
+                       checkbox6120.checked = true;
+                       checkbox6110.checked = true;
+                       checkbox6140.checked = true;
+                       checkbox6160.checked = true;
+                       checkbox6170.checked = true;
+                       checkbox6130.checked = true;
+                       checkbox6190.checked = true;
+                       checkbox6191.checked = true;
+                       checkbox6400.checked = true;
+                       checkbox6500.checked = true;
+                       checkbox6510.checked = true;
+                       checkbox6200.checked = true;
+                   } else {
+                       checkbox6000.checked = false;
+                       checkbox6100.checked = false;
+                       checkbox6120.checked = false;
+                       checkbox6110.checked = false;
+                       checkbox6140.checked = false;
+                       checkbox6160.checked = false;
+                       checkbox6170.checked = false;
+                       checkbox6130.checked = false;
+                       checkbox6190.checked = false;
+                       checkbox6191.checked = false;
+                       checkbox6400.checked = false;
+                       checkbox6500.checked = false;
+                       checkbox6510.checked = false;
+                       checkbox6200.checked = false;
+                   }
+                } else if (checkbox === checkbox6100) {
+                    if (checkbox6100.checked) {
+                        checkbox6120.checked = true;
+                        checkbox6110.checked = true;
+                        checkbox6140.checked = true;
+                        checkbox6160.checked = true;
+                        checkbox6170.checked = true;
+                        checkbox6130.checked = true;
+                        checkbox6190.checked = true;
+                        checkbox6191.checked = true;
+                    } else {
+                        checkbox6120.checked = false;
+                        checkbox6110.checked = false;
+                        checkbox6140.checked = false;
+                        checkbox6160.checked = false;
+                        checkbox6170.checked = false;
+                        checkbox6130.checked = false;
+                        checkbox6190.checked = false;
+                        checkbox6191.checked = false;
+                    }
+                } else if (checkbox === checkbox6500) {
+                    if (checkbox6500.checked) {
+                        checkbox6510.checked = true;
+                    } else {
+                        checkbox6510.checked = false;
+                    }
+                } else if (checkbox === checkbox8000) {
+                    if (checkbox8000.checked) {
+                        checkbox8100.checked = true;
+                        checkbox8140.checked = true;
+                    } else {
+                        checkbox8100.checked = false;
+                        checkbox8140.checked = false;
+                    }
+                } else if (checkbox === checkbox8100) {
+                    if (checkbox8100.checked) {
+                        checkbox8000.checked = true;
+                        checkbox8140.checked = true;
+                    } else {
+                        checkbox8000.checked = false;
+                        checkbox8140.checked = false;
+                    }
+                }  else if (checkbox === checkbox8100) {
+                    if (checkbox8140.checked) {
+                        checkbox8000.checked = true;
+                        checkbox8100.checked = true;
+                    } else {
+                        checkbox8000.checked = false;
+                        checkbox8100.checked = false;
+                    }
+                }
+
+                const classes = checkboxes[checkboxId];
+                const svgElements = Array.isArray(classes)
+                    ? classes.flatMap(className =>
+                        Array.from(document.querySelectorAll(`.${className}`))
+                    )
+                    : Array.from(document.querySelectorAll(`.${classes}`));
+
                 svgElements.forEach(element => {
                     element.style.display = checkbox.checked ? 'block' : 'none';
                 });
-
-                if (checkboxId === 'checkbox_2000') {
-                    checkbox2300.checked = checkbox.checked; // Update checkbox_2300 based on checkbox_2000
-                } else if (checkboxId === 'checkbox_0') {
-                    // Update all other checkboxes based on checkbox_0
-                    Object.keys(checkboxes).forEach(otherCheckboxId => {
-                        if (otherCheckboxId !== 'checkbox_0') {
-                            const otherCheckbox = document.getElementById(otherCheckboxId);
-                            otherCheckbox.checked = checkbox.checked;
-                        }
-                    });
-                }
-            });
-        });
-
-        checkbox2000.addEventListener('change', () => {
-            checkbox2300.checked = checkbox2000.checked; // Update checkbox_2300 based on checkbox_2000
-        });
-
-        checkbox0.addEventListener('change', () => {
-            Object.keys(checkboxes).forEach(otherCheckboxId => {
-                if (otherCheckboxId !== 'checkbox_0') {
-                    const otherCheckbox = document.getElementById(otherCheckboxId);
-                    otherCheckbox.checked = checkbox0.checked;
-                }
             });
         });
     });
@@ -239,9 +339,60 @@ checkbox_8140 = splanchnocranium (Spc)
         var SomiticPixelX = 7900;
         var SomiticPixelY = 700;
 
+        var EyePixelX;
+        var EyePixelY;
+
+        var RGLPixelX;
+        var RGLPixelY;
+
+        var LENPixelX;
+        var LENPixelY;
+
+        var RNLPixelX;
+        var RNLPixelY;
+
+        var RPHPixelX;
+        var RPHPixelY;
+
+        var RPEPixelX;
+        var RPEPixelY;
+
+        var RIPPixelX;
+        var RIPPixelY;
+
+        var ROPPixelX;
+        var ROPPixelY;
+
+        var ONHPixelX;
+        var ONHPixelY;
+
+        var OCHPixelX;
+        var OCHPixelY;
+
+        var NotochordPixelX;
+        var NotochordPixelY;
+
+        var BrainPixelX;
+        var BrainPixelY;
+
+        var NarisPixelX;
+        var NarisPixelY;
+
         // Convert pixel positions to viewport coordinates
         var viewportPointYolk = viewer.viewport.imageToViewportCoordinates(yolkPixelX, yolkPixelY);
         var viewportPointSomitic = viewer.viewport.imageToViewportCoordinates(SomiticPixelX, SomiticPixelY);
+        var viewportPointEye = viewer.viewport.imageToViewportCoordinates(EyePixelX, EyePixelY);
+        var viewportPointRGL = viewer.viewport.imageToViewportCoordinates(RGLPixelX, RGLPixelY);
+        var viewportPointLEN = viewer.viewport.imageToViewportCoordinates(LENPixelX, LENPixelY);
+        var viewportPointRNL = viewer.viewport.imageToViewportCoordinates(RNLPixelX, RNLPixelY);
+        var viewportPointRPH = viewer.viewport.imageToViewportCoordinates(RPHPixelX, RPHPixelY);
+        var viewportPointRPE = viewer.viewport.imageToViewportCoordinates(RPEPixelX, RPEPixelY);
+        var viewportPointRIP = viewer.viewport.imageToViewportCoordinates(RIPPixelX, RIPPixelY);
+        var viewportPointONH = viewer.viewport.imageToViewportCoordinates(ONHPixelX, ONHPixelY);
+        var viewportPointOCH = viewer.viewport.imageToViewportCoordinates(OCHPixelX, OCHPixelY);
+        var viewportPointNotochord = viewer.viewport.imageToViewportCoordinates(NotochordPixelX, NotochordPixelY);
+        var viewportPointBrain = viewer.viewport.imageToViewportCoordinates(BrainPixelX, BrainPixelY);
+        var viewportPointNaris = viewer.viewport.imageToViewportCoordinates(NarisPixelX, NarisPixelY);
 
         // Create the text label for Yolk
         var textLabelYolk = document.createElement("div");
@@ -258,7 +409,104 @@ checkbox_8140 = splanchnocranium (Spc)
         textLabelSomitic.title = "Somitic Muscle";
         textLabelSomitic.innerHTML = "Sm";
         textLabelSomitic.setAttribute("data-fulltext", "Somitic Muscle")
-        textLabelYolk.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+        textLabelSomitic.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelEye = document.createElement("div");
+        textLabelEye.id = "text_label_eye";
+        textLabelEye.className = "unselectable";
+        textLabelEye.title = "Eye";
+        textLabelEye.innerHTML = "Eye";
+        textLabelEye.setAttribute("data-fulltext", "Eye")
+        textLabelEye.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelRGL = document.createElement("div");
+        textLabelRGL.id = "text_label_RGL";
+        textLabelRGL.className = "unselectable";
+        textLabelRGL.title = "Retinal Ganglion Cell Layer";
+        textLabelRGL.innerHTML = "Rgl";
+        textLabelRGL.setAttribute("data-fulltext", "Retinal Ganglion Cell Layer")
+        textLabelRGL.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelLEN = document.createElement("div");
+        textLabelLEN.id = "text_label_len";
+        textLabelLEN.className = "unselectable";
+        textLabelLEN.title = "Lens";
+        textLabelLEN.innerHTML = "Len";
+        textLabelLEN.setAttribute("data-fulltext", "Lens")
+        textLabelLEN.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelRNL = document.createElement("div");
+        textLabelRNL.id = "text_label_RNL";
+        textLabelRNL.className = "unselectable";
+        textLabelRNL.title = "Retinal Nuclear Layers";
+        textLabelRNL.innerHTML = "Rnl";
+        textLabelRNL.setAttribute("data-fulltext", "Retinal Nuclear Layers")
+        textLabelRNL.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelRPH = document.createElement("div");
+        textLabelRPH.id = "text_label_RPH";
+        textLabelRPH.className = "unselectable";
+        textLabelRPH.title = "Retinal Photoreceptor Layer";
+        textLabelRPH.innerHTML = "Rph";
+        textLabelRPH.setAttribute("data-fulltext", "Retinal Photoreceptor Layer")
+        textLabelRPH.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelRPE = document.createElement("div");
+        textLabelRPE.id = "text_label_RPE";
+        textLabelRPE.className = "unselectable";
+        textLabelRPE.title = "Retinal Pigmented Epithelium";
+        textLabelRPE.innerHTML = "Rph";
+        textLabelRPE.setAttribute("data-fulltext", "Retinal Pigmented Epithelium")
+        textLabelRPE.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelRIP = document.createElement("div");
+        textLabelRIP.id = "text_label_RIP";
+        textLabelRIP.className = "unselectable";
+        textLabelRIP.title = "Retinal Inner Plexiform Layer";
+        textLabelRIP.innerHTML = "Rip";
+        textLabelRIP.setAttribute("data-fulltext", "Retinal Inner Plexiform Layer")
+        textLabelRIP.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelONH = document.createElement("div");
+        textLabelONH.id = "text_label_ONH";
+        textLabelONH.className = "unselectable";
+        textLabelONH.title = "Optic Nerve Head";
+        textLabelONH.innerHTML = "Oph";
+        textLabelONH.setAttribute("data-fulltext", "Optic Nerve Head")
+        textLabelONH.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelOCH = document.createElement("div");
+        textLabelOCH.id = "text_label_OCH";
+        textLabelOCH.className = "unselectable";
+        textLabelOCH.title = "Optic Chiasm";
+        textLabelOCH.innerHTML = "Och";
+        textLabelOCH.setAttribute("data-fulltext", "Optic Chiasm")
+        textLabelOCH.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelNotochord = document.createElement("div");
+        textLabelNotochord.id = "text_label_notochord";
+        textLabelNotochord.className = "unselectable";
+        textLabelNotochord.title = "Notochord";
+        textLabelNotochord.innerHTML = "Not";
+        textLabelNotochord.setAttribute("data-fulltext", "Notochord")
+        textLabelNotochord.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelBrain = document.createElement("div");
+        textLabelBrain.id = "text_label_brain";
+        textLabelBrain.className = "unselectable";
+        textLabelBrain.title = "Brain";
+        textLabelBrain.innerHTML = "Br";
+        textLabelBrain.setAttribute("data-fulltext", "Brain")
+        textLabelBrain.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelNaris = document.createElement("div");
+        textLabelNaris.id = "text_label_naris";
+        textLabelNaris.className = "unselectable";
+        textLabelNaris.title = "Naris";
+        textLabelNaris.innerHTML = "Nar";
+        textLabelNaris.setAttribute("data-fulltext", "Naris")
+        textLabelNaris.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
 
         // Hover event to change text
         textLabelYolk.onmouseover = function() {
@@ -275,6 +523,69 @@ checkbox_8140 = splanchnocranium (Spc)
             this.innerHTML = "Sm";
         };
 
+        textLabelEye.onmouseover = function() {
+            this.innerHTML = this.getAttribute("data-fulltext");
+        };
+        textLabelEye.onmouseout = function() {
+            this.innerHTML = "Eye";
+        };
+
+        textLabelRGL.onmouseover = function() {
+            this.innerHTML = this.getAttribute("data-fulltext");
+        };
+        textLabelRGL.onmouseout = function() {
+            this.innerHTML = "Rgl";
+        };
+
+        textLabelLEN.onmouseover = function() {
+            this.innerHTML = this.getAttribute("data-fulltext");
+        };
+        textLabelLEN.onmouseout = function() {
+            this.innerHTML = "Len";
+        };
+
+        textLabelRNL.onmouseover = function() {
+            this.innerHTML = this.getAttribute("data-fulltext");
+        };
+        textLabelRNL.onmouseout = function() {
+            this.innerHTML = "Rnl";
+        };
+
+        textLabelRPH.onmouseover = function() {
+            this.innerHTML = this.getAttribute("data-fulltext");
+        };
+        textLabelRPH.onmouseout = function() {
+            this.innerHTML = "Rph";
+        };
+
+        textLabelRPE.onmouseover = function() {
+            this.innerHTML = this.getAttribute("data-fulltext");
+        };
+        textLabelRPE.onmouseout = function() {
+            this.innerHTML = "Rpe";
+        };
+
+        textLabelRIP.onmouseover = function() {
+            this.innerHTML = this.getAttribute("data-fulltext");
+        };
+        textLabelRIP.onmouseout = function() {
+            this.innerHTML = "Rip";
+        };
+
+        textLabelONH.onmouseover = function() {
+            this.innerHTML = this.getAttribute("data-fulltext");
+        };
+        textLabelONH.onmouseout = function() {
+            this.innerHTML = "Onh";
+        };
+
+        textLabelOCH.onmouseover = function() {
+            this.innerHTML = this.getAttribute("data-fulltext");
+        };
+        textLabelOCH.onmouseout = function() {
+            this.innerHTML = "Och";
+        };
+
         // Add the overlay
         viewer.addOverlay({
             element: textLabelYolk,
@@ -284,6 +595,50 @@ checkbox_8140 = splanchnocranium (Spc)
             element: textLabelSomitic,
             location: viewportPointSomitic
         });
+        viewer.addOverlay({
+            element:textLabelRGL,
+            location: viewportPointRGL
+        })
+        viewer.addOverlay({
+            element:textLabelLEN,
+            location: viewportPointLEN
+        })
+        viewer.addOverlay({
+            element:textLabelRNL,
+            location: viewportPointRNL
+        })
+        viewer.addOverlay({
+            element:textLabelRPH,
+            location: viewportPointRPH
+        })
+        viewer.addOverlay({
+            element:textLabelRPE,
+            location: viewportPointRPE
+        })
+        viewer.addOverlay({
+            element:textLabelRIP,
+            location: viewportPointRIP
+        })
+        viewer.addOverlay({
+            element:textLabelONH,
+            location: viewportPointONH
+        })
+        viewer.addOverlay({
+            element:textLabelOCH,
+            location: viewportPointOCH
+        })
+        viewer.addOverlay({
+            element:textLabelNotochord,
+            location: viewportPointNotochord
+        })
+        viewer.addOverlay({
+            element:textLabelBrain,
+            location: viewportPointBrain
+        })
+        viewer.addOverlay({
+            element:textLabelNaris,
+            location: viewportPointNaris
+        })
 
         // Function to update the display based on checkboxes
         function updateDisplay() {
@@ -311,6 +666,18 @@ checkbox_8140 = splanchnocranium (Spc)
             const checkbox8140 = document.getElementById('checkbox_8140');
             textLabelYolk.style.display = checkbox0.checked || checkbox2000.checked || checkbox2300.checked ? 'block' : 'none';
             textLabelSomitic.style.display = checkbox0.checked || checkbox5000.checked || checkbox5400.checked ? 'block' : ' none';
+            textLabelEye.style.display = checkbox6000.checked || checkbox6120.checked ? 'block' : 'none';
+            textLabelRGL.style.display = checkbox6000.checked || checkbox6110.checked ? 'block' : 'none';
+            textLabelLEN.style.display = checkbox6000.checked || checkbox6140.checked ? 'block' : 'none';
+            textLabelRNL.style.display = checkbox6000.checked || checkbox6160.checked ? 'block' : 'none';
+            textLabelRPH.style.display = checkbox6000.checked || checkbox6170.checked ? 'block' : 'none';
+            textLabelRPE.style.display = checkbox6000.checked || checkbox6130.checked ? 'block' : 'none';
+            textLabelRIP.style.display = checkbox6000.checked || checkbox6190.checked ? 'block' : 'none';
+            textLabelONH.style.display = checkbox6000.checked || checkbox6190.checked ? 'block' : 'none';
+            textLabelOCH.style.display = checkbox6000.checked || checkbox6191.checked ? 'block' : 'none';
+            textLabelNotochord.style.display = checkbox6000.checked || checkbox6400.checked ? 'block' : 'none';
+            textLabelBrain.style.display = checkbox6000.checked || checkbox6200.checked ? 'block' : 'none';
+            textLabelNaris.style.display = checkbox6000.checked || checkbox6500.checked ? 'block' : 'none';
         }
 
         // Checkbox event listeners
@@ -369,13 +736,13 @@ checkbox_8140 = splanchnocranium (Spc)
 <!-- <button id="label_but" onclick="myFunction_labels()" class="dropbtn2">Treatments</button> -->
 <!-- <div id="Label_dropdown" class="dropdown-content-labels"><input type="text" placeholder="Search Labels..." id="myInput_labels" onkeyup="filterFunction_labels()"></div> -->
 <!-- </div> -->
-<div id="tool_bar" style="position: absolute; top: 1143px; left: 710.5px;">
+<div id="tool_bar"">
     <div id="nav_left_10" tabindex="0" onclick="previous_button_10()"><img src="../assets/images/osd_assets/images/previous_pressed_double.png"></div>
     <div id="nav_left_1" tabindex="0" onclick="previous_button_1()"><img src="../assets/images/osd_assets/images/previous_pressed.png"></div>
     <div id="nav_right_1" tabindex="0" onclick="next_button_1()"><img src="../assets/images/osd_assets/images/next_pressed.png"></div>
     <div id="nav_right_10" tabindex="0" onclick="next_button_10()"><img src="../assets/images/osd_assets/images/next_pressed_double.png"></div>
 </div>
-<div id="stack_indicator_line" class="openseadragon" tabindex="0" style="width: 637.5px; height: 132.6px; top: 1193.4px; left: 493.75px; filter: brightness(100%) contrast(100%);"><div class="openseadragon-container" style="background: none transparent; border: none; margin: 0px; padding: 0px; position: relative; width: 100%; height: 100%; overflow: hidden; left: 0px; top: 0px; text-align: left;"><div class="openseadragon-canvas" tabindex="0" style="background: none transparent; border: none; margin: 0px; padding: 0px; position: absolute; width: 100%; height: 100%; overflow: hidden; top: 0px; left: 0px; touch-action: none; text-align: left;" dir="ltr"><canvas width="632" height="127" style="background: none transparent; border: none; margin: 0px; padding: 0px; position: absolute; width: 100%; height: 100%;"></canvas><div style="background: none transparent; border: none; margin: 0px; padding: 0px; position: static;"><div id="example-overlay0" class="highlight" style="cursor: pointer; position: absolute; left: -1.30593e-13px; top: 13.5081px; width: 588.14px; height: 93.9859px; display: block;">
+<div id="stack_indicator_line" class="openseadragon" tabindex="0"><div class="openseadragon-container" style="background: none transparent; border: none; margin: 0px; padding: 0px; position: relative; width: 100%; height: 100%; overflow: hidden; left: 0px; top: 0px; text-align: left;"><div class="openseadragon-canvas" tabindex="0" style="background: none transparent; border: none; margin: 0px; padding: 0px; position: absolute; width: 100%; height: 100%; overflow: hidden; top: 0px; left: 0px; touch-action: none; text-align: left;" dir="ltr"><canvas width="632" height="127" style="background: none transparent; border: none; margin: 0px; padding: 0px; position: absolute; width: 100%; height: 100%;"></canvas><div style="background: none transparent; border: none; margin: 0px; padding: 0px; position: static;"><div id="example-overlay0" class="highlight" style="cursor: pointer; position: absolute; left: -1.30593e-13px; top: 13.5081px; width: 588.14px; height: 93.9859px; display: block;">
     <span>1/3</span></div><div id="example-overlay2" class="highlight" style="cursor: pointer; position: absolute; left: 882.21px; top: 13.5081px; width: 588.14px; height: 99.9838px; display: block;">
     <span>2/3</span></div><div id="example-overlay3" class="highlight" style="cursor: pointer; position: absolute; left: 1764.42px; top: 13.5081px; width: 588.14px; height: 75.5265px; display: block;">
     <span>3/3</span></div></div></div><div style="background: none transparent; border: none; margin: 0px; padding: 0px; position: absolute; left: 0px; top: 0px;"><div style="background: none transparent; border: none; margin: 0px; padding: 0px; position: static; display: inline-block; opacity: 0;"><div style="background: none transparent; border: none; margin: 0px; padding: 0px; position: relative; display: inline-block; touch-action: none;"><label style="background: none transparent; border: none; margin: 0px; padding: 0px; position: static;"></label></div></div></div><div style="background: none transparent; border: none; margin: 0px; padding: 0px; position: absolute; right: 0px; top: 0px;"></div><div style="background: none transparent; border: none; margin: 0px; padding: 0px; position: absolute; right: 0px; bottom: 0px;"></div><div style="background: none transparent; border: none; margin: 0px; padding: 0px; position: absolute; left: 0px; bottom: 0px;"></div></div></div>
