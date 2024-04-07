@@ -172,11 +172,51 @@ checkbox_8140 = splanchnocranium (Spc)
 
             checkbox.addEventListener('change', () => {
                 if (checkbox === checkbox0) {
-                    Object.keys(checkboxes).forEach(id => {
-                        if (id !== checkboxId) {
-                            document.getElementById(id).checked = false;
-                        }
-                    });
+                    if (checkbox0.checked) {
+                        checkbox2000.checked = true;
+                        checkbox2300.checked = true;
+                        checkbox5000.checked = true;
+                        checkbox5400.checked = true;
+                        checkbox6000.checked = true;
+                        checkbox6100.checked = true;
+                        checkbox6120.checked = true;
+                        checkbox6110.checked = true;
+                        checkbox6140.checked = true;
+                        checkbox6160.checked = true;
+                        checkbox6170.checked = true;
+                        checkbox6130.checked = true;
+                        checkbox6190.checked = true;
+                        checkbox6191.checked = true;
+                        checkbox6400.checked = true;
+                        checkbox6500.checked = true;
+                        checkbox6510.checked = true;
+                        checkbox6200.checked = true;
+                        checkbox8000.checked = true;
+                        checkbox8100.checked = true;
+                        checkbox8140.checked = true;
+                    } else {
+                        checkbox2000.checked = false;
+                        checkbox2300.checked = false;
+                        checkbox5000.checked = false;
+                        checkbox5400.checked = false;
+                        checkbox6000.checked = false;
+                        checkbox6100.checked = false;
+                        checkbox6120.checked = false;
+                        checkbox6110.checked = false;
+                        checkbox6140.checked = false;
+                        checkbox6160.checked = false;
+                        checkbox6170.checked = false;
+                        checkbox6130.checked = false;
+                        checkbox6190.checked = false;
+                        checkbox6191.checked = false;
+                        checkbox6400.checked = false;
+                        checkbox6500.checked = false;
+                        checkbox6510.checked = false;
+                        checkbox6200.checked = false;
+                        checkbox8000.checked = false;
+                        checkbox8100.checked = false;
+                        checkbox8140.checked = false;
+                    }
                 } else if (checkbox === checkbox2000) {
                     if (checkbox2000.checked) {
                         checkbox2300.checked = true;
@@ -339,49 +379,45 @@ checkbox_8140 = splanchnocranium (Spc)
         var SomiticPixelX = 7900;
         var SomiticPixelY = 700;
 
-        var EyePixelX;
-        var EyePixelY;
+        var RGLPixelX = 1400;
+        var RGLPixelY = 300;
 
-        var RGLPixelX;
-        var RGLPixelY;
+        var LENPixelX = 1200;
+        var LENPixelY = 200;
 
-        var LENPixelX;
-        var LENPixelY;
+        var RNLPixelX = 1550;
+        var RNLPixelY = 300;
 
-        var RNLPixelX;
-        var RNLPixelY;
+        var RPHPixelX = 1520;
+        var RPHPixelY = 1300;
 
-        var RPHPixelX;
-        var RPHPixelY;
+        var RPEPixelX = 810;
+        var RPEPixelY = 1100;
 
-        var RPEPixelX;
-        var RPEPixelY;
+        var RIPPixelX = 1000;
+        var RIPPixelY = 380;
 
-        var RIPPixelX;
-        var RIPPixelY;
+        var ONHPixelX = 1200;
+        var ONHPixelY = 1250;
 
-        var ROPPixelX;
-        var ROPPixelY;
+        var OCHPixelX = 1200;
+        var OCHPixelY = 950;
 
-        var ONHPixelX;
-        var ONHPixelY;
+        var NotochordPixelX = 8400;
+        var NotochordPixelY = 800;
 
-        var OCHPixelX;
-        var OCHPixelY;
+        var BrainPixelX = 800;
+        var BrainPixelY = 750;
 
-        var NotochordPixelX;
-        var NotochordPixelY;
+        var NarisPixelX = 690;
+        var NarisPixelY = 450;
 
-        var BrainPixelX;
-        var BrainPixelY;
-
-        var NarisPixelX;
-        var NarisPixelY;
+        var SPCPixelX = 1400;
+        var SPCPixelY = 950;
 
         // Convert pixel positions to viewport coordinates
         var viewportPointYolk = viewer.viewport.imageToViewportCoordinates(yolkPixelX, yolkPixelY);
         var viewportPointSomitic = viewer.viewport.imageToViewportCoordinates(SomiticPixelX, SomiticPixelY);
-        var viewportPointEye = viewer.viewport.imageToViewportCoordinates(EyePixelX, EyePixelY);
         var viewportPointRGL = viewer.viewport.imageToViewportCoordinates(RGLPixelX, RGLPixelY);
         var viewportPointLEN = viewer.viewport.imageToViewportCoordinates(LENPixelX, LENPixelY);
         var viewportPointRNL = viewer.viewport.imageToViewportCoordinates(RNLPixelX, RNLPixelY);
@@ -393,6 +429,7 @@ checkbox_8140 = splanchnocranium (Spc)
         var viewportPointNotochord = viewer.viewport.imageToViewportCoordinates(NotochordPixelX, NotochordPixelY);
         var viewportPointBrain = viewer.viewport.imageToViewportCoordinates(BrainPixelX, BrainPixelY);
         var viewportPointNaris = viewer.viewport.imageToViewportCoordinates(NarisPixelX, NarisPixelY);
+        var viewportPointSPC = viewer.viewport.imageToViewportCoordinates(SPCPixelX, SPCPixelY);
 
         // Create the text label for Yolk
         var textLabelYolk = document.createElement("div");
@@ -410,14 +447,6 @@ checkbox_8140 = splanchnocranium (Spc)
         textLabelSomitic.innerHTML = "Sm";
         textLabelSomitic.setAttribute("data-fulltext", "Somitic Muscle")
         textLabelSomitic.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
-
-        var textLabelEye = document.createElement("div");
-        textLabelEye.id = "text_label_eye";
-        textLabelEye.className = "unselectable";
-        textLabelEye.title = "Eye";
-        textLabelEye.innerHTML = "Eye";
-        textLabelEye.setAttribute("data-fulltext", "Eye")
-        textLabelEye.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
 
         var textLabelRGL = document.createElement("div");
         textLabelRGL.id = "text_label_RGL";
@@ -507,6 +536,13 @@ checkbox_8140 = splanchnocranium (Spc)
         textLabelNaris.setAttribute("data-fulltext", "Naris")
         textLabelNaris.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
 
+        var textLabelSPC = document.createElement("div");
+        textLabelSPC.id = "text_label_splanchnocranium";
+        textLabelSPC.className = "unselectable";
+        textLabelSPC.title = "Splanchnocranium";
+        textLabelSPC.innerHTML = "Spc";
+        textLabelSPC.setAttribute("data-fulltext", "Splanchnocranium")
+        textLabelSPC.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
 
         // Hover event to change text
         textLabelYolk.onmouseover = function() {
@@ -521,13 +557,6 @@ checkbox_8140 = splanchnocranium (Spc)
         };
         textLabelSomitic.onmouseout = function() {
             this.innerHTML = "Sm";
-        };
-
-        textLabelEye.onmouseover = function() {
-            this.innerHTML = this.getAttribute("data-fulltext");
-        };
-        textLabelEye.onmouseout = function() {
-            this.innerHTML = "Eye";
         };
 
         textLabelRGL.onmouseover = function() {
@@ -585,6 +614,12 @@ checkbox_8140 = splanchnocranium (Spc)
         textLabelOCH.onmouseout = function() {
             this.innerHTML = "Och";
         };
+        textLabelSPC.onmouseover = function() {
+            this.innerHTML = this.getAttribute("data-fulltext");
+        }
+        textLabelSPC.onmouseover = function() {
+            this.innerHTML = "Spc";
+        }
 
         // Add the overlay
         viewer.addOverlay({
@@ -639,6 +674,10 @@ checkbox_8140 = splanchnocranium (Spc)
             element:textLabelNaris,
             location: viewportPointNaris
         })
+        viewer.addOverlay({
+            element:textLabelSPC,
+            location: viewportPointSPC
+        })
 
         // Function to update the display based on checkboxes
         function updateDisplay() {
@@ -666,7 +705,6 @@ checkbox_8140 = splanchnocranium (Spc)
             const checkbox8140 = document.getElementById('checkbox_8140');
             textLabelYolk.style.display = checkbox0.checked || checkbox2000.checked || checkbox2300.checked ? 'block' : 'none';
             textLabelSomitic.style.display = checkbox0.checked || checkbox5000.checked || checkbox5400.checked ? 'block' : ' none';
-            textLabelEye.style.display = checkbox6000.checked || checkbox6120.checked ? 'block' : 'none';
             textLabelRGL.style.display = checkbox6000.checked || checkbox6110.checked ? 'block' : 'none';
             textLabelLEN.style.display = checkbox6000.checked || checkbox6140.checked ? 'block' : 'none';
             textLabelRNL.style.display = checkbox6000.checked || checkbox6160.checked ? 'block' : 'none';
@@ -678,6 +716,7 @@ checkbox_8140 = splanchnocranium (Spc)
             textLabelNotochord.style.display = checkbox6000.checked || checkbox6400.checked ? 'block' : 'none';
             textLabelBrain.style.display = checkbox6000.checked || checkbox6200.checked ? 'block' : 'none';
             textLabelNaris.style.display = checkbox6000.checked || checkbox6500.checked ? 'block' : 'none';
+            textLabelSPC.style.display = checkbox8000.checked || checkbox8100.checked || checkbox8140.checked ? 'block' : 'none';
         }
 
         // Checkbox event listeners
