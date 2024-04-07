@@ -28,9 +28,10 @@ vs.widget.ZoomControl = vs.util.extend(
 // ----------------------------------------------------------------------------
 // METHODS
 // ----------------------------------------------------------------------------
-vs.widget.ZoomControl.prototype.initialize = function() {
+//vs.widget.ZoomControl.prototype.initialize = function() {
 // ----------------------------------------------------------------------------
 	// Create a FORM + SELECT elements
+/*
 	this.element = new Element('FORM')
 		.addClassName(this.cssClassName)
 		.insert(this.selectElement = new Element('SELECT', {

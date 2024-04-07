@@ -1,0 +1,11 @@
+{% extends "openseadragon.twig.html" %}
+{% block setup %}
+            var atlas = {{ atlas|json_encode(constant('JSON_NUMERIC_CHECK'))|raw }},
+                slide = {{ slide|json_encode(constant('JSON_NUMERIC_CHECK'))|raw }},
+                viewer = zfatlas.FullScreenViewer("vs", slide, atlas);
+{% endblock %}
+{% block content %}
+        <div id="blackout" style="display:none"></div>
+        <div id="vs" class="vsFullScreen"></div>
+{% endblock %}
+

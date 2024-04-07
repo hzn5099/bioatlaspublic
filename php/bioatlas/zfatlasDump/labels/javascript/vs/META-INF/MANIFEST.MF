@@ -1,0 +1,67 @@
+Manifest-Version: 1.0
+Export-Package: com.google.debugging.sourcemap.proto;uses:="com.google
+ .protobuf";version="0.0.0.v20140508",com.google.debugging.sourcemap;u
+ ses:="com.google.debugging.sourcemap.proto,javax.annotation,org.json"
+ ;version="0.0.0.v20140508",com.google.javascript.jscomp.deps;uses:="c
+ om.google.common.base,com.google.javascript.jscomp";version="0.0.0.v2
+ 0140508",com.google.javascript.jscomp.graph;uses:="com.google.common.
+ base";version="0.0.0.v20140508",com.google.javascript.jscomp.parsing.
+ parser.util.format;version="0.0.0.v20140508",com.google.javascript.js
+ comp.parsing.parser.util;uses:="com.google.javascript.jscomp.parsing.
+ parser";version="0.0.0.v20140508",com.google.javascript.jscomp.parsin
+ g.parser.trees;uses:="com.google.common.collect,com.google.javascript
+ .jscomp.parsing.parser,com.google.javascript.jscomp.parsing.parser.ut
+ il";version="0.0.0.v20140508",com.google.javascript.jscomp.parsing.pa
+ rser;uses:="com.google.javascript.jscomp.parsing.parser.trees,com.goo
+ gle.javascript.jscomp.parsing.parser.util";version="0.0.0.v20140508",
+ com.google.javascript.jscomp.parsing;uses:="com.google.javascript.jsc
+ omp.parsing.parser.trees,com.google.javascript.rhino,com.google.javas
+ cript.rhino.head,com.google.javascript.rhino.head.ast,com.google.java
+ script.rhino.jstype";version="0.0.0.v20140508",com.google.javascript.
+ jscomp.type;uses:="com.google.javascript.jscomp,com.google.javascript
+ .jscomp.graph,com.google.javascript.rhino,com.google.javascript.rhino
+ .jstype";version="0.0.0.v20140508",com.google.javascript.jscomp.newty
+ pes;uses:="com.google.common.collect,com.google.javascript.rhino";ver
+ sion="0.0.0.v20140508",com.google.javascript.jscomp.fuzzing;uses:="co
+ m.google.javascript.jscomp,com.google.javascript.rhino";version="0.0.
+ 0.v20140508",com.google.javascript.jscomp;uses:="com.google.common.ba
+ se,com.google.common.collect,com.google.common.io,com.google.debuggin
+ g.sourcemap,com.google.debugging.sourcemap.proto,com.google.javascrip
+ t.jscomp.deps,com.google.javascript.jscomp.graph,com.google.javascrip
+ t.jscomp.parsing,com.google.javascript.jscomp.type,com.google.javascr
+ ipt.rhino,com.google.javascript.rhino.jstype,com.google.protobuf,java
+ x.annotation,org.kohsuke.args4j,org.kohsuke.args4j.spi";version="0.0.
+ 0.v20140508",com.google.javascript.jscomp.regex;version="0.0.0.v20140
+ 508",com.google.javascript.jscomp.lint;uses:="com.google.javascript.j
+ scomp,com.google.javascript.rhino";version="0.0.0.v20140508",com.goog
+ le.javascript.rhino.jstype;uses:="com.google.common.base,com.google.c
+ ommon.collect,com.google.javascript.rhino";version="0.0.0.v20140508",
+ com.google.javascript.rhino;uses:="com.google.common.collect,com.goog
+ le.javascript.rhino.jstype";version="0.0.0.v20140508"
+Built-By: lindner
+Tool: Bnd-2.1.0.20130426-122213
+Bundle-Name: Closure Compiler
+Created-By: Apache Maven Bundle Plugin
+Bundle-Vendor: Google
+Build-Jdk: 1.7.0_55
+Bundle-Version: 0.0.0.v20140508
+Bnd-LastModified: 1399931112359
+Bundle-ManifestVersion: 2
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.html
+Bundle-Description: Closure Compiler is a JavaScript optimizing compil
+ er. It parses your    JavaScript, analyzes it, removes dead code and 
+ rewrites and minimizes    what's left. It also checks syntax, variabl
+ e references, and types, and    warns about common JavaScript pitfall
+ s. It is used in many of Google's    JavaScript apps, including Gmail
+ , Google Web Search, Google Maps, and    Google Docs.
+Bundle-SymbolicName: com.google.javascript.closure-compiler
+Bundle-DocURL: http://www.google.com
+Import-Package: com.google.common.base;version="[17.0,18)",com.google.
+ common.collect;version="[17.0,18)",com.google.common.io;version="[17.
+ 0,18)",com.google.common.primitives;version="[17.0,18)",com.google.ja
+ vascript.rhino.head,com.google.javascript.rhino.head.ast,com.google.p
+ rotobuf;version="[2.5,3)",javax.annotation,javax.xml.parsers,org.json
+ ,org.kohsuke.args4j;version="[2.0,3)",org.kohsuke.args4j.spi;version=
+ "[2.0,3)",org.xml.sax
+Archiver-Version: Plexus Archiver
+

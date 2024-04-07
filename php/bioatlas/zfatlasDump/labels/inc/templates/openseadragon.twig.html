@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>DAHRA Coronal 3dpf</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-BQF4WF49Z7"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-BQF4WF49Z7');
+    </script>
+    <meta charset="utf-8" name="viewport" content="width=device-width, user-scalable=no">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <!-- <link rel="stylesheet" href="../assets/css/carusel.css"> -->
+    <!-- <link rel="stylesheet" href="../assets/css/new.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/max_colored_10.ico">
+    <link href="http://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" type="text/css">
+    <style type="text/css">.dg ul{list-style:none;margin:0;padding:0;width:100%;clear:both}.dg.ac{position:fixed;top:0;left:0;right:0;height:0;z-index:0}.dg:not(.ac) .main{overflow:hidden}.dg.main{-webkit-transition:opacity .1s linear;transition:opacity .1s linear}.dg.main.taller-than-window{overflow-y:auto}.dg.main.taller-than-window .close-button{opacity:1;margin-top:-1px;border-top:1px solid #2c2c2c}.dg.main ul.closed .close-button{opacity:1!important}.dg.main .close-button.drag,.dg.main:hover .close-button{opacity:1}.dg.main .close-button{-webkit-transition:opacity .1s linear;transition:opacity .1s linear;border:0;position:absolute;line-height:19px;height:20px;cursor:pointer;text-align:center;background-color:#000}.dg.main .close-button:hover{background-color:#111}.dg.a{float:right;margin-right:15px;overflow-x:hidden}.dg.a.has-save>ul{margin-top:27px}.dg.a.has-save>ul.closed{margin-top:0}.dg.a .save-row{position:fixed;top:0;z-index:1002}.dg li{-webkit-transition:height .1s ease-out;transition:height .1s ease-out}.dg li:not(.folder){cursor:auto;height:27px;line-height:27px;overflow:hidden;padding:0 4px 0 5px}.dg li.folder{padding:0;border-left:4px solid transparent}.dg li.title{cursor:pointer;margin-left:-4px}.dg .closed li:not(.title),.dg .closed ul li,.dg .closed ul li>*{height:0;overflow:hidden;border:0}.dg .cr{clear:both;padding-left:3px;height:27px}.dg .property-name{cursor:default;float:left;clear:left;width:40%;overflow:hidden;text-overflow:ellipsis}.dg .c{float:left;width:60%}.dg .c input[type=text]{border:0;margin-top:4px;padding:3px;width:100%;float:right}.dg .has-slider input[type=text]{width:30%;margin-left:0}.dg .slider{float:left;width:66%;margin-left:-5px;margin-right:0;height:19px;margin-top:4px}.dg .slider-fg{height:100%}.dg .c input[type=checkbox]{margin-top:9px}.dg .c select{margin-top:5px}.dg .cr.boolean,.dg .cr.boolean *,.dg .cr.function,.dg .cr.function *,.dg .cr.function .property-name{cursor:pointer}.dg .selector{display:none;position:absolute;margin-left:-9px;margin-top:23px;z-index:10}.dg .c:hover .selector,.dg .selector.drag{display:block}.dg li.save-row{padding:0}.dg li.save-row .button{display:inline-block;padding:0 6px}.dg.dialogue{background-color:#222;width:460px;padding:15px;font-size:13px;line-height:15px}#dg-new-constructor{padding:10px;color:#222;font-family:Monaco,monospace;font-size:10px;border:0;resize:none;box-shadow:inset 1px 1px 1px #888;word-wrap:break-word;margin:12px 0;display:block;width:440px;overflow-y:scroll;height:100px;position:relative}#dg-local-explain{display:none;font-size:11px;line-height:17px;border-radius:3px;background-color:#333;padding:8px;margin-top:10px}#dg-local-explain code{font-size:10px}#dat-gui-save-locally{display:none}.dg{color:#eee;font:11px Lucida Grande,sans-serif;text-shadow:0 -1px 0 #111}.dg.main::-webkit-scrollbar{width:5px;background:#1a1a1a}.dg.main::-webkit-scrollbar-corner{height:0;display:none}.dg.main::-webkit-scrollbar-thumb{border-radius:5px;background:#676767}.dg li:not(.folder){background:#1a1a1a;border-bottom:1px solid #2c2c2c}.dg li.save-row{line-height:25px;background:#dad5cb;border:0}.dg li.save-row select{margin-left:5px;width:108px}.dg li.save-row .button{margin-left:5px;margin-top:1px;border-radius:2px;font-size:9px;line-height:7px;padding:4px 4px 5px;background:#c5bdad;color:#fff;text-shadow:0 1px 0 #b0a58f;box-shadow:0 -1px 0 #b0a58f;cursor:pointer}.dg li.save-row .button.gears{background:#c5bdad url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAANCAYAAAB/9ZQ7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQJJREFUeNpiYKAU/P//PwGIC/ApCABiBSAW+I8AClAcgKxQ4T9hoMAEUrxx2QSGN6+egDX+/vWT4e7N82AMYoPAx/evwWoYoSYbACX2s7KxCxzcsezDh3evFoDEBYTEEqycggWAzA9AuUSQQgeYPa9fPv6/YWm/Acx5IPb7ty/fw+QZblw67vDs8R0YHyQhgObx+yAJkBqmG5dPPDh1aPOGR/eugW0G4vlIoTIfyFcA+QekhhHJhPdQxbiAIguMBTQZrPD7108M6roWYDFQiIAAv6Aow/1bFwXgis+f2LUAynwoIaNcz8XNx3Dl7MEJUDGQpx9gtQ8YCueB+D26OECAAQDadt7e46D42QAAAABJRU5ErkJggg==) 2px 1px no-repeat;height:7px;width:8px}.dg li.save-row .button:hover{background-color:#bab19e;box-shadow:0 -1px 0 #b0a58f}.dg li.folder{border-bottom:0}.dg li.title{padding-left:16px;background:#000 url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlI+hKgFxoCgAOw==) 6px 10px no-repeat;cursor:pointer;border-bottom:1px solid hsla(0,0%,100%,.2)}.dg .closed li.title{background-image:url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlGIWqMCbWAEAOw==)}.dg .cr.boolean{border-left:3px solid #806787}.dg .cr.color{border-left:3px solid}.dg .cr.function{border-left:3px solid #e61d5f}.dg .cr.number{border-left:3px solid #2fa1d6}.dg .cr.number input[type=text]{color:#2fa1d6}.dg .cr.string{border-left:3px solid #1ed36f}.dg .cr.string input[type=text]{color:#1ed36f}.dg .cr.boolean:hover,.dg .cr.function:hover{background:#111}.dg .c input[type=text]{background:#303030;outline:none}.dg .c input[type=text]:hover{background:#3c3c3c}.dg .c input[type=text]:focus{background:#494949;color:#fff}.dg .c .slider{background:#303030;cursor:ew-resize}.dg .c .slider-fg{background:#2fa1d6;max-width:100%}.dg .c .slider:hover{background:#3c3c3c}.dg .c .slider:hover .slider-fg{background:#44abda}
+    </style>
+</head>
+<body style="overflow: hidden;">
+<!-- <div id="mySidenav" class="sidenav"> -->
+<!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
+<!-- <a href="#">Clients</a> -->
+<!-- <a href="#">Contact</a> -->
+<!-- </div> -->
+
+<!-- Use any element to open the sidenav -->
+<!-- <span onclick="openNav()">open</span> -->
+
+<!-- <div class="dropdown_labels unselectable hide"> -->
+<!-- <button id="label_but" onclick="myFunction_labels()" class="dropbtn2">Treatments</button> -->
+<!-- <div id="Label_dropdown" class="dropdown-content-labels"><input type="text" placeholder="Search Labels..." id="myInput_labels" onkeyup="filterFunction_labels()"></div> -->
+<!-- </div> -->
+
+
+<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+<!--
+<div class="navbar">
+
+
+
+
+
+    <a href="http://daphnia.io">Home</a>
+
+    <div onclick="show_hide()" class="dropdown_nav">
+        <button class="dropbtn">Anatomy
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div id="dropit" style="z-index:999999" class="dropdown_nav-content">
+            <a href="http://daphnia.io/anatomy/" target="_blank">Histology<span style="font-weight:600;color:red;letter-spacing: 0px;font-size:10px;"> LIVE</span></a><br>
+            <a href="http://daphnia.io/anatomy/histotomography/?t=AAA392&amp;z=1">Micro-CT</a><br>
+        </div>
+    </div>
+    <a href="http://daphnia.io/references/">References</a>
+    <a href="http://daphnia.io/resources/">Resources</a>
+
+    <a href="http://daphnia.io/Updates/">Updates</a>
+     <a  target="_blank" rel="noopener noreferrer" href="https://docs.google.com/forms/d/e/1FAIpQLSdquVNws9den3ciVMosz0bsvXNT1e34k3k-NoJOlVNMK31PdA/viewform?usp=sf_link"><span style="font-weight:900;color:black;letter-spacing: 2px;font-size:10px;">Feedback?</span></a>
+    <a target="_blank" rel="noopener noreferrer" href="https://docs.google.com/forms/d/e/1FAIpQLSdquVNws9den3ciVMosz0bsvXNT1e34k3k-NoJOlVNMK31PdA/viewform?usp=sf_link"><span style="">Feedback</span></a>
+
+</div>
+-->
+
+<div class="dropdown_nav2">
+
+    <div class="dropdown_nav-content2">
+        <!-- <div class="header"> -->
+        <!-- <h2>Projects</h2> -->
+        <!-- </div>    -->
+        <div class="row">
+            <div class="column" id="proj1" style="height: 1267px;">
+                <!-- <button class="accordion" onclick="fitbounds_old()">Labels</button> -->
+                <!-- <button id='label_button' class="accordion"></button> -->
+                <!-- <div id= "label_panel" class="panel"> -->
+                <!-- </div> -->
+
+                <!-- <button id='label_button2' class="accordion"></button> -->
+                <div id="label_pane2" class="panel2" style="max-height: 1208px;">
+                    <input style="width:100%; height:40px; font-size:16px" type="text" id="myInput" onkeyup="searchFunction()" placeholder="Type here to search for an anatomical label...">
+                    <div class="trunklapse unselectable active" id="id_0" style="color: rgb(255, 255, 255); background-color: rgba(255, 255, 255, 0.1); border-left: thin solid rgb(255, 255, 255);"><a class="show"><input type="checkbox" id="checkbox_0" class="show" style="float: right; transform:translateY(-40%)"><span style="color: rgb(255,255,255)">Annotation (Annotation)</span></a><div class="collapsible unselectable show active" id="id_1000" style="color: rgb(255, 255, 255); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a class="show"><span style="color: rgb(255,255,255)"><u>Circulatory</u></span></a><div class="collapsible unselectable show" id="id_1100" style="color: rgb(255, 0, 204); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(255,0,204)"><u>heart (Ht)</u></span></a><div class="collapsible unselectable" id="id_1120" style="color: rgb(255, 0, 238); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(255,0,238)">atrium (At)</span></a></div><div class="collapsible unselectable" id="id_1110" style="color: rgb(255, 0, 171); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(255,0,171)">bulbus arteriosus (Ba)</span></a></div><div class="collapsible unselectable" id="id_1130" style="color: rgb(255, 0, 170); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(255,0,170)">ventricle (Vt)</span></a></div></div><div class="collapsible unselectable show" id="id_1200" style="color: rgb(255, 0, 187); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(255,0,187)">central cardinal vein(common cardinal vein) (Cen)</span></a></div></div><div class="collapsible unselectable show active" id="id_2000" style="color: rgb(255, 255, 255); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a class="show"><input type="checkbox" id="checkbox_2000" class="show" style="float: right; transform:translateY(-40%)"><span style="color: rgb(255,255,255)"><u>Digestive</u></span></a><div class="collapsible unselectable show" id="id_2100" style="color: rgb(116, 255, 127); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(116,255,127)">esophagus (Eso)</span></a></div><div class="collapsible unselectable show" id="id_2200" style="color: rgb(200, 255, 180); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(200,255,180)">intestine (Int)</span></a></div><div class="collapsible unselectable show" id="id_2300" style="color: rgb(142, 255, 153); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><input type="checkbox" id="checkbox_2300" class="show" style="float: right; transform:translateY(-40%)"><span style="color: rgb(142,255,153)">yolk (Yo)</span></a></div><div class="collapsible unselectable show" id="id_2400" style="color: rgb(142, 255, 138); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(142,255,138)">liver (Liv)</span></a></div><div class="collapsible unselectable show" id="id_2500" style="color: rgb(142, 255, 0); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(142,255,0)">pancreas (Pac)</span></a></div></div><div class="collapsible unselectable show active" id="id_3000" style="color: rgb(255, 255, 255); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a class="show"><span style="color: rgb(255,255,255)"><u>Excretory</u></span></a><div class="collapsible unselectable show" id="id_3100" style="color: rgb(148, 231, 255); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(148,231,255)"><u>pronephros (Pnp)</u></span></a><div class="collapsible unselectable" id="id_3110" style="color: rgb(148, 231, 221); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(148,231,221)">pronephric duct (Pnpd)</span></a></div></div><div class="collapsible unselectable show" id="id_3200" style="color: rgb(145, 231, 255); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(145,231,255)">kidney (Kid)</span></a></div></div><div class="collapsible unselectable show active" id="id_4000" style="color: rgb(255, 255, 255); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a class="show"><span style="color: rgb(255,255,255)"><u>Locomotive, Osmoregulation</u></span></a><div class="collapsible unselectable show" id="id_4200" style="color: rgb(233, 91, 32); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(233,91,32)">caudal fin (Cf)</span></a></div><div class="collapsible unselectable show" id="id_4100" style="color: rgb(233, 91, 0); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(233,91,0)">pectoral fin (Pf)</span></a></div></div><div class="collapsible unselectable show active" id="id_5000" style="color: rgb(255, 255, 255); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a class="show"><input type="checkbox" id="checkbox_5000" class="show" style="float: right; transform:translateY(-40%)"><span style="color: rgb(255,255,255)"><u>Muscular</u></span></a><div class="collapsible unselectable show" id="id_5100" style="color: rgb(31, 0, 212); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(31,0,212)">cephalic musculature (Cm)</span></a></div><div class="collapsible unselectable show" id="id_5200" style="color: rgb(255, 255, 255); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(255,255,255)">pharyngeal musculature (pm)</span></a></div><div class="collapsible unselectable show" id="id_5210" style="color: rgb(31, 0, 217); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(31,0,217)">sternohyoid (Ster)</span></a></div><div class="collapsible unselectable show" id="id_5300" style="color: rgb(31, 0, 214); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(31,0,214)">trunk musculature (Tm)</span></a></div><div class="collapsible unselectable show" id="id_5400" style="color: rgb(31, 0, 215); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><input type="checkbox" id="checkbox_5400" class="show" style="float: right; transform:translateY(-40%)"><span style="color: rgb(31,0,215)">somitic muscle (Sm)</span></a></div></div><div class="collapsible unselectable show active" id="id_6000" style="color: rgb(255, 255, 255); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a class="show"><input type="checkbox" id="checkbox_6000" class="show" style="float: right; transform:translateY(-40%)"><span style="color: rgb(255,255,255)"><u>Nervous, Sensory and Vision</u></span></a><div class="collapsible unselectable show" id="id_6100" style="color: rgb(255, 0, 0); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><input type="checkbox" id="checkbox_6100" class="show" style="float: right; transform:translateY(-40%)"><span style="color: rgb(255,0,0)"><u>eye (Eye)</u></span></a><div class="collapsible unselectable" id="id_6120" style="color: rgb(159, 0, 136); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><input type="checkbox" id="checkbox_6120" class="show" style="float: right; transform:translateY(-40%)"><span style="color: rgb(159,0,136)">retinal ganglion cell layer (Rgl)</span></a></div><div class="collapsible unselectable" id="id_6110" style="color: rgb(159, 0, 0); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><input type="checkbox" id="checkbox_6110" class="show" style="float: right; transform:translateY(-40%)"><span style="color: rgb(159,0,0)">lens (Len)</span></a></div><div class="collapsible unselectable" id="id_6111" style="color: rgb(255, 0, 128); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(255,0,128)">cornea (Cor)</span></a></div><div class="collapsible unselectable" id="id_6140" style="color: rgb(159, 0, 72); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><input type="checkbox" id="checkbox_6140" class="show" style="float: right; transform:translateY(-40%)"><span style="color: rgb(159,0,72)"><u>retinal nuclear layers (Rnl)</u></span></a><div class="collapsible unselectable" id="id_6141" style="color: rgb(149, 0, 64); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(149,0,64)">retinal inner nuclear layer (Rnlo)</span></a></div><div class="collapsible unselectable" id="id_6142" style="color: rgb(149, 0, 80); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(149,0,80)">retinal outer nuclear layer (Rnli)</span></a></div></div><div class="collapsible unselectable" id="id_6160" style="color: rgb(149, 0, 40); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><input type="checkbox" id="checkbox_6160" class="show" style="float: right; transform:translateY(-40%)"><span style="color: rgb(149,0,40)">retinal photoreceptor layer (Rph)</span></a></div><div class="collapsible unselectable" id="id_6170" style="color: rgb(159, 0, 8); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><input type="checkbox" id="checkbox_6170" class="show" style="float: right; transform:translateY(-40%)"><span style="color: rgb(159,0,8)">retinal pigmented epithelium (Rpe)</span></a></div><div class="collapsible unselectable" id="id_6130" style="color: rgb(159, 0, 104); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><input type="checkbox" id="checkbox_6130" class="show" style="float: right; transform:translateY(-40%)"><span style="color: rgb(159,0,104)">retinal inner plexiform layer (Rip)</span></a></div><div class="collapsible unselectable" id="id_6150" style="color: rgb(159, 0, 114); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(159,0,114)">retinal outer plexiform layer (Rop)</span></a></div><div class="collapsible unselectable" id="id_6180" style="color: rgb(148, 0, 96); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(148,0,96)">optic choroid (Oc)</span></a></div><div class="collapsible unselectable" id="id_6190" style="color: rgb(244, 0, 34); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><input type="checkbox" id="checkbox_6190" class="show" style="float: right; transform:translateY(-40%)"><span style="color: rgb(244,0,34)">optic nerve head (Onh)</span></a></div><div class="collapsible unselectable" id="id_6191" style="color: rgb(244, 0, 42); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><input type="checkbox" id="checkbox_6191" class="show" style="float: right; transform:translateY(-40%)"><span style="color: rgb(244,0,42)">optic chiasm (Och)</span></a></div></div><div class="collapsible unselectable show" id="id_6600" style="color: rgb(180, 0, 42); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(180,0,42)">spinal cord (Sc)</span></a></div><div class="collapsible unselectable show" id="id_6400" style="color: rgb(180, 0, 10); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><input type="checkbox" id="checkbox_6400" class="show" style="float: right; transform:translateY(-40%)"><span style="color: rgb(180,0,10)">notochord (Not)</span></a></div><div class="collapsible unselectable show" id="id_6200" style="color: rgb(255, 10, 17); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><input type="checkbox" id="checkbox_6200" class="show" style="float: right; transform:translateY(-40%)"><span style="color: rgb(255,10,17)">brain (Br)</span></a></div><div class="collapsible unselectable show" id="id_6500" style="color: rgb(255, 16, 80); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><input type="checkbox" id="checkbox_6500" class="show" style="float: right; transform:translateY(-40%)"><span style="color: rgb(255,16,80)"><u>naris (Nar)</u></span></a><div class="collapsible unselectable" id="id_6510" style="color: rgb(255, 16, 0); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><input type="checkbox" id="checkbox_6510" class="show" style="float: right; transform:translateY(-40%)"><span style="color: rgb(255,16,0)">olfactory pit (Op)</span></a></div><div class="collapsible unselectable" id="id_6520" style="color: rgb(255, 17, 0); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(255,17,0)">olfactory epithelium (Ole)</span></a></div></div><div class="collapsible unselectable show" id="id_6300" style="color: rgb(180, 0, 13); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(180,0,13)"><u>inner ear (Ie)</u></span></a><div class="collapsible unselectable" id="id_6311" style="color: rgb(180, 0, 15); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(180,0,15)">otolith (Oth)</span></a></div><div class="collapsible unselectable" id="id_6310" style="color: rgb(255, 255, 255); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(255,255,255)"><u>semicircular canal (ssc)</u></span></a><div class="collapsible unselectable" id="id_6312" style="color: rgb(255, 255, 255); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(255,255,255)">lateral semicircular canal (lsc)</span></a></div><div class="collapsible unselectable" id="id_6313" style="color: rgb(255, 255, 255); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(255,255,255)">posterior semicircular canal (psc)</span></a></div><div class="collapsible unselectable" id="id_6314" style="color: rgb(255, 255, 255); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(255,255,255)">anterior semicircular canal (asc)</span></a></div><div class="collapsible unselectable" id="id_6315" style="color: rgb(255, 0, 7); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(255,0,7)">otic sensory epithelium (Ose)</span></a></div></div></div></div><div class="collapsible unselectable show active" id="id_8000" style="color: rgb(255, 255, 255); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a class="show"><input type="checkbox" id="checkbox_8000" class="show" style="float: right; transform:translateY(-40%)"><span style="color: rgb(255,255,255)"><u>Skeletal</u></span></a><div class="collapsible unselectable show" id="id_8400" style="color: rgb(255, 255, 255); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(255,255,255)">epiphysis (ep)</span></a></div><div class="collapsible unselectable show" id="id_8300" style="color: rgb(255, 255, 255); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(255,255,255)"><u>postcranial axial skeleton (Pas)</u></span></a><div class="collapsible unselectable" id="id_8310" style="color: rgb(180, 0, 109); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(180,0,109)"><u>vertebra (vert)</u></span></a><div class="collapsible unselectable" id="id_8311" style="color: rgb(180, 0, 106); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(180,0,106)">vertebral body (verb)</span></a></div></div></div><div class="collapsible unselectable show" id="id_8100" style="color: rgb(255, 255, 255); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><input type="checkbox" id="checkbox_8100" class="show" style="float: right; transform:translateY(-40%)"><span style="color: rgb(255,255,255)"><u>cranium (cr)</u></span></a><div class="collapsible unselectable" id="id_8110" style="color: rgb(0, 170, 41); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(0,170,41)">chondrocranium (Cho)</span></a></div><div class="collapsible unselectable" id="id_8130" style="color: rgb(0, 170, 153); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(0,170,153)">neurocranium (Nec)</span></a></div><div class="collapsible unselectable" id="id_8140" style="color: rgb(0, 170, 128); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><input type="checkbox" id="checkbox_8140" class="show" style="float: right; transform:translateY(-40%)"><span style="color: rgb(0,170,128)"><u>splanchnocranium (Spc)</u></span></a><div class="collapsible unselectable" id="id_8141" style="color: rgb(0, 170, 73); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(0,170,73)">pharyngeal  (Ps)</span></a></div></div><div class="collapsible unselectable" id="id_8120" style="color: rgb(0, 170, 57); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(0,170,57)">dermatocranium (Dec)</span></a></div></div><div class="collapsible unselectable show" id="id_8200" style="color: rgb(255, 255, 255); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(255,255,255)">paired fin skeleton (pfs)</span></a></div></div><div class="collapsible unselectable show" id="id_10000" style="color: rgb(255, 255, 255); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(255,255,255)"><u>Respiratory</u></span></a><div class="collapsible unselectable" id="id_11000" style="color: rgb(243, 255, 164); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(243,255,164)">gill (Gil)</span></a></div><div class="collapsible unselectable" id="id_12000" style="color: rgb(249, 255, 170); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(249,255,170)">swim bladder (Sb)</span></a></div></div></div><div class="trunklapse unselectable" id="Metadata" style="color: rgb(0, 170, 73); background-color: rgba(255, 255, 255, 0.1); border-left: thin solid rgb(0, 170, 73);"><a><span style="color: rgb(255,255,255)">Metadata</span></a><div class="collapsible unselectable" id="sample_name" style="color: rgb(0, 170, 73); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;"><a><span style="color: rgb(255,255,255)">3dpf</span></a></div></div></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--
+checkbox_0 = all
+
+checkbox_2000 = digestive
+checkbox_2300 = Yolk (Yo)
+
+checkbox_5000 = Muscular
+checkbox_5400 = Somitic Muscle (Sm)
+
+checkbox_6000 = Nervous, Sensory and Vision
+checkbox_6100 = eye (Eye)
+checkbox_6120 = retinal ganglion cell layer (Rgl)
+checkbox_6110 = lens (Len)
+checkbox_6140 = retinal nuclear layers (Rnl)
+checkbox_6160 = retinal photoreceptor layer (Rph)
+checkbox_6170 = retinal; pigmented epithelium (Rpe)
+checkbox_6130 = retinal inner plexiform layer (Rip)
+checkbox_6190 = optic nerve head (Onh)
+checkbox_6191 = optic chiasm (Och)
+checkbox_6400 = notochord (Not)
+checkbox_6200 = brain (Br)
+checkbox_6500 = naris (Nar)
+checkbox_6510 = olfactory pit (Op)
+
+checkbox_8000 = Skeletal
+checkbox_8100 = cranium (Cr)
+checkbox_8140 = splanchnocranium (Spc)
+-->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const checkboxes = {
+            'checkbox_0': ['cls-10','cls-3','cls-13','cls-4','cls-12','cls-11','cls-19','cls-9','cls-5','cls-16','cls-14','cls-15','cls-2','cls-6','cls-7','cls-17','cls-1','cls-18','cls-8'],
+            'checkbox_2000': 'cls-10',
+            'checkbox_2300': 'cls-10',
+            'checkbox_5000': ['cls-3','cls-13'],
+            'checkbox_5400': ['cls-13','cls-3'],
+            'checkbox_6000': ['cls-4','cls-12','cls-11','cls-19','cls-9','cls-5','cls-16','cls-14','cls-15','cls-2','cls-6','cls-7','cls-17','cls-1'],
+            'checkbox_6100': ['cls-4','cls-12','cls-11','cls-19','cls-9','cls-5','cls-16','cls-14','cls-15','cls-2','cls-6'],
+            'checkbox_6120': ['cls-4','cls-12'],
+            'checkbox_6110': 'cls-11',
+            'checkbox_6140': ['cls-19','cls-9'],
+            'checkbox_6160': 'cls-5',
+            'checkbox_6170': 'cls-16',
+            'checkbox_6130': ['cls-14','cls-15'],
+            'checkbox_6190': 'cls-2',
+            'checkbox_6191': 'cls-6',
+            'checkbox_6400': 'cls-7',
+            'checkbox_6200': 'cls-17',
+            'checkbox_6500': 'cls-1',
+            'checkbox_6510': 'cls-1',
+            'checkbox_8000': ['cls-18','cls-8'],
+            'checkbox_8100': ['cls-18','cls-8'],
+            'checkbox_8140': ['cls-18','cls-8']
+        };
+
+        const checkbox0 = document.getElementById('checkbox_0');
+        const checkbox2000 = document.getElementById('checkbox_2000');
+        const checkbox2300 = document.getElementById('checkbox_2300');
+        const checkbox5000 = document.getElementById('checkbox_5000');
+        const checkbox5400 = document.getElementById('checkbox_5400');
+        const checkbox6000 = document.getElementById('checkbox_6000');
+        const checkbox6100 = document.getElementById('checkbox_6100');
+        const checkbox6120 = document.getElementById('checkbox_6120');
+        const checkbox6110 = document.getElementById('checkbox_6110');
+        const checkbox6140 = document.getElementById('checkbox_6140');
+        const checkbox6160 = document.getElementById('checkbox_6160');
+        const checkbox6170 = document.getElementById('checkbox_6170');
+        const checkbox6130 = document.getElementById('checkbox_6130');
+        const checkbox6190 = document.getElementById('checkbox_6190');
+        const checkbox6191 = document.getElementById('checkbox_6191');
+        const checkbox6400 = document.getElementById('checkbox_6400');
+        const checkbox6500 = document.getElementById('checkbox_6500');
+        const checkbox6510 = document.getElementById('checkbox_6510');
+        const checkbox6200 = document.getElementById('checkbox_6200');
+        const checkbox8000 = document.getElementById('checkbox_8000');
+        const checkbox8100 = document.getElementById('checkbox_8100');
+        const checkbox8140 = document.getElementById('checkbox_8140');
+
+        Object.keys(checkboxes).forEach(checkboxId => {
+            const checkbox = document.getElementById(checkboxId);
+            checkbox.checked = true; // Set each checkbox to be checked by default
+
+            checkbox.addEventListener('change', () => {
+                if (checkbox === checkbox0) {
+                    if (checkbox0.checked) {
+                        checkbox2000.checked = true;
+                        checkbox2300.checked = true;
+                        checkbox5000.checked = true;
+                        checkbox5400.checked = true;
+                        checkbox6000.checked = true;
+                        checkbox6100.checked = true;
+                        checkbox6120.checked = true;
+                        checkbox6110.checked = true;
+                        checkbox6140.checked = true;
+                        checkbox6160.checked = true;
+                        checkbox6170.checked = true;
+                        checkbox6130.checked = true;
+                        checkbox6190.checked = true;
+                        checkbox6191.checked = true;
+                        checkbox6400.checked = true;
+                        checkbox6500.checked = true;
+                        checkbox6510.checked = true;
+                        checkbox6200.checked = true;
+                        checkbox8000.checked = true;
+                        checkbox8100.checked = true;
+                        checkbox8140.checked = true;
+                    } else {
+                        checkbox2000.checked = false;
+                        checkbox2300.checked = false;
+                        checkbox5000.checked = false;
+                        checkbox5400.checked = false;
+                        checkbox6000.checked = false;
+                        checkbox6100.checked = false;
+                        checkbox6120.checked = false;
+                        checkbox6110.checked = false;
+                        checkbox6140.checked = false;
+                        checkbox6160.checked = false;
+                        checkbox6170.checked = false;
+                        checkbox6130.checked = false;
+                        checkbox6190.checked = false;
+                        checkbox6191.checked = false;
+                        checkbox6400.checked = false;
+                        checkbox6500.checked = false;
+                        checkbox6510.checked = false;
+                        checkbox6200.checked = false;
+                        checkbox8000.checked = false;
+                        checkbox8100.checked = false;
+                        checkbox8140.checked = false;
+                    }
+                } else if (checkbox === checkbox2000) {
+                    if (checkbox2000.checked) {
+                        checkbox2300.checked = true;
+                    } else {
+                        checkbox2300.checked = false;
+                    }
+                } else if (checkbox === checkbox2300) {
+                    checkbox2000.checked = false;
+                } else if (checkbox === checkbox5000) {
+                    if (checkbox5000.checked) {
+                        checkbox5400.checked = true;
+                    } else {
+                        checkbox5400.checked = false;
+                    }
+                } else if (checkbox === checkbox5400) {
+                    checkbox5000.checked = false;
+                } else if (checkbox === checkbox6000) {
+                   if (checkbox6000.checked) {
+                       checkbox6100.checked = true;
+                       checkbox6120.checked = true;
+                       checkbox6110.checked = true;
+                       checkbox6140.checked = true;
+                       checkbox6160.checked = true;
+                       checkbox6170.checked = true;
+                       checkbox6130.checked = true;
+                       checkbox6190.checked = true;
+                       checkbox6191.checked = true;
+                       checkbox6400.checked = true;
+                       checkbox6500.checked = true;
+                       checkbox6510.checked = true;
+                       checkbox6200.checked = true;
+                   } else {
+                       checkbox6000.checked = false;
+                       checkbox6100.checked = false;
+                       checkbox6120.checked = false;
+                       checkbox6110.checked = false;
+                       checkbox6140.checked = false;
+                       checkbox6160.checked = false;
+                       checkbox6170.checked = false;
+                       checkbox6130.checked = false;
+                       checkbox6190.checked = false;
+                       checkbox6191.checked = false;
+                       checkbox6400.checked = false;
+                       checkbox6500.checked = false;
+                       checkbox6510.checked = false;
+                       checkbox6200.checked = false;
+                   }
+                } else if (checkbox === checkbox6100) {
+                    if (checkbox6100.checked) {
+                        checkbox6120.checked = true;
+                        checkbox6110.checked = true;
+                        checkbox6140.checked = true;
+                        checkbox6160.checked = true;
+                        checkbox6170.checked = true;
+                        checkbox6130.checked = true;
+                        checkbox6190.checked = true;
+                        checkbox6191.checked = true;
+                    } else {
+                        checkbox6120.checked = false;
+                        checkbox6110.checked = false;
+                        checkbox6140.checked = false;
+                        checkbox6160.checked = false;
+                        checkbox6170.checked = false;
+                        checkbox6130.checked = false;
+                        checkbox6190.checked = false;
+                        checkbox6191.checked = false;
+                    }
+                } else if (checkbox === checkbox6500) {
+                    if (checkbox6500.checked) {
+                        checkbox6510.checked = true;
+                    } else {
+                        checkbox6510.checked = false;
+                    }
+                } else if (checkbox === checkbox8000) {
+                    if (checkbox8000.checked) {
+                        checkbox8100.checked = true;
+                        checkbox8140.checked = true;
+                    } else {
+                        checkbox8100.checked = false;
+                        checkbox8140.checked = false;
+                    }
+                } else if (checkbox === checkbox8100) {
+                    if (checkbox8100.checked) {
+                        checkbox8000.checked = true;
+                        checkbox8140.checked = true;
+                    } else {
+                        checkbox8000.checked = false;
+                        checkbox8140.checked = false;
+                    }
+                }  else if (checkbox === checkbox8100) {
+                    if (checkbox8140.checked) {
+                        checkbox8000.checked = true;
+                        checkbox8100.checked = true;
+                    } else {
+                        checkbox8000.checked = false;
+                        checkbox8100.checked = false;
+                    }
+                }
+
+                const classes = checkboxes[checkboxId];
+                const svgElements = Array.isArray(classes)
+                    ? classes.flatMap(className =>
+                        Array.from(document.querySelectorAll(`.${className}`))
+                    )
+                    : Array.from(document.querySelectorAll(`.${classes}`));
+
+                svgElements.forEach(element => {
+                    element.style.display = checkbox.checked ? 'block' : 'none';
+                });
+            });
+        });
+    });
+
+</script>
+
+
+<!-- <div class="dropdown"> -->
+<!-- <button onclick="myFunction()" class="dropbtn">samples</button> -->
+<!-- <div id="myDropdown" class="dropdown-content"> -->
+<!-- <input type="text" placeholder="Search Samples..." id="myInput" onkeyup="filterFunction()"> -->
+
+<!-- </div> -->
+<!-- </div> -->
+<!-- <div class="osd_container"> -->
+<div id="openseadragon1" class="openseadragon" style="width: 100%; left: 350px; height: 100%; filter: brightness(100%) contrast(100%); background-color: rgb(255, 255, 255);"></div>
+<script src="../assets/js/openseadragon.min.js"></script>
+<script>
+    var viewer = OpenSeadragon({
+        id: "openseadragon1",
+        prefixUrl: "https://openseadragon.github.io/openseadragon/images/",
+        tileSources: "http://localhost:8000/assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/dzi_output/1727.dzi",
+        showNavigationControl: false,
+        showNavigator: true, // Enable the navigator
+    });
+
+    viewer.setMouseNavEnabled(true);
+
+    viewer.addHandler('open', function() {
+        var navigatorElement = viewer.navigator.element;
+
+        var anteriorLabel = document.createElement('div');
+        anteriorLabel.innerText = 'Anterior';
+        anteriorLabel.className = 'navigator-label anterior';
+        navigatorElement.appendChild(anteriorLabel);
+
+        var posteriorLabel = document.createElement('div');
+        posteriorLabel.innerText = 'Posterior';
+        posteriorLabel.className = 'navigator-label posterior';
+        navigatorElement.appendChild(posteriorLabel);
+
+        // Define the pixel positions
+        var yolkPixelX = 3000;
+        var yolkPixelY = 900;
+
+        var SomiticPixelX = 7900;
+        var SomiticPixelY = 700;
+
+        var RGLPixelX = 1400;
+        var RGLPixelY = 300;
+
+        var LENPixelX = 1200;
+        var LENPixelY = 200;
+
+        var RNLPixelX = 1550;
+        var RNLPixelY = 300;
+
+        var RPHPixelX = 1520;
+        var RPHPixelY = 1300;
+
+        var RPEPixelX = 810;
+        var RPEPixelY = 1100;
+
+        var RIPPixelX = 1000;
+        var RIPPixelY = 380;
+
+        var ONHPixelX = 1200;
+        var ONHPixelY = 1250;
+
+        var OCHPixelX = 1200;
+        var OCHPixelY = 950;
+
+        var NotochordPixelX = 8400;
+        var NotochordPixelY = 800;
+
+        var BrainPixelX = 800;
+        var BrainPixelY = 750;
+
+        var NarisPixelX = 690;
+        var NarisPixelY = 450;
+
+        var SPCPixelX = 1400;
+        var SPCPixelY = 950;
+
+        // Convert pixel positions to viewport coordinates
+        var viewportPointYolk = viewer.viewport.imageToViewportCoordinates(yolkPixelX, yolkPixelY);
+        var viewportPointSomitic = viewer.viewport.imageToViewportCoordinates(SomiticPixelX, SomiticPixelY);
+        var viewportPointRGL = viewer.viewport.imageToViewportCoordinates(RGLPixelX, RGLPixelY);
+        var viewportPointLEN = viewer.viewport.imageToViewportCoordinates(LENPixelX, LENPixelY);
+        var viewportPointRNL = viewer.viewport.imageToViewportCoordinates(RNLPixelX, RNLPixelY);
+        var viewportPointRPH = viewer.viewport.imageToViewportCoordinates(RPHPixelX, RPHPixelY);
+        var viewportPointRPE = viewer.viewport.imageToViewportCoordinates(RPEPixelX, RPEPixelY);
+        var viewportPointRIP = viewer.viewport.imageToViewportCoordinates(RIPPixelX, RIPPixelY);
+        var viewportPointONH = viewer.viewport.imageToViewportCoordinates(ONHPixelX, ONHPixelY);
+        var viewportPointOCH = viewer.viewport.imageToViewportCoordinates(OCHPixelX, OCHPixelY);
+        var viewportPointNotochord = viewer.viewport.imageToViewportCoordinates(NotochordPixelX, NotochordPixelY);
+        var viewportPointBrain = viewer.viewport.imageToViewportCoordinates(BrainPixelX, BrainPixelY);
+        var viewportPointNaris = viewer.viewport.imageToViewportCoordinates(NarisPixelX, NarisPixelY);
+        var viewportPointSPC = viewer.viewport.imageToViewportCoordinates(SPCPixelX, SPCPixelY);
+
+        // Create the text label for Yolk
+        var textLabelYolk = document.createElement("div");
+        textLabelYolk.id = "text_label_yolk";
+        textLabelYolk.className = "unselectable";
+        textLabelYolk.title = "Yolk";
+        textLabelYolk.innerHTML = "Yo";
+        textLabelYolk.setAttribute("data-fulltext", "Yolk");
+        textLabelYolk.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelSomitic = document.createElement("div");
+        textLabelSomitic.id = "text_label_somitic_muscle";
+        textLabelSomitic.className = "unselectable";
+        textLabelSomitic.title = "Somitic Muscle";
+        textLabelSomitic.innerHTML = "Sm";
+        textLabelSomitic.setAttribute("data-fulltext", "Somitic Muscle")
+        textLabelSomitic.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelRGL = document.createElement("div");
+        textLabelRGL.id = "text_label_RGL";
+        textLabelRGL.className = "unselectable";
+        textLabelRGL.title = "Retinal Ganglion Cell Layer";
+        textLabelRGL.innerHTML = "Rgl";
+        textLabelRGL.setAttribute("data-fulltext", "Retinal Ganglion Cell Layer")
+        textLabelRGL.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelLEN = document.createElement("div");
+        textLabelLEN.id = "text_label_len";
+        textLabelLEN.className = "unselectable";
+        textLabelLEN.title = "Lens";
+        textLabelLEN.innerHTML = "Len";
+        textLabelLEN.setAttribute("data-fulltext", "Lens")
+        textLabelLEN.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelRNL = document.createElement("div");
+        textLabelRNL.id = "text_label_RNL";
+        textLabelRNL.className = "unselectable";
+        textLabelRNL.title = "Retinal Nuclear Layers";
+        textLabelRNL.innerHTML = "Rnl";
+        textLabelRNL.setAttribute("data-fulltext", "Retinal Nuclear Layers")
+        textLabelRNL.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelRPH = document.createElement("div");
+        textLabelRPH.id = "text_label_RPH";
+        textLabelRPH.className = "unselectable";
+        textLabelRPH.title = "Retinal Photoreceptor Layer";
+        textLabelRPH.innerHTML = "Rph";
+        textLabelRPH.setAttribute("data-fulltext", "Retinal Photoreceptor Layer")
+        textLabelRPH.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelRPE = document.createElement("div");
+        textLabelRPE.id = "text_label_RPE";
+        textLabelRPE.className = "unselectable";
+        textLabelRPE.title = "Retinal Pigmented Epithelium";
+        textLabelRPE.innerHTML = "Rph";
+        textLabelRPE.setAttribute("data-fulltext", "Retinal Pigmented Epithelium")
+        textLabelRPE.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelRIP = document.createElement("div");
+        textLabelRIP.id = "text_label_RIP";
+        textLabelRIP.className = "unselectable";
+        textLabelRIP.title = "Retinal Inner Plexiform Layer";
+        textLabelRIP.innerHTML = "Rip";
+        textLabelRIP.setAttribute("data-fulltext", "Retinal Inner Plexiform Layer")
+        textLabelRIP.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelONH = document.createElement("div");
+        textLabelONH.id = "text_label_ONH";
+        textLabelONH.className = "unselectable";
+        textLabelONH.title = "Optic Nerve Head";
+        textLabelONH.innerHTML = "Oph";
+        textLabelONH.setAttribute("data-fulltext", "Optic Nerve Head")
+        textLabelONH.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelOCH = document.createElement("div");
+        textLabelOCH.id = "text_label_OCH";
+        textLabelOCH.className = "unselectable";
+        textLabelOCH.title = "Optic Chiasm";
+        textLabelOCH.innerHTML = "Och";
+        textLabelOCH.setAttribute("data-fulltext", "Optic Chiasm")
+        textLabelOCH.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelNotochord = document.createElement("div");
+        textLabelNotochord.id = "text_label_notochord";
+        textLabelNotochord.className = "unselectable";
+        textLabelNotochord.title = "Notochord";
+        textLabelNotochord.innerHTML = "Not";
+        textLabelNotochord.setAttribute("data-fulltext", "Notochord")
+        textLabelNotochord.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelBrain = document.createElement("div");
+        textLabelBrain.id = "text_label_brain";
+        textLabelBrain.className = "unselectable";
+        textLabelBrain.title = "Brain";
+        textLabelBrain.innerHTML = "Br";
+        textLabelBrain.setAttribute("data-fulltext", "Brain")
+        textLabelBrain.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelNaris = document.createElement("div");
+        textLabelNaris.id = "text_label_naris";
+        textLabelNaris.className = "unselectable";
+        textLabelNaris.title = "Naris";
+        textLabelNaris.innerHTML = "Nar";
+        textLabelNaris.setAttribute("data-fulltext", "Naris")
+        textLabelNaris.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        var textLabelSPC = document.createElement("div");
+        textLabelSPC.id = "text_label_splanchnocranium";
+        textLabelSPC.className = "unselectable";
+        textLabelSPC.title = "Splanchnocranium";
+        textLabelSPC.innerHTML = "Spc";
+        textLabelSPC.setAttribute("data-fulltext", "Splanchnocranium")
+        textLabelSPC.style = "white-space: nowrap; color: rgb(0, 0, 0); z-index: 100; font-weight: normal; position: absolute; display: block;";
+
+        // Hover event to change text
+        textLabelYolk.onmouseover = function() {
+            this.innerHTML = this.getAttribute("data-fulltext");
+        };
+        textLabelYolk.onmouseout = function() {
+            this.innerHTML = "Yo";
+        };
+
+        textLabelSomitic.onmouseover = function() {
+            this.innerHTML = this.getAttribute("data-fulltext");
+        };
+        textLabelSomitic.onmouseout = function() {
+            this.innerHTML = "Sm";
+        };
+
+        textLabelRGL.onmouseover = function() {
+            this.innerHTML = this.getAttribute("data-fulltext");
+        };
+        textLabelRGL.onmouseout = function() {
+            this.innerHTML = "Rgl";
+        };
+
+        textLabelLEN.onmouseover = function() {
+            this.innerHTML = this.getAttribute("data-fulltext");
+        };
+        textLabelLEN.onmouseout = function() {
+            this.innerHTML = "Len";
+        };
+
+        textLabelRNL.onmouseover = function() {
+            this.innerHTML = this.getAttribute("data-fulltext");
+        };
+        textLabelRNL.onmouseout = function() {
+            this.innerHTML = "Rnl";
+        };
+
+        textLabelRPH.onmouseover = function() {
+            this.innerHTML = this.getAttribute("data-fulltext");
+        };
+        textLabelRPH.onmouseout = function() {
+            this.innerHTML = "Rph";
+        };
+
+        textLabelRPE.onmouseover = function() {
+            this.innerHTML = this.getAttribute("data-fulltext");
+        };
+        textLabelRPE.onmouseout = function() {
+            this.innerHTML = "Rpe";
+        };
+
+        textLabelRIP.onmouseover = function() {
+            this.innerHTML = this.getAttribute("data-fulltext");
+        };
+        textLabelRIP.onmouseout = function() {
+            this.innerHTML = "Rip";
+        };
+
+        textLabelONH.onmouseover = function() {
+            this.innerHTML = this.getAttribute("data-fulltext");
+        };
+        textLabelONH.onmouseout = function() {
+            this.innerHTML = "Onh";
+        };
+
+        textLabelOCH.onmouseover = function() {
+            this.innerHTML = this.getAttribute("data-fulltext");
+        };
+        textLabelOCH.onmouseout = function() {
+            this.innerHTML = "Och";
+        };
+        textLabelSPC.onmouseover = function() {
+            this.innerHTML = this.getAttribute("data-fulltext");
+        }
+        textLabelSPC.onmouseover = function() {
+            this.innerHTML = "Spc";
+        }
+
+        // Add the overlay
+        viewer.addOverlay({
+            element: textLabelYolk,
+            location: viewportPointYolk
+        });
+        viewer.addOverlay({
+            element: textLabelSomitic,
+            location: viewportPointSomitic
+        });
+        viewer.addOverlay({
+            element:textLabelRGL,
+            location: viewportPointRGL
+        })
+        viewer.addOverlay({
+            element:textLabelLEN,
+            location: viewportPointLEN
+        })
+        viewer.addOverlay({
+            element:textLabelRNL,
+            location: viewportPointRNL
+        })
+        viewer.addOverlay({
+            element:textLabelRPH,
+            location: viewportPointRPH
+        })
+        viewer.addOverlay({
+            element:textLabelRPE,
+            location: viewportPointRPE
+        })
+        viewer.addOverlay({
+            element:textLabelRIP,
+            location: viewportPointRIP
+        })
+        viewer.addOverlay({
+            element:textLabelONH,
+            location: viewportPointONH
+        })
+        viewer.addOverlay({
+            element:textLabelOCH,
+            location: viewportPointOCH
+        })
+        viewer.addOverlay({
+            element:textLabelNotochord,
+            location: viewportPointNotochord
+        })
+        viewer.addOverlay({
+            element:textLabelBrain,
+            location: viewportPointBrain
+        })
+        viewer.addOverlay({
+            element:textLabelNaris,
+            location: viewportPointNaris
+        })
+        viewer.addOverlay({
+            element:textLabelSPC,
+            location: viewportPointSPC
+        })
+
+        // Function to update the display based on checkboxes
+        function updateDisplay() {
+            const checkbox0 = document.getElementById('checkbox_0');
+            const checkbox2000 = document.getElementById('checkbox_2000');
+            const checkbox2300 = document.getElementById('checkbox_2300');
+            const checkbox5000 = document.getElementById('checkbox_5000');
+            const checkbox5400 = document.getElementById('checkbox_5400');
+            const checkbox6000 = document.getElementById('checkbox_6000');
+            const checkbox6100 = document.getElementById('checkbox_6100');
+            const checkbox6120 = document.getElementById('checkbox_6120');
+            const checkbox6110 = document.getElementById('checkbox_6110');
+            const checkbox6140 = document.getElementById('checkbox_6140');
+            const checkbox6160 = document.getElementById('checkbox_6160');
+            const checkbox6170 = document.getElementById('checkbox_6170');
+            const checkbox6130 = document.getElementById('checkbox_6130');
+            const checkbox6190 = document.getElementById('checkbox_6190');
+            const checkbox6191 = document.getElementById('checkbox_6191');
+            const checkbox6400 = document.getElementById('checkbox_6400');
+            const checkbox6200 = document.getElementById('checkbox_6200');
+            const checkbox6500 = document.getElementById('checkbox_6500');
+            const checkbox6510 = document.getElementById('checkbox_6510');
+            const checkbox8000 = document.getElementById('checkbox_8000');
+            const checkbox8100 = document.getElementById('checkbox_8100');
+            const checkbox8140 = document.getElementById('checkbox_8140');
+            textLabelYolk.style.display = checkbox0.checked || checkbox2000.checked || checkbox2300.checked ? 'block' : 'none';
+            textLabelSomitic.style.display = checkbox0.checked || checkbox5000.checked || checkbox5400.checked ? 'block' : ' none';
+            textLabelRGL.style.display = checkbox6000.checked || checkbox6110.checked ? 'block' : 'none';
+            textLabelLEN.style.display = checkbox6000.checked || checkbox6140.checked ? 'block' : 'none';
+            textLabelRNL.style.display = checkbox6000.checked || checkbox6160.checked ? 'block' : 'none';
+            textLabelRPH.style.display = checkbox6000.checked || checkbox6170.checked ? 'block' : 'none';
+            textLabelRPE.style.display = checkbox6000.checked || checkbox6130.checked ? 'block' : 'none';
+            textLabelRIP.style.display = checkbox6000.checked || checkbox6190.checked ? 'block' : 'none';
+            textLabelONH.style.display = checkbox6000.checked || checkbox6190.checked ? 'block' : 'none';
+            textLabelOCH.style.display = checkbox6000.checked || checkbox6191.checked ? 'block' : 'none';
+            textLabelNotochord.style.display = checkbox6000.checked || checkbox6400.checked ? 'block' : 'none';
+            textLabelBrain.style.display = checkbox6000.checked || checkbox6200.checked ? 'block' : 'none';
+            textLabelNaris.style.display = checkbox6000.checked || checkbox6500.checked ? 'block' : 'none';
+            textLabelSPC.style.display = checkbox8000.checked || checkbox8100.checked || checkbox8140.checked ? 'block' : 'none';
+        }
+
+        // Checkbox event listeners
+        document.getElementById('checkbox_0').addEventListener('change', updateDisplay);
+        document.getElementById('checkbox_2000').addEventListener('change', updateDisplay);
+        document.getElementById('checkbox_2300').addEventListener('change', updateDisplay);
+        document.getElementById('checkbox_5000').addEventListener('change', updateDisplay);
+        document.getElementById('checkbox_5400').addEventListener('change', updateDisplay);
+        document.getElementById('checkbox_6000').addEventListener('change', updateDisplay);
+        document.getElementById('checkbox_6120').addEventListener('change', updateDisplay);
+        document.getElementById('checkbox_6110').addEventListener('change', updateDisplay);
+        document.getElementById('checkbox_6140').addEventListener('change', updateDisplay);
+        document.getElementById('checkbox_6160').addEventListener('change', updateDisplay);
+        document.getElementById('checkbox_6170').addEventListener('change', updateDisplay);
+        document.getElementById('checkbox_6130').addEventListener('change', updateDisplay);
+        document.getElementById('checkbox_6190').addEventListener('change', updateDisplay);
+        document.getElementById('checkbox_6191').addEventListener('change', updateDisplay);
+        document.getElementById('checkbox_6400').addEventListener('change', updateDisplay);
+        document.getElementById('checkbox_6500').addEventListener('change', updateDisplay);
+        document.getElementById('checkbox_6510').addEventListener('change', updateDisplay);
+        document.getElementById('checkbox_8000').addEventListener('change', updateDisplay);
+        document.getElementById('checkbox_8100').addEventListener('change', updateDisplay);
+        document.getElementById('checkbox_8140').addEventListener('change', updateDisplay);
+
+        var svgOverlay = document.createElement("div");
+
+        fetch("http://localhost:8000/assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/20_1727_10-3dpfC10can.svg")
+            .then(response => response.text())
+            .then(svg => {
+                svgOverlay.innerHTML = svg;
+
+                // Set the size and position of the SVG overlay
+                // For example, if you want the overlay to start at the top-left corner and take up a quarter of the viewer
+                var overlayWidth = 1; // 25% of the viewer's width
+                var overlayHeight = 1; // 25% of the viewer's height
+                var overlayX = 0; // starting at the top-left corner (x-coordinate)
+                var overlayY = 0; // starting at the top-left corner (y-coordinate)
+
+                var overlayRect = new OpenSeadragon.Rect(overlayX, overlayY, overlayWidth, overlayHeight);
+                viewer.addOverlay({
+                    element: svgOverlay,
+                    location: overlayRect
+                });
+            });
+    });
+</script>
+
+<div style="background: none transparent; border: none; margin: 0px; padding: 0px; position: absolute; right: 0px; top: 0px;">
+
+
+
+
+<!-- <div id='nav_hover_button' tabindex="0"></div> -->
+<!-- </div> -->
+<!-- <div class="dropdown_labels unselectable hide"> -->
+<!-- <button id="label_but" onclick="myFunction_labels()" class="dropbtn2">Treatments</button> -->
+<!-- <div id="Label_dropdown" class="dropdown-content-labels"><input type="text" placeholder="Search Labels..." id="myInput_labels" onkeyup="filterFunction_labels()"></div> -->
+<!-- </div> -->
+<div id="tool_bar"">
+    <div id="nav_left_10" tabindex="0" onclick="previous_button_10()"><img src="../assets/images/osd_assets/images/previous_pressed_double.png"></div>
+    <div id="nav_left_1" tabindex="0" onclick="previous_button_1()"><img src="../assets/images/osd_assets/images/previous_pressed.png"></div>
+    <div id="nav_right_1" tabindex="0" onclick="next_button_1()"><img src="../assets/images/osd_assets/images/next_pressed.png"></div>
+    <div id="nav_right_10" tabindex="0" onclick="next_button_10()"><img src="../assets/images/osd_assets/images/next_pressed_double.png"></div>
+</div>
+<div id="stack_indicator_line" class="openseadragon" tabindex="0"></div>
+<!-- <div id='shopping_aisle_preview_div' tabindex="0"></div> -->
+<!-- <div id='current_location'tabindex="0"></div> -->
+<!-- <div id='preview_location'tabindex="0"></div> -->
+
+<!-- <div id='control_panel'> -->
+<!-- <div id='brightness_indicator'tabindex="0"></div> -->
+<!-- <div id='brightness_overlay'tabindex="0"></div> -->
+<!-- <div id='contrast_indicator'tabindex="0"></div> -->
+<!-- <div id='contrast_overlay'tabindex="0"></d	iv> -->
+
+
+
+<script src="../assets/js/openseadragon.js"></script>
+<script src="../assets/js/openseadragon-scalebar.js"></script>
+<script src="../assets/js/openseadragon-svg-overlay.js"></script>
+<script src="../assets/js/annotations/dist/openseadragon-annotations.js"></script>
+<script src="../assets/js/dat.gui.min.js"></script>
+<script src="../assets/js/openseadragon-filtering.js"></script>
+<script src="../assets/js/cl_atlas_v4.5_carusel.js"></script><div id="slice_idx_display" class="unselectable" style="letter-spacing: 4px; background: rgba(0, 0, 0, 0.7); position: absolute; color: white; top: 1193px; right: 0px;">1/3<br><a style="color:gray;font-size:7px;">20_1731_3-3dpfC3can</a><br>
+    <span style="font-size:12px">Downloads<span><br><a style="color:white; font-size:12px" href="../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/20_1731_3-3dpfC3can.svg" target="_blank">vector file (1MB .svg)</a><a></a></span></span></div>
+<script src="../assets/js/new.js"></script>
+<!-- <script src="../assets/js/flatten.js"></script> -->
+<!-- <script src="../assets/js/tinyqueue.js"></script> -->
+<script src="../assets/js/polylabel_min.js"></script>
+<!-- <script src="./assets/js/openseadragonrgb.js"></script> -->
+
+<script>
+    function searchFunction() {
+        // Declare variables
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+        <!-- console.log(filter) -->
+        ul = document.getElementById("label_pane2");
+        li = ul.getElementsByTagName('div');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            <!-- console.log(txtValue) -->
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                target=li[i]
+                target.classList.add('show');
+                target.classList.add('active');
+                target.classList.add('found');
+                <!-- target.style.backgroundColor="rgba(85,85,85,.1)"; -->
+                target.style.borderTop="solid thin";
+                target.style.borderBottom="solid thin";
+                target.style.borderRight="solid thin";
+
+                var els = [];
+                while (target) {
+                    if (target.classList.contains("trunklapse")){
+                        target=0;
+                    }
+                    else{
+                        els.unshift(target);
+                        target = target.parentNode;
+                        target.classList.add('show');
+                        target.classList.add('active');
+
+                        <!-- target.classList.add('found'); -->
+                    }
+                }
+                <!-- li[i].classList.add('show'); -->
+                <!-- li[i].classList.add('active'); -->
+
+            }
+            else {
+                li[i].classList.remove('show');
+                li[i].classList.remove('active');
+                <!-- li[i].style.backgroundColor="rgba(0,0,0,.3)"; -->
+                li[i].style.borderTop="none";
+                li[i].style.borderBottom="none";
+                li[i].style.borderRight="none";
+            }
+        }
+        var acc = document.getElementsByClassName("panel2");
+        for (i = 0; i < acc.length; i++) {
+            acc[i].style.maxHeight = acc[i].scrollHeight + "px";
+        }
+        <!-- console.log(filter) -->
+        if (filter==""){
+            for (i = 0; i < li.length; i++) {
+                li[i].classList.remove('show');
+                li[i].classList.remove('active');
+                li[i].classList.remove('found');
+                <!-- li[i].style.backgroundColor="rgba(0,0,0,.3)"; -->
+                li[i].style.borderTop="none";
+                li[i].style.borderBottom="none";
+                li[i].style.borderRight="none";
+            }
+        }
+    }
+</script>
+
+<!-- <script src="./assets/js/openseadragonrgb.js"></script> -->
+
+<div style="height: 1px; width: 1px; visibility: hidden; position: absolute; top: -9999px;"><embed src="../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/20_1731_3-3dpfC3can.svg" type="image/svg+xml" id="current_svg_20_1731_3-3dpfC3can">
+</div>
+
+</body>
+<!-- <script src="../assets/js/openseadragon_2.5.js"></script> -->
+</html>

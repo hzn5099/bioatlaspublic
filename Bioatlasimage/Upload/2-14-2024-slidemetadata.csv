@@ -1,2 +1,0 @@
-﻿identifier *,power *,title *,description,notes,fix_date,scan_date,user_id,group_id,source_id,protocol_id,organism_sex,organism_age_in_hours,organism_type_id,atlas_id,atlas_position
-1727,20,3dpf,testsldie1,test,2/14/2024,2/14/2024,3,2,1,8,male,24,3,10,6

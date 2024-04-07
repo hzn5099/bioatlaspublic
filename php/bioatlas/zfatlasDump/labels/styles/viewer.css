@@ -45,6 +45,7 @@
 	vs.widget.ZoomControl
 -------------------------------------------------------------------------------
 */
+/*
 	.vsWidgetZoomControl
 	{
 		position:		absolute;
@@ -77,6 +78,8 @@
 	{
 		display:		none;
 	}
+
+ */
 /*
 -------------------------------------------------------------------------------
 	vs.widget.Thumbnail
@@ -117,6 +120,7 @@
 	{
 		background-position:	1px -340px;
 	}
+	/*
 	.vsWidgetROI
 	{
 		position:		absolute;
@@ -134,6 +138,7 @@
 	{
 		display:		none;
 	}
+	 */
 /*
 -------------------------------------------------------------------------------
 	vs.widget.Scalebar
@@ -902,6 +907,7 @@
 -------------------------------------------------------------------------------
 	51 == 0x33
 */
+/*
 	.zf-ui-sliding-panel
 	, .zf-ui-sliding-panel > .control
 	{
@@ -935,7 +941,10 @@
 	.zf-ui-sliding-panel.minimized .content-wrapper
 	{
 	}
+
+ */
 	/* directional styles */
+/*
 	.zf-ui-sliding-panel.top { top: 0 }
 	.zf-ui-sliding-panel.bottom { bottom: 0 }
 	.zf-ui-sliding-panel.left { left: 0 }
@@ -981,7 +990,7 @@
 	.zf-ui-panel-widget > .title {
 		padding:		3px 9px;
 		color:			#fff;
-		background-color:	#81ABD5; /* medium cornflower blue */
+		background-color:	#81ABD5; *//* medium cornflower blue *//*
 		border-bottom:		1px solid #666;
 		font:			bold smaller "Trebuchet MS", Arial, sans-serif;
 		text-shadow:		1px 1px 2px rgba(0, 0, 0, 0.5);
@@ -1011,8 +1020,10 @@
 		padding:		2px 0 20px;
 	}
 
-	/* General vs.* widget styles */
 
+ */
+	/* General vs.* widget styles */
+/*
 	.zf-ui-panel-widget .vs-widget
 	{
 		font:			normal 12px Arial, sans-serif;
@@ -1071,8 +1082,8 @@
 	{
 		padding-left:		0;
 		padding-right:		0;
-		list-style-position:	inside; /* must be inside to contain long numbers */
-	}
+		list-style-position:	inside; *//* must be inside to contain long numbers */
+/*	}
 	.zf-ui-panel-widget .vs-widget LI
 	{
 		margin:			1px 0;
@@ -1115,12 +1126,15 @@
 		font-weight:		bold;
 	}
 
+
+ */
 /*
 -------------------------------------------------------------------------------
 	white SlidingPanel variant
 -------------------------------------------------------------------------------
 	238 == 0xEE
 */
+/*
 	.vsFullScreen.light .zf-ui-sliding-panel > .control
 	{
 		background-color:	rgba(238, 238, 238, 0.33);
@@ -1133,6 +1147,8 @@
 	{
 		background-color:	rgba(238, 238, 238, 0.66);
 	}
+
+
 	.vsFullScreen.light .vsWidgetROI
 	{
 		border:			2px solid #ccc;
@@ -1140,6 +1156,7 @@
 		-webkit-box-shadow:	2px 2px 2px rgba(0, 0, 0, 0.66);
 		box-shadow:		2px 2px 2px rgba(0, 0, 0, 0.66);
 	}
+ */
 	.vsFullScreen.light .vsWidgetThumbnail
 	{
 		border:			1px solid #eee;

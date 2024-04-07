@@ -4,12 +4,15 @@
 	ob_start();
 ?>
 
-		<div class="">
+        <div id="contentboxgrey">
+            <div class="mini-content-width">
+                <h1 class="title-header">Sample Comparisons</h1>
+            </div>
+        </div>
+		<div class="content-width">
 			<div class="column column-1">
 
 				<div class="shadow-box">
-
-					<h1>Sample comparisons</h1>
 
 					<h3>Wild-type vs. golden (gol) mutant.</h3>
 

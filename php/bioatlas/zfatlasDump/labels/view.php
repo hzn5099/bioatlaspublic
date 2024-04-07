@@ -1,4 +1,8 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+
 /*
 
 	::: Parameters :::
@@ -58,7 +62,7 @@
 	// fetch the slide from the slide id
 	if (isset($_GET['s']) && ctype_digit($_GET['s'])) {
 
-		$slides = get_virtualslides_by_id(array($_GET['s']));
+        $slides = get_virtualslides_by_id(array($_GET['s']));
 
 		if (count($slides)) {
 			$slide = array_shift($slides);
@@ -66,10 +70,15 @@
 			// if that was successful and 'atlas' is not set, try to set it.
 			if (!isset($_GET['atlas'])) {
 				$result = zf_mysql_query('SELECT atlas_id FROM rel_atlases_virtualslides WHERE slide_id=%d ORDER BY atlas_id LIMIT 1', $_GET['s']);
-				if ($result) {
-					$row = mysqli_fetch_row($result);
-					$atlas = get_atlas_by_id($row[0]);
-				}
+// Inside the conditional block where the atlas ID is retrieved
+                if ($result) {
+                    $row = mysqli_fetch_row($result);
+                    $atlas_id = $row[0];
+                    echo "Atlas ID found: " . $atlas_id;
+                } else {
+                    echo "Error executing SQL query: " . mysqli_error($connection);
+                }
+
 			}
 		}
 
@@ -86,11 +95,25 @@
 	}
 
 	// render view
-	echo $twig->render('view.twig.html', array(
-		'page'		=> array(
-			'debug'	=> isset($_GET['dev'])
-		),
-		'slide'		=> $slide,
-		'atlas'		=> $atlas
-	));
+// Render the second Twig template extending openseadragon.twig.html
+$openseadragonContent = $twig->render('openseadragonview.twig.html', array(
+    'page'  => array(
+        'debug' => isset($_GET['dev'])
+    ),
+    'slide' => $slide,
+    'atlas' => $atlas
+));
+
+// Render the first Twig template extending viewer.twig.html
+echo $twig->render('view.twig.html', array(
+    'page'  => array(
+        'debug' => isset($_GET['dev'])
+    ),
+    'slide' => $slide,
+    'atlas' => $atlas,
+    'openseadragonContent' => $openseadragonContent  // Pass the rendered content of openseadragon_view.twig.html
+));
+
+
+
 

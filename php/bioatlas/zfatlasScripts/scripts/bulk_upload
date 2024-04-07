@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 $fp;
 $zfatlas;
@@ -27,17 +29,17 @@ function run_upload($metafile, $s_dir) {
   $out_msg = '';
 
   $metadatafile = fopen($metadatafile,"r");
-  $fp = fopen('/dev/php/uploads/skipped_slides_log.txt', 'w');
-  
+  $fp = fopen('/mnt/c/users/khoa/documents/github/dev/php/uploads/skipped_slides_log.txt', 'w');
+
   $zfatlas = mysqli_init();
   mysqli_options($zfatlas, MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
   mysqli_ssl_set($zfatlas, null, null, $db_ssl_ca, null , null);
   mysqli_real_connect($zfatlas, $zf_mysql_host, $zf_mysql_admin, $zf_mysql_admin_pass, $zf_mysql_db, $zf_mysql_port, null, 64);
-  
+
   if ($zfatlas->connect_errno) {
     die(sprintf("Error connecting to database: %s\n", $zfatlas->connect_error));
   }
-  
+
   while (($array = fgetcsv($metadatafile)) !== FALSE) {
     if ($firstElement) {
         $firstElement = false;
@@ -101,7 +103,7 @@ function run_upload($metafile, $s_dir) {
           $out_msg .= $error_message . "</br>";
           delete_slides($error_message);
           continue;
-        }       
+        }
         if ($logging_on) {
           print("Running zoomlevels script");
           print("\n");
@@ -161,7 +163,7 @@ function run_upload($metafile, $s_dir) {
         $zfatlas->next_result();
         }
         if (!$zoom_levels_sql || $zfatlas->errno) {
-          # If duplicate identiefier, remove current zoomelevels and upload duplicate slide.
+          # If duplicate identifier, remove current zoomlevels and upload duplicate slide.
           if ($zfatlas->errno == 1062) {
             $error_message = "Zoomlevels not created for "  . $identifier . ", skipping slide. Possible duplicate identifier. Try uploading slide again under new identifier. \n";
             $out_msg .= $error_message . "</br>";
@@ -182,24 +184,31 @@ function run_upload($metafile, $s_dir) {
           }
         }
 
-        $tilevip = exec("/dev/php/bioatlas/zfatlasScripts/scripts/tile-vips -a 72000 $vipsloc", $output, $return);
-        if ($return != 0) {
-        if ($logging_on) {
-          print('Tiles not created, skipping slide');
-          print("\n");
-        }
-          $error_message = "Tiles not created, returned error code "  . $return . ", skipping slide \n";
-          $out_msg .= $error_message . "</br>";
-          delete_slides($error_message, $last_slide_id, $atlas_id);
-          continue;
-        }
+$tilevip = exec("/mnt/c/users/khoa/documents/github/dev/php/bioatlas/zfatlasScripts/scripts/tile-vips -a 72000 $vipsloc", $output, $return);
+if ($return != 0) {
+    if ($logging_on) {
+        print('Tiles not created, skipping slide');
+        print("\n");
+    }
+    $error_message = "Tiles not created, returned error code "  . $return . ", skipping slide \n";
+    $out_msg .= $error_message . "</br>";
+    delete_slides($error_message, $last_slide_id, $atlas_id);
+    continue;
+} else {
+    if ($logging_on) {
+        print('Tiles created successfully');
+        print("\n");
+    }
+    $out_msg .= "Tiles created successfully for slide " . $identifier . "</br>";
+}
 
-        $insert = exec("php /dev/php/bioatlas/zfatlasScripts/scripts/insert-tiles", $output, $return);
-        if ($return != 0) {
+
+        $insert = exec("php /mnt/c/users/khoa/documents/github/dev/php/bioatlas/zfatlasScripts/scripts/insert-tiles", $output, $return);        if ($return != 0) {
         if ($logging_on) {
           print('Tiles not inserted, skipping slide');
           print("\n");
         }
+          $outpout_msgut = '';
           $error_message = "Tiles not inserted, returned error code "  . $return . ", skipping slide \n";
           $outpout_msgut .= $error_message . "</br>";
           delete_slides($error_message, $last_slide_id, $atlas_id);
