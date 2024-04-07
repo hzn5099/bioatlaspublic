@@ -70,18 +70,6 @@ body{
     /* pointer-events: none; */
 }
 
-#example-overlay0 {
-    left: 0%; /* Aligned to the left */
-}
-
-#example-overlay2 {
-    left: 35%; /* Spaced between the first and third */
-}
-
-#example-overlay3 {
-    left: 70%; /* Aligned to the right */
-}
-
 .highlight {
     position: absolute;
     cursor: pointer;
