@@ -93,8 +93,8 @@ ini_set('display_errors', 1);
 	if (isset($_GET['atlas']) && ctype_digit($_GET['atlas'])) {
 		$atlas = get_atlas_by_id($_GET['atlas']);
 	}
+// render view
 
-	// render view
 // Render the second Twig template extending openseadragon.twig.html
 $openseadragonContent = $twig->render('openseadragonview.twig.html', array(
     'page'  => array(
