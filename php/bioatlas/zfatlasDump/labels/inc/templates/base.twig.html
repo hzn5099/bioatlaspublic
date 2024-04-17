@@ -42,11 +42,6 @@
 <div class="sticky" id="header">
 	<div class="content-width">
 		<div id="title" href="/index.php">
-			{% if page.speciesimage %}
-			<div id="species" align="right"><a href="{{ page.specieslink }}"><img src={{ page.speciesimage }} width="128" height="33" alt="{{ page.speciesimagetext }}" ></div>
-			{% elseif page.species %}
-			<div id="species" align="right">{{ page.species }}</div>
-			{% endif %}
 			<div id="gittlen-title">at the Jake Gittlen Laboratories for Cancer Research</div>
 		</div>
 		<div id="nav-links">
@@ -185,7 +180,7 @@
 				</ul>
 			</div>
 		</div>
-		<div id="copyright-notice"><a href="http://www.psu.edu/ur/copyright.html">&copy;</a> 2007-2013 <a href="http://www.psu.edu/">The Pennsylvania State University</a></div>
+		<div id="copyright-notice"><a href="http://www.psu.edu/ur/copyright.html">&copy;</a> 2007-2024 <a href="http://www.psu.edu/">The Pennsylvania State University</a></div>
 	</div>
 </div>
 {% endblock %}

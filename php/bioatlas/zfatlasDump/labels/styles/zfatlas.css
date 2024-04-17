@@ -160,6 +160,9 @@ LABEL
 	/*filter:			progid:DXImageTransform.Microsoft.gradient( startColorstr='#001427', endColorstr='#00529A',GradientType=0); /* IE6-9 */
 	background:		-ms-linear-gradient(top, #001427 0%, #00529A 100%);
 	background:		linear-gradient(top, #001427 0%, #00529A 100%); /* W3C */
+	z-index:		1000;
+	height:			100px;
+	font-weight:	bold;
 }
 #subheader
 {
@@ -239,9 +242,9 @@ LABEL
 	color:			#000;
 }
 #title {
-	position:		relative;
+	position:		absolute;
 	background:		transparent url(../images/psu_new_logo.png) no-repeat;
-	margin:			0 10px 10px 0;
+	margin-right:	auto;
 	width:			615px;
 	height:			79px;
 }
@@ -258,11 +261,12 @@ A#zfatlas-title {
 #gittlen-title {
 	position:		absolute;
 	bottom:			8px;
-	right:			245px;
+	right:			240px;
 	font-size:		13px;
 	color:			#fff;
 	text-align:		justify;
 	cursor:			default;
+	flex-grow:		1;
 }
 #species {
 	position:               absolute;
@@ -292,7 +296,7 @@ A#zfatlas-title {
 	float:			right;
 	margin-left:		50px;
 	padding-left:		50px;
-	padding-top:		5px;
+	padding-top:		15px;
 	margin-top:		15px;
 }
 #nav-links .nav-link:last-child
@@ -328,12 +332,13 @@ A#zfatlas-title {
 	font-weight:	bold;
 }
 .sticky {
-	position: fixed;
-	top: 0;
-	width: 100%;
+	position: 		fixed;
+	top: 			0;
+	width: 			100%;
+	z-index: 		1000;
 }
 .sticky + .content {
-	padding-top: 200px;
+	padding-top: 	140px;
 }
 .content-width
 {
@@ -808,6 +813,7 @@ A {
 	-moz-border-radius:	2px;
 	-webkit-border-radius:	2px;
 	border-radius:		2px;
+	z-index:			999;
 }
 #atlas-table TD A:hover
 {
