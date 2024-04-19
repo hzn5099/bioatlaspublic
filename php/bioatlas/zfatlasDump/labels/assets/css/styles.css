@@ -70,6 +70,13 @@ body{
     /* pointer-events: none; */
 }
 
+.hidden {
+    display: none;
+}
+.visible {
+    display: block;
+}
+
 .highlight {
     position: absolute;
     cursor: pointer;
@@ -158,7 +165,6 @@ body{
 
 .dropdown_nav{
 
-
 }
 .dropdown_nav-content2 {
     display: block;
@@ -181,7 +187,7 @@ body{
     padding: 0px;
     background-color: rgba(85,85,85,.1);;
     color: white;
-    height: 250px;
+    height: 100vh;
 }
 .column a {
     color: white;
@@ -233,7 +239,7 @@ body{
     color: black;
 }
 .panel {
-    padding: 0 20px;
+    padding: 0 0px;
     background-color: rgba(85,85,85,1);
     color: white;
     overflow-y: scroll;
@@ -247,19 +253,24 @@ body{
 
 }
 
-
-
-
 .panel2 {
-    padding: 0 0px;
+    padding: 0px 0px;
     background-color: rgba(85,85,85,1);
     color: white;
     overflow-y: scroll;
-    height: 100%;
+    height: auto;
+    max-height: calc(100vh - 100px);
     width:350px;
 
-
 }
+
+.collapsible.unselectable {
+    display: none;
+}
+.collapsible.unselectable.show {
+    display: block;
+}
+
 @media screen and (max-width: 600px) {
     #tool_bar {
         top: 95%; /* Position lower on smaller screens */
@@ -329,6 +340,4 @@ body{
     }
 
 
-
-}
 }

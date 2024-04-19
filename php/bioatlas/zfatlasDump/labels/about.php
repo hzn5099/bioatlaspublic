@@ -176,73 +176,66 @@ the Advanced Photon Source of Argonne National Laboratory.</dd>
 				<h2 >People</h2>
 				<dl class="about-people" style="width:28%">
 					<dt>Project PI
+                    <dd>Khai Ang
 					<dd>Keith Cheng
 
 					<dt>Atlas Coordinator
 					<dd>Jean Copper
 
-					<dt>Webmaster and<br>Web Resource Coordinator
-					<dd>Steven Peckins
-					<dd>Belinda Giardine
+					<dt>Website Management
+					<dd>Ed Buckingham
 
 					<dt>Programming
-					<dd>Steven Peckins
-					<dd>Belinda Giardine
+					<dd>Hien Nguyen
+					<dd>Dylan Martin
+                    <dd>Khoa Nguyen
+                    <dd>Tyler Page
+                    <dd>Daniel Vanselow
 
-					<dt>Image processing &amp; labeling
-					<dd>Steven Peckins
-					<dd>David Mandrell
-
-					<dt>Processing and Sectioning
-					<dd>Lynn Budgeon
+					<dt>Image Processing and Labeling
+					<dd>Jean Copper
+					<dd>MeeSiing Ngu
+                    <dd>Rachelle Saint-Fort
 				</dl>
 				<dl class="about-people" style="width:32%">
-					<dt>Veterinary and Comparative Pathologist
-					<dd>Timothy K Cooper
+
+                    <dt>Processing and Sectioning
+                    <dd>MeeSiing Ngu
 
 					<dt>3D MicroCT Images
-					<dd>Xuying Xin
-					<dd>Tim Sledz <sup>3</sup>
-					<dd>Arun Tatiparthi <sup>3</sup>
-					<dd>Francesco De Carlo <sup>1</sup>
-					<dd>Xianghui Xiao <sup>1</sup>
-					<dd>Patrick LaRiviere <sup>2</sup>
-					<dd>Gordon Kindlmann <sup>2</sup>
-
-					<dt>Bioinformatic Coordinator
-					<dd>Victor Canfield
+					<dd>Francesco De Carlo
+                    <dd>Patrick LaRiviere
+                    <dd>Daniel Vanselow
 
 					<dt>Systems Administration
 					<dd>Penn State Univ.
+
+                    <dt>Fish Facility Manager
+                    <dd>Jessica Christ
 					
 				</dl>
 				<dl class="about-people" style="width:40%">
-					<dt>Fish Facility Manager
-					<dd>Peggy Hubley
-
-					<dt>Past personnel
-					<dd>Christina Foutz (nee Wentz, past atlas coordinator)
-					<dd>Adam Sidor (programming)
-					<dd>Anthony Cheng (labeling)
-					<dd>Saurabha Bhatnagar (web)
-					<dd>Eileen Barno
+					<dt>Past Personnel
 					<dd>Mike Abendroth
-					<dd>Zachary Gershenson
-					<dd>Darin Clark
-					<hr>
-					<ol class="about-footnotes">
-					<!--
-					NOTE:
-
-					Since this is an ordered list, make sure the
-					correct numbers are maintained since the
-					superscripts are hard-coded above.
-
-					  -->
-						<li><a href="http://www.aps.anl.gov/">Advanced Photon Source, Argonne National Labs</a>
-						<li>University of Chicago
-						<li><a href="http://www.microphotonics.com/">Micro Photonics, Inc.</a>, Allentown, PA
-					</ol>
+					<dd>Eileen Barno
+					<dd>Saurabha Bhatnagar
+					<dd>Lynn Budgeon
+					<dd>Victor Canfield
+					<dd>Anthony Cheng
+					<dd>Darrin Clark
+					<dd>Timothy Cooper
+                    <dd>Christina Foutz
+                    <dd>Belinda Giardine
+                    <dd>Zachary Gershenson
+                    <dd>Peggy Hubley
+                    <dd>Gordon Kindlmann
+                    <dd>David Mandrell
+                    <dd>Steven Peckins
+                    <dd>Adam Sidor
+                    <dd>Tim Sledz
+                    <dd>Arun Tatiparthi
+                    <dd>Xianghui Xiao
+                    <dd>Xuying Xin
 				</dl>
 			</div>
 
