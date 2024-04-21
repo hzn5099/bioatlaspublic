@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function fetchAndApplyOverlay(viewer) {
-    fetch("http://localhost:8000/assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/22_285_4-3dpfT#4can.svg")
+    fetch("http://localhost:8000/assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/22_285_4-3dpfT4can.svg")
         .then(response => response.text())
         .then(svg => {
             var svgOverlay = document.createElement("div");
