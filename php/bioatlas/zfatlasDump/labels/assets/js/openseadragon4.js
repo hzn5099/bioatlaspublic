@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
         prefixUrl: "https://openseadragon.github.io/openseadragon/images/",
         tileSources: "http://localhost:8000/assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/dzi_output/493.dzi",
         showNavigationControl: false,
+        minZoomImageRatio: 0.4,
         showNavigator: true,
     });
 
