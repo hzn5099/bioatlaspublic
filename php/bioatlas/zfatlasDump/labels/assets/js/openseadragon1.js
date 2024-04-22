@@ -28,6 +28,7 @@ function fetchAndApplyOverlay(viewer) {
         .then(svg => {
             var svgOverlay = document.createElement("div");
             svgOverlay.innerHTML = svg;
+            svgOverlay.className = 'svg-overlay'; // Added class for general styling and access
 
             var overlayRect = viewer.viewport.imageToViewportRectangle(0, 0, 1, 1);
             viewer.addOverlay({
