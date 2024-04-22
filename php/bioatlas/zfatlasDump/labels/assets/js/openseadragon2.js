@@ -46,22 +46,72 @@ function connectSVGWithCheckboxes(svgOverlay) {
 }
 
 function toggleElementVisibility(checkbox, svgOverlay) {
-    if (checkbox.id === 'checkbox_2300' || checkbox.id === 'checkbox_2000') {
+    if (checkbox.id === 'checkbox_2300' || checkbox.id === 'checkbox_2000' || checkbox.id === 'checkbox_0') {
         const label = document.getElementById('text_label_yolk');
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
-        const svgElements = svgOverlay.querySelectorAll('.cls-10');
+        const svgElements = svgOverlay.querySelectorAll('.cls-7');
         svgElements.forEach(element => {
             element.style.display = checkbox.checked ? '' : 'none';
         });
     }
-    if (checkbox.id === 'checkbox_5400' || checkbox.id === 'checkbox_5000') {
+    if (checkbox.id === 'checkbox_4100' || checkbox.id === 'checkbox_4000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_pectoral_fin');
+        if(label) {
+            label.style.display = checkbox.checked ? '' : 'none';
+        }
+        const svgElements = svgOverlay.querySelectorAll('.cls-2, .cls-10');
+        svgElements.forEach(element => {
+            element.style.display = checkbox.checked ? '' : 'none';
+        });
+    }
+    if (checkbox.id === 'checkbox_5400' || checkbox.id === 'checkbox_5000' || checkbox.id === 'checkbox_0') {
         const label = document.getElementById('text_label_somitic');
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
-        const svgElements = svgOverlay.querySelectorAll('.cls-3, .cls-13');
+        const svgElements = svgOverlay.querySelectorAll('.cls-3, .cls-8');
+        svgElements.forEach(element => {
+            element.style.display = checkbox.checked ? '' : 'none';
+        });
+    }
+    if (checkbox.id === 'checkbox_6400' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_notochord');
+        if(label) {
+            label.style.display = checkbox.checked ? '' : 'none';
+        }
+        const svgElements = svgOverlay.querySelectorAll('.cls-9, .cls-4');
+        svgElements.forEach(element => {
+            element.style.display = checkbox.checked ? '' : 'none';
+        });
+    }
+    if (checkbox.id === 'checkbox_6200' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_brain');
+        if(label) {
+            label.style.display = checkbox.checked ? '' : 'none';
+        }
+        const svgElements = svgOverlay.querySelectorAll('.cls-11');
+        svgElements.forEach(element => {
+            element.style.display = checkbox.checked ? '' : 'none';
+        });
+    }
+    if (checkbox.id === 'checkbox_6300' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_inner_ear');
+        if(label) {
+            label.style.display = checkbox.checked ? '' : 'none';
+        }
+        const svgElements = svgOverlay.querySelectorAll('.cls-1, .cls-5');
+        svgElements.forEach(element => {
+            element.style.display = checkbox.checked ? '' : 'none';
+        });
+    }
+    if (checkbox.id === 'checkbox_12000' || checkbox.id === 'checkbox_10000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_swim_bladder');
+        if(label) {
+            label.style.display = checkbox.checked ? '' : 'none';
+        }
+        const svgElements = svgOverlay.querySelectorAll('.cls-6');
         svgElements.forEach(element => {
             element.style.display = checkbox.checked ? '' : 'none';
         });
@@ -70,8 +120,13 @@ function toggleElementVisibility(checkbox, svgOverlay) {
 
 function addAnnotations(viewer) {
     const annotations = [
-        { id: 'yolk', title: 'Yolk', label: 'Yo', x: 3000, y: 900 },
-        { id: 'somitic', title: 'Somitic Muscle', label: 'Sm', x: 7900, y: 700 },
+        { id: 'yolk', title: 'Yolk', label: 'Yo', x: 3500, y: 1100 },
+        { id: 'Pectoral', title: 'Pectoral Fin', label: 'Pf', x: 3000, y: 200},
+        { id: 'somitic', title: 'Somitic Muscle', label: 'Sm', x: 3000, y: 550 },
+        { id: 'not', title: 'Notochord', label: 'Not', x: 7300, y: 580},
+        { id: 'br', title: 'Brain', label: 'Br', x: 1400, y: 750},
+        { id: 'ie', title: 'Inner ear', label: 'Ie', x: 2500, y: 1100},
+        { id: 'sb', title: 'Swimming Bladder', label: 'Sb', x: 3600, y: 700}
     ];
 
     annotations.forEach(ann => {

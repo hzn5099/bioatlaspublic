@@ -166,13 +166,22 @@ document.addEventListener('DOMContentLoaded', function() {
         anchorTag.appendChild(titleLabel);
         titleDiv.appendChild(anchorTag);
 
+        // Handle checkbox creation if checkboxId is provided
+        if (checkboxId) {
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = checkboxId;
+            checkbox.className = 'show';
+            checkbox.style = 'float: right;'; // Ensure some margin for aesthetic spacing
+            anchorTag.appendChild(checkbox); // Append checkbox to the anchor tag for better alignment
+        }
+
         categories.forEach(category => {
             titleDiv.appendChild(category);
         });
 
         return titleDiv;
     }
-
 
     function createCategory(categoryId, categoryName, items, checkboxId = null) {
         const categoryDiv = document.createElement('div');

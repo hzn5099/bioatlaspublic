@@ -11,14 +11,15 @@ document.addEventListener('DOMContentLoaded', function() {
                             { id: 'id_1120', name: 'atrium (At)', color: 'rgb(255, 0, 238)' },
                             { id: 'id_1110', name: 'bulbus arteriosus (Ba)', color: 'rgb(255, 0, 171)' },
                             { id: 'id_1130', name: 'ventricle (Vt)', color: 'rgb(255, 0, 170)' }
-                        ]
+                        ],
+                        checkboxId: 'checkbox_1100',
                     },
                     { id: 'id_1200', name: 'central cardinal vein(common cardinal vein) (Cen)', color: 'rgb(255, 0, 187)' }
-                ]),
+                ], 'checkbox_1000'),
                 createCategory('id_2000', 'Digestive', [
                     { id: 'id_2100', name: 'esophagus (Eso)', color: 'rgb(116, 255, 127)' },
                     { id: 'id_2200', name: 'intestine (Int)', color: 'rgb(200, 255, 180)' },
-                    { id: 'id_2300', name: 'yolk (Yo)', color: 'rgb(142, 255, 153)', checkboxId: 'checkbox_2300'},
+                    { id: 'id_2300', name: 'yolk (Yo)', color: 'rgb(142, 255, 153)', checkboxId: 'checkbox_2300' },
                     { id: 'id_2400', name: 'liver (Liv)', color: 'rgb(142, 255, 138)' },
                     { id: 'id_2500', name: 'pancreas (Pac)', color: 'rgb(142, 255, 0)' }
                 ], 'checkbox_2000'),
@@ -42,16 +43,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     { id: 'id_5200', name: 'pharyngeal musculature (Pm)', color: 'rgb(255, 255, 255)' },
                     { id: 'id_5210', name: 'sternohyoid (Ster)', color: 'rgb(31, 0, 217)' },
                     { id: 'id_5300', name: 'trunk musculature (Tm)', color: 'rgb(31, 0, 214)' },
-                    { id: 'id_5400', name: 'somitic muscle (Sm)', color: 'rgb(31, 0, 215)', checkboxId: 'checkbox_5400' }
-                ], 'checkbox_5000'),
+                    { id: 'id_5400', name: 'somitic muscle (Sm)', color: 'rgb(31, 0, 215)' }
+                ]),
                 createCategory('id_6000', 'Nervous, Sensory and Vision', [
                     {
                         id: 'id_6100',
                         name: 'eye (Eye)',
                         color: 'rgb(255, 0, 0)',
                         items : [
-                            { id: 'id_6120', name: 'retinal ganglion cell layer (Rgl)', color: 'rgb(159, 0, 136)', checkboxId: 'checkbox_6120' },
-                            { id: 'id_6110', name: 'lens (Len)', color: 'rgb(159, 0, 0)' , checkboxId: 'checkbox_6110'},
+                            { id: 'id_6120', name: 'retinal ganglion cell layer (Rgl)', color: 'rgb(159, 0, 136)' },
+                            { id: 'id_6110', name: 'lens (Len)', color: 'rgb(159, 0, 0)' },
                             { id: 'id_6111', name: 'cornea (Cor)', color: 'rgb(255, 0, 128)' },
                             {
                                 id: 'id_6140',
@@ -61,21 +62,21 @@ document.addEventListener('DOMContentLoaded', function() {
                                     { id: 'id_6141', name: 'retinal inner nuclear layer (Rnlo)', color: 'rgb(149, 0, 64)' },
                                     { id: 'id_6142', name: 'retinal outer nuclear layer (Rnli)', color: 'rgb(149, 0, 80)' }
                                 ],
-                                checkboxId: 'checkbox_6140'
+                                checkboxId: 'checkbox_6140',
                             },
-                            { id: 'id_6160', name: 'retinal photoreceptor layer (Rph)', color: 'rgb(149, 0, 40)', checkboxId: 'checkbox_6160'},
+                            { id: 'id_6160', name: 'retinal photoreceptor layer (Rph)', color: 'rgb(149, 0, 40)', checkboxId: 'checkbox_6160' },
                             { id: 'id_6170', name: 'retinal pigmented epithelium (Rpe)', color: 'rgb(159, 0, 8)', checkboxId: 'checkbox_6170' },
-                            { id: 'id_6130', name: 'retinal inner plexiform layer (Rip)', color: 'rgb(159, 0, 104)', checkboxId: 'checkbox_6130' },
+                            { id: 'id_6130', name: 'retinal inner plexiform layer (Rip)', color: 'rgb(159, 0, 104)' },
                             { id: 'id_6150', name: 'retinal outer plexiform layer (Rop)', color: 'rgb(159, 0, 114)' },
                             { id: 'id_6180', name: 'optic choroid (Oc)', color: 'rgb(148, 0, 96)' },
-                            { id: 'id_6190', name: 'optic nerve head (Onh)', color: 'rgb(244, 0, 34)', checkboxId: 'checkbox_6190' },
-                            { id: 'id_6191', name: 'optic chiasm (Och)', color: 'rgb(244, 0, 42)', checkboxId: 'checkbox_6191' }
+                            { id: 'id_6190', name: 'optic nerve head (Onh)', color: 'rgb(244, 0, 34)' },
+                            { id: 'id_6191', name: 'optic chiasm (Och)', color: 'rgb(244, 0, 42)' }
                         ],
-                        checkboxId: 'checkbox_6100'
+                        checkboxId: 'checkbox_6100',
                     },
                     { id: 'id_6600', name: 'spinal cord (Sc)', color: 'rgb(180, 0, 42)' },
-                    { id: 'id_6400', name: 'notochord (Not)', color: 'rgb(180, 0, 10)', checkboxId: 'checkbox_6400' },
-                    { id: 'id_6200', name: 'brain (Br)', color: 'rgb(255, 10, 17)', checkboxId: 'checkbox_6200' },
+                    { id: 'id_6400', name: 'notochord (Not)', color: 'rgb(180, 0, 10)' },
+                    { id: 'id_6200', name: 'brain (Br)', color: 'rgb(255, 10, 17)' },
                     {
                         id: 'id_6500',
                         name: 'naris (Nar)',
@@ -132,7 +133,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                 checkboxId: 'checkbox_8140'
                             },
                             { id: 'id_8120', name: 'dermatocranium (Dec)', color: 'rgb(0, 170, 57)' }
-                        ]
+                        ],
+                        checkboxId: 'checkbox_8100',
                     },
                     { id: 'id_8200', name: 'paired fin skeleton (pfs)', color: 'rgb(255, 255, 255)' }
                 ], 'checkbox_8000'),
@@ -165,6 +167,16 @@ document.addEventListener('DOMContentLoaded', function() {
         titleLabel.textContent = titleName;
         anchorTag.appendChild(titleLabel);
         titleDiv.appendChild(anchorTag);
+
+        // Handle checkbox creation if checkboxId is provided
+        if (checkboxId) {
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = checkboxId;
+            checkbox.className = 'show';
+            checkbox.style = 'float: right;'; // Ensure some margin for aesthetic spacing
+            anchorTag.appendChild(checkbox); // Append checkbox to the anchor tag for better alignment
+        }
 
         categories.forEach(category => {
             titleDiv.appendChild(category);

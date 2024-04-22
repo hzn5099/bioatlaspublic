@@ -46,22 +46,62 @@ function connectSVGWithCheckboxes(svgOverlay) {
 }
 
 function toggleElementVisibility(checkbox, svgOverlay) {
-    if (checkbox.id === 'checkbox_2300' || checkbox.id === 'checkbox_2000') {
-        const label = document.getElementById('text_label_yolk');
+    if (checkbox.id === 'checkbox_1100' || checkbox.id === 'checkbox_1000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_heart');
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
-        const svgElements = svgOverlay.querySelectorAll('.cls-10');
+        const svgElements = svgOverlay.querySelectorAll('.cls-1');
         svgElements.forEach(element => {
             element.style.display = checkbox.checked ? '' : 'none';
         });
     }
-    if (checkbox.id === 'checkbox_5400' || checkbox.id === 'checkbox_5000') {
-        const label = document.getElementById('text_label_somitic');
+    if (checkbox.id === 'checkbox_2300' || checkbox.id === 'checkbox_2000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_yolk');
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
-        const svgElements = svgOverlay.querySelectorAll('.cls-3, .cls-13');
+        const svgElements = svgOverlay.querySelectorAll('.cls-3');
+        svgElements.forEach(element => {
+            element.style.display = checkbox.checked ? '' : 'none';
+        });
+    }
+    if (checkbox.id === 'checkbox_5400' || checkbox.id === 'checkbox_5000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_yolk');
+        if(label) {
+            label.style.display = checkbox.checked ? '' : 'none';
+        }
+        const svgElements = svgOverlay.querySelectorAll('.cls-4');
+        svgElements.forEach(element => {
+            element.style.display = checkbox.checked ? '' : 'none';
+        });
+    }
+    if (checkbox.id === 'checkbox_6400' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_yolk');
+        if(label) {
+            label.style.display = checkbox.checked ? '' : 'none';
+        }
+        const svgElements = svgOverlay.querySelectorAll('.cls-5');
+        svgElements.forEach(element => {
+            element.style.display = checkbox.checked ? '' : 'none';
+        });
+    }
+    if (checkbox.id === 'checkbox_6200' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_yolk');
+        if(label) {
+            label.style.display = checkbox.checked ? '' : 'none';
+        }
+        const svgElements = svgOverlay.querySelectorAll('.cls-6');
+        svgElements.forEach(element => {
+            element.style.display = checkbox.checked ? '' : 'none';
+        });
+    }
+    if (checkbox.id === 'checkbox_8110' || checkbox.id === 'checkbox_8100' || checkbox.id === 'checkbox_8000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_yolk');
+        if(label) {
+            label.style.display = checkbox.checked ? '' : 'none';
+        }
+        const svgElements = svgOverlay.querySelectorAll('.cls-2');
         svgElements.forEach(element => {
             element.style.display = checkbox.checked ? '' : 'none';
         });
@@ -70,8 +110,12 @@ function toggleElementVisibility(checkbox, svgOverlay) {
 
 function addAnnotations(viewer) {
     const annotations = [
-        { id: 'yolk', title: 'Yolk', label: 'Yo', x: 3000, y: 900 },
-        { id: 'somitic', title: 'Somitic Muscle', label: 'Sm', x: 7900, y: 700 },
+        { id: 'heart', title: 'Heart', label: 'Ht', x: 2500, y: 1500 },
+        { id: 'yolk', title: 'Yolk', label: 'Yo', x: 3500, y: 1500 },
+        { id: 'somitic', title: 'Somitic Muscle', label: 'Sm', x: 3500, y: 600 },
+        { id: 'notochord', title: 'Notochord', label: 'Not', x: 2200, y: 800 },
+        { id: 'brain', title: 'Brain', label: 'Br', x: 1800, y: 500 },
+        { id: 'chondrocranium', title: 'Chondrocranium', label: 'Cho', x: 1500, y: 950 },
     ];
 
     annotations.forEach(ann => {

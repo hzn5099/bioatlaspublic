@@ -107,6 +107,10 @@ body{
     z-index: 9999 !important; /* High z-index to ensure it's above other elements */
 }
 
+.openseadragon-canvas {
+    pointer-events: none;
+}
+
 .navigator-label {
     position: absolute;
     width: 100%;

@@ -46,22 +46,72 @@ function connectSVGWithCheckboxes(svgOverlay) {
 }
 
 function toggleElementVisibility(checkbox, svgOverlay) {
-    if (checkbox.id === 'checkbox_2300' || checkbox.id === 'checkbox_2000') {
-        const label = document.getElementById('text_label_yolk');
+    if (checkbox.id === 'checkbox_1100' || checkbox.id === 'checkbox_1000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_heart');
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
-        const svgElements = svgOverlay.querySelectorAll('.cls-10');
+        const svgElements = svgOverlay.querySelectorAll('.cls-9');
         svgElements.forEach(element => {
             element.style.display = checkbox.checked ? '' : 'none';
         });
     }
-    if (checkbox.id === 'checkbox_5400' || checkbox.id === 'checkbox_5000') {
-        const label = document.getElementById('text_label_somitic');
+    if (checkbox.id === 'checkbox_2300' || checkbox.id === 'checkbox_2000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_yolk');
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
-        const svgElements = svgOverlay.querySelectorAll('.cls-3, .cls-13');
+        const svgElements = svgOverlay.querySelectorAll('.cls-7');
+        svgElements.forEach(element => {
+            element.style.display = checkbox.checked ? '' : 'none';
+        });
+    }
+    if (checkbox.id === 'checkbox_6140' || checkbox.id === 'checkbox_6100' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_retinal_nuclear_layers');
+        if(label) {
+            label.style.display = checkbox.checked ? '' : 'none';
+        }
+        const svgElements = svgOverlay.querySelectorAll('.cls-2');
+        svgElements.forEach(element => {
+            element.style.display = checkbox.checked ? '' : 'none';
+        });
+    }
+    if (checkbox.id === 'checkbox_6110' || checkbox.id === 'checkbox_6100' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_retinal_photoreceptor_layer');
+        if(label) {
+            label.style.display = checkbox.checked ? '' : 'none';
+        }
+        const svgElements = svgOverlay.querySelectorAll('.cls-5');
+        svgElements.forEach(element => {
+            element.style.display = checkbox.checked ? '' : 'none';
+        });
+    }
+    if (checkbox.id === 'checkbox_6160' || checkbox.id === 'checkbox_6100' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_retinal_pigmented_epithelium');
+        if(label) {
+            label.style.display = checkbox.checked ? '' : 'none';
+        }
+        const svgElements = svgOverlay.querySelectorAll('.cls-3, .cls-8');
+        svgElements.forEach(element => {
+            element.style.display = checkbox.checked ? '' : 'none';
+        });
+    }
+    if (checkbox.id === 'checkbox_6500' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_naris');
+        if(label) {
+            label.style.display = checkbox.checked ? '' : 'none';
+        }
+        const svgElements = svgOverlay.querySelectorAll('.cls-1');
+        svgElements.forEach(element => {
+            element.style.display = checkbox.checked ? '' : 'none';
+        });
+    }
+    if (checkbox.id === 'checkbox_8140' || checkbox.id === 'checkbox_8100' || checkbox.id === 'checkbox_8000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_splanchnocranium');
+        if(label) {
+            label.style.display = checkbox.checked ? '' : 'none';
+        }
+        const svgElements = svgOverlay.querySelectorAll('.cls-6, .cls-10');
         svgElements.forEach(element => {
             element.style.display = checkbox.checked ? '' : 'none';
         });
@@ -70,8 +120,13 @@ function toggleElementVisibility(checkbox, svgOverlay) {
 
 function addAnnotations(viewer) {
     const annotations = [
-        { id: 'yolk', title: 'Yolk', label: 'Yo', x: 3000, y: 900 },
-        { id: 'somitic', title: 'Somitic Muscle', label: 'Sm', x: 7900, y: 700 },
+        { id: 'heart', title: 'Heart', label: 'Ht', x: 1500, y: 500 },
+        { id: 'yolk', title: 'Yolk', label: 'Yo', x: 2500, y: 700 },
+        { id: 'rnl', title: 'Retinal Nuclear Layers', label: 'Rnl', x: 400, y: 1000 },
+        { id: 'rph', title: 'Retinal Photoreceptor Layer', label: 'Rph', x: 400, y: 150 },
+        { id: 'rpe', title: 'Retinal Pigmented Epithelium', label: 'Rpe', x: 580, y: 250 },
+        { id: 'op', title: 'Olfactory Pit', label: 'Op', x: 180, y: 300 },
+        { id: 'spc', title: 'Splanchnocranium', label: 'Spc', x: 700, y: 350 },
     ];
 
     annotations.forEach(ann => {
