@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
         prefixUrl: "https://openseadragon.github.io/openseadragon/images/",
         tileSources: "http://localhost:8000/assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/dzi_output/285.dzi",
         showNavigationControl: false,
+        minZoomImageRatio: 0.4,
         showNavigator: true,
     });
 
@@ -46,32 +47,12 @@ function connectSVGWithCheckboxes(svgOverlay) {
 }
 
 function toggleElementVisibility(checkbox, svgOverlay) {
-    if (checkbox.id === 'checkbox_2300' || checkbox.id === 'checkbox_2000' || checkbox.id === 'checkbox_0') {
-        const label = document.getElementById('text_label_yolk');
-        if(label) {
-            label.style.display = checkbox.checked ? '' : 'none';
-        }
-        const svgElements = svgOverlay.querySelectorAll('.cls-10');
-        svgElements.forEach(element => {
-            element.style.display = checkbox.checked ? '' : 'none';
-        });
-    }
-    if (checkbox.id === 'checkbox_5400' || checkbox.id === 'checkbox_5000' || checkbox.id === 'checkbox_0') {
-        const label = document.getElementById('text_label_somitic');
-        if(label) {
-            label.style.display = checkbox.checked ? '' : 'none';
-        }
-        const svgElements = svgOverlay.querySelectorAll('.cls-3, .cls-13');
-        svgElements.forEach(element => {
-            element.style.display = checkbox.checked ? '' : 'none';
-        });
-    }
     if (checkbox.id === 'checkbox_6120' || checkbox.id === 'checkbox_6100' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
         const label = document.getElementById('text_label_retinal_ganglion_cell_layer');
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
-        const svgElements = svgOverlay.querySelectorAll('.cls-4, .cls-12');
+        const svgElements = svgOverlay.querySelectorAll('.cls-9');
         svgElements.forEach(element => {
             element.style.display = checkbox.checked ? '' : 'none';
         });
@@ -81,7 +62,17 @@ function toggleElementVisibility(checkbox, svgOverlay) {
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
-        const svgElements = svgOverlay.querySelectorAll('.cls-11');
+        const svgElements = svgOverlay.querySelectorAll('.cls-3, .cls-8');
+        svgElements.forEach(element => {
+            element.style.display = checkbox.checked ? '' : 'none';
+        });
+    }
+    if (checkbox.id === 'checkbox_6111' || checkbox.id === 'checkbox_6100' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_cornea');
+        if(label) {
+            label.style.display = checkbox.checked ? '' : 'none';
+        }
+        const svgElements = svgOverlay.querySelectorAll('.cls-1, .cls-4');
         svgElements.forEach(element => {
             element.style.display = checkbox.checked ? '' : 'none';
         });
@@ -91,7 +82,7 @@ function toggleElementVisibility(checkbox, svgOverlay) {
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
-        const svgElements = svgOverlay.querySelectorAll('.cls-9, .cls-19');
+        const svgElements = svgOverlay.querySelectorAll('.cls-7, .cls-14');
         svgElements.forEach(element => {
             element.style.display = checkbox.checked ? '' : 'none';
         });
@@ -101,7 +92,7 @@ function toggleElementVisibility(checkbox, svgOverlay) {
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
-        const svgElements = svgOverlay.querySelectorAll('.cls-5');
+        const svgElements = svgOverlay.querySelectorAll('.cls-6, .cls-5');
         svgElements.forEach(element => {
             element.style.display = checkbox.checked ? '' : 'none';
         });
@@ -111,7 +102,7 @@ function toggleElementVisibility(checkbox, svgOverlay) {
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
-        const svgElements = svgOverlay.querySelectorAll('.cls-16');
+        const svgElements = svgOverlay.querySelectorAll('.cls-12');
         svgElements.forEach(element => {
             element.style.display = checkbox.checked ? '' : 'none';
         });
@@ -121,37 +112,7 @@ function toggleElementVisibility(checkbox, svgOverlay) {
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
-        const svgElements = svgOverlay.querySelectorAll('.cls-14, .cls-15');
-        svgElements.forEach(element => {
-            element.style.display = checkbox.checked ? '' : 'none';
-        });
-    }
-    if (checkbox.id === 'checkbox_6190' || checkbox.id === 'checkbox_6100' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
-        const label = document.getElementById('text_label_onh');
-        if(label) {
-            label.style.display = checkbox.checked ? '' : 'none';
-        }
-        const svgElements = svgOverlay.querySelectorAll('.cls-2');
-        svgElements.forEach(element => {
-            element.style.display = checkbox.checked ? '' : 'none';
-        });
-    }
-    if (checkbox.id === 'checkbox_6191' || checkbox.id === 'checkbox_6100' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
-        const label = document.getElementById('text_label_och');
-        if(label) {
-            label.style.display = checkbox.checked ? '' : 'none';
-        }
-        const svgElements = svgOverlay.querySelectorAll('.cls-6');
-        svgElements.forEach(element => {
-            element.style.display = checkbox.checked ? '' : 'none';
-        });
-    }
-    if (checkbox.id === 'checkbox_6400' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
-        const label = document.getElementById('text_label_notochord');
-        if(label) {
-            label.style.display = checkbox.checked ? '' : 'none';
-        }
-        const svgElements = svgOverlay.querySelectorAll('.cls-7');
+        const svgElements = svgOverlay.querySelectorAll('.cls-10');
         svgElements.forEach(element => {
             element.style.display = checkbox.checked ? '' : 'none';
         });
@@ -161,27 +122,17 @@ function toggleElementVisibility(checkbox, svgOverlay) {
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
-        const svgElements = svgOverlay.querySelectorAll('.cls-17');
+        const svgElements = svgOverlay.querySelectorAll('.cls-13');
         svgElements.forEach(element => {
             element.style.display = checkbox.checked ? '' : 'none';
         });
     }
-    if (checkbox.id === 'checkbox_6500' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
-        const label = document.getElementById('text_label_naris');
+    if (checkbox.id === 'checkbox_8110' || checkbox.id === 'checkbox_8100' || checkbox.id === 'checkbox_8000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_chondrocranium');
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
-        const svgElements = svgOverlay.querySelectorAll('.cls-1');
-        svgElements.forEach(element => {
-            element.style.display = checkbox.checked ? '' : 'none';
-        });
-    }
-    if (checkbox.id === 'checkbox_8140' || checkbox.id === 'checkbox_8100' || checkbox.id === 'checkbox_8000' || checkbox.id === 'checkbox_0') {
-        const label = document.getElementById('text_label_splanchnocranium');
-        if(label) {
-            label.style.display = checkbox.checked ? '' : 'none';
-        }
-        const svgElements = svgOverlay.querySelectorAll('.cls-8, .cls-18');
+        const svgElements = svgOverlay.querySelectorAll('.cls-2, .cls-11');
         svgElements.forEach(element => {
             element.style.display = checkbox.checked ? '' : 'none';
         });
@@ -190,20 +141,15 @@ function toggleElementVisibility(checkbox, svgOverlay) {
 
 function addAnnotations(viewer) {
     const annotations = [
-        { id: 'yolk', title: 'Yolk', label: 'Yo', x: 3000, y: 900 },
-        { id: 'somitic', title: 'Somitic Muscle', label: 'Sm', x: 7900, y: 700 },
         { id: 'rgl', title: 'retinal ganglion cell layer', label: 'Rgl', x: 1400, y: 300},
         { id: 'len', title: 'Lens', label: 'Len', x: 1200, y: 200},
+        { id: 'cornea', title: 'Cornea', label: 'Cor', x: 1550, y: 300},
         { id: 'rnl', title: 'retinal nuclear layer', label: 'Rnl', x: 1550, y: 300},
         { id: 'rph', title: 'Retinal Photoreceptor Layer', label: 'Rph', x: 1520, y: 1300},
         { id: 'rpe', title: 'Retinal Pigmented Epithelium', label: 'Rpe', x: 810, y: 1100},
         { id: 'rip', title: 'Retinal Inner Plexiform Layer', label: 'Rip', x: 1000, y: 380},
-        { id: 'onh', title: 'Optic Nerve Head', label: 'Onh', x: 1200, y: 1250},
-        { id: 'och', title: 'Optic Chiasm', label: 'Och', x: 1200, y: 950},
-        { id: 'not', title: 'Notochord', label: 'Not', x: 8500, y: 800},
         { id: 'br', title: 'Brain', label: 'Br', x: 800, y: 750},
-        { id: 'nar', title: 'Naris', label: 'Nar', x: 690, y: 450},
-        { id: 'spc', title: 'Splanchnocranium', label: 'Spc', x: 1400, y: 950}
+        { id: 'cho', title: 'Chondrocranium', label: 'Cho', x: 1400, y: 950}
     ];
 
     annotations.forEach(ann => {
