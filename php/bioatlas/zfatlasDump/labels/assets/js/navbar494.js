@@ -68,12 +68,12 @@ document.addEventListener('DOMContentLoaded', function() {
                             { id: 'id_6130', name: 'retinal inner plexiform layer (Rip)', color: 'rgb(159, 0, 104)', checkboxId: 'checkbox_6130' },
                             { id: 'id_6150', name: 'retinal outer plexiform layer (Rop)', color: 'rgb(159, 0, 114)' },
                             { id: 'id_6180', name: 'optic choroid (Oc)', color: 'rgb(148, 0, 96)' },
-                            { id: 'id_6190', name: 'optic nerve head (Onh)', color: 'rgb(244, 0, 34)', checkboxId: 'checkbox_6190' },
-                            { id: 'id_6191', name: 'optic chiasm (Och)', color: 'rgb(244, 0, 42)', checkboxId: 'checkbox_6191' }
+                            { id: 'id_6190', name: 'optic nerve head (Onh)', color: 'rgb(244, 0, 34)' },
+                            { id: 'id_6191', name: 'optic chiasm (Och)', color: 'rgb(244, 0, 42)' }
                         ],
                         checkboxId: 'checkbox_6100'
                     },
-                    { id: 'id_6600', name: 'spinal cord (Sc)', color: 'rgb(180, 0, 42)' },
+                    { id: 'id_6600', name: 'spinal cord (Sc)', color: 'rgb(180, 0, 42)', checkboxId: 'checkbox_6600' },
                     { id: 'id_6400', name: 'notochord (Not)', color: 'rgb(180, 0, 10)', checkboxId: 'checkbox_6400' },
                     { id: 'id_6200', name: 'brain (Br)', color: 'rgb(255, 10, 17)', checkboxId: 'checkbox_6200' },
                     {
@@ -81,10 +81,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         name: 'naris (Nar)',
                         color: 'rgb(255, 16, 80)',
                         items: [
-                            { id: 'id_6510', name: 'olfactory pit (Op)', color: 'rgb(255, 16, 0)', checkboxId: 'checkbox_6510' },
+                            { id: 'id_6510', name: 'olfactory pit (Op)', color: 'rgb(255, 16, 0)' },
                             { id: 'id_6520', name: 'olfactory epithelium (Ole)', color: 'rgb(255, 17, 0)' }
-                        ],
-                        checkboxId: 'checkbox_6500'
+                        ]
                     },
                     {
                         id: 'id_6300',
@@ -103,7 +102,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                     { id: 'id_6315', name: 'otic sensory epithelium (Ose)', color: 'rgb(255, 0, 7)' }
                                 ]
                             }
-                        ]
+                        ],
+                        checkboxId: 'checkbox_6300'
                     }
                 ], 'checkbox_6000'),
                 createCategory('id_8000', 'Skeletal', [
@@ -128,14 +128,13 @@ document.addEventListener('DOMContentLoaded', function() {
                                 color: 'rgb(0, 170, 128)',
                                 items: [
                                     { id: 'id_8141', name: 'pharyngeal (Ps)', color: 'rgb(0, 170, 73)' }
-                                ],
-                                checkboxId: 'checkbox_8140'
+                                ]
                             },
                             { id: 'id_8120', name: 'dermatocranium (Dec)', color: 'rgb(0, 170, 57)' }
                         ]
                     },
                     { id: 'id_8200', name: 'paired fin skeleton (pfs)', color: 'rgb(255, 255, 255)' }
-                ], 'checkbox_8000'),
+                ]),
                 createCategory('id_10000', 'Respiratory', [
                     { id: 'id_11000', name: 'gill (Gil)', color: 'rgb(243, 255, 164)' },
                     { id: 'id_12000', name: 'swim bladder (Sb)', color: 'rgb(249, 255, 170)' }

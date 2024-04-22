@@ -11,13 +11,14 @@ document.addEventListener('DOMContentLoaded', function() {
                             { id: 'id_1120', name: 'atrium (At)', color: 'rgb(255, 0, 238)' },
                             { id: 'id_1110', name: 'bulbus arteriosus (Ba)', color: 'rgb(255, 0, 171)' },
                             { id: 'id_1130', name: 'ventricle (Vt)', color: 'rgb(255, 0, 170)' }
-                        ]
+                        ],
+                        checkboxId: 'checkbox_1100'
                     },
                     { id: 'id_1200', name: 'central cardinal vein(common cardinal vein) (Cen)', color: 'rgb(255, 0, 187)' }
-                ]),
+                ], 'checkbox_1000'),
                 createCategory('id_2000', 'Digestive', [
                     { id: 'id_2100', name: 'esophagus (Eso)', color: 'rgb(116, 255, 127)' },
-                    { id: 'id_2200', name: 'intestine (Int)', color: 'rgb(200, 255, 180)' },
+                    { id: 'id_2200', name: 'intestine (Int)', color: 'rgb(200, 255, 180)', checkboxId: 'checkbox_2200' },
                     { id: 'id_2300', name: 'yolk (Yo)', color: 'rgb(142, 255, 153)', checkboxId: 'checkbox_2300'},
                     { id: 'id_2400', name: 'liver (Liv)', color: 'rgb(142, 255, 138)' },
                     { id: 'id_2500', name: 'pancreas (Pac)', color: 'rgb(142, 255, 0)' }
@@ -50,8 +51,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         name: 'eye (Eye)',
                         color: 'rgb(255, 0, 0)',
                         items : [
-                            { id: 'id_6120', name: 'retinal ganglion cell layer (Rgl)', color: 'rgb(159, 0, 136)', checkboxId: 'checkbox_6120' },
-                            { id: 'id_6110', name: 'lens (Len)', color: 'rgb(159, 0, 0)' , checkboxId: 'checkbox_6110'},
+                            { id: 'id_6120', name: 'retinal ganglion cell layer (Rgl)', color: 'rgb(159, 0, 136)' },
+                            { id: 'id_6110', name: 'lens (Len)', color: 'rgb(159, 0, 0)' },
                             { id: 'id_6111', name: 'cornea (Cor)', color: 'rgb(255, 0, 128)' },
                             {
                                 id: 'id_6140',
@@ -60,28 +61,27 @@ document.addEventListener('DOMContentLoaded', function() {
                                 items: [
                                     { id: 'id_6141', name: 'retinal inner nuclear layer (Rnlo)', color: 'rgb(149, 0, 64)' },
                                     { id: 'id_6142', name: 'retinal outer nuclear layer (Rnli)', color: 'rgb(149, 0, 80)' }
-                                ],
-                                checkboxId: 'checkbox_6140'
+                                ]
                             },
-                            { id: 'id_6160', name: 'retinal photoreceptor layer (Rph)', color: 'rgb(149, 0, 40)', checkboxId: 'checkbox_6160'},
-                            { id: 'id_6170', name: 'retinal pigmented epithelium (Rpe)', color: 'rgb(159, 0, 8)', checkboxId: 'checkbox_6170' },
-                            { id: 'id_6130', name: 'retinal inner plexiform layer (Rip)', color: 'rgb(159, 0, 104)', checkboxId: 'checkbox_6130' },
+                            { id: 'id_6160', name: 'retinal photoreceptor layer (Rph)', color: 'rgb(149, 0, 40)' },
+                            { id: 'id_6170', name: 'retinal pigmented epithelium (Rpe)', color: 'rgb(159, 0, 8)' },
+                            { id: 'id_6130', name: 'retinal inner plexiform layer (Rip)', color: 'rgb(159, 0, 104)' },
                             { id: 'id_6150', name: 'retinal outer plexiform layer (Rop)', color: 'rgb(159, 0, 114)' },
                             { id: 'id_6180', name: 'optic choroid (Oc)', color: 'rgb(148, 0, 96)' },
-                            { id: 'id_6190', name: 'optic nerve head (Onh)', color: 'rgb(244, 0, 34)', checkboxId: 'checkbox_6190' },
-                            { id: 'id_6191', name: 'optic chiasm (Och)', color: 'rgb(244, 0, 42)', checkboxId: 'checkbox_6191' }
+                            { id: 'id_6190', name: 'optic nerve head (Onh)', color: 'rgb(244, 0, 34)' },
+                            { id: 'id_6191', name: 'optic chiasm (Och)', color: 'rgb(244, 0, 42)' }
                         ],
                         checkboxId: 'checkbox_6100'
                     },
                     { id: 'id_6600', name: 'spinal cord (Sc)', color: 'rgb(180, 0, 42)' },
                     { id: 'id_6400', name: 'notochord (Not)', color: 'rgb(180, 0, 10)', checkboxId: 'checkbox_6400' },
-                    { id: 'id_6200', name: 'brain (Br)', color: 'rgb(255, 10, 17)', checkboxId: 'checkbox_6200' },
+                    { id: 'id_6200', name: 'brain (Br)', color: 'rgb(255, 10, 17)' },
                     {
                         id: 'id_6500',
                         name: 'naris (Nar)',
                         color: 'rgb(255, 16, 80)',
                         items: [
-                            { id: 'id_6510', name: 'olfactory pit (Op)', color: 'rgb(255, 16, 0)', checkboxId: 'checkbox_6510' },
+                            { id: 'id_6510', name: 'olfactory pit (Op)', color: 'rgb(255, 16, 0)' },
                             { id: 'id_6520', name: 'olfactory epithelium (Ole)', color: 'rgb(255, 17, 0)' }
                         ],
                         checkboxId: 'checkbox_6500'
@@ -121,15 +121,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         name: 'cranium (cr)',
                         color: 'rgb(255, 255, 255)',
                         items: [
-                            { id: 'id_8110', name: 'chondrocranium (Cho)', color: 'rgb(0, 170, 41)' },
+                            { id: 'id_8110', name: 'chondrocranium (Cho)', color: 'rgb(0, 170, 41)', checkboxId: 'checkbox_8110' },
                             { id: 'id_8130', name: 'neurocranium (Nec)', color: 'rgb(0, 170, 153)' },
                             { id: 'id_8140',
                                 name: 'splanchnocranium (Spc)',
                                 color: 'rgb(0, 170, 128)',
                                 items: [
                                     { id: 'id_8141', name: 'pharyngeal (Ps)', color: 'rgb(0, 170, 73)' }
-                                ],
-                                checkboxId: 'checkbox_8140'
+                                ]
                             },
                             { id: 'id_8120', name: 'dermatocranium (Dec)', color: 'rgb(0, 170, 57)' }
                         ]

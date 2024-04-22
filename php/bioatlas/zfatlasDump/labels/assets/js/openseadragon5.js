@@ -51,17 +51,17 @@ function toggleElementVisibility(checkbox, svgOverlay) {
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
-        const svgElements = svgOverlay.querySelectorAll('.cls-10');
+        const svgElements = svgOverlay.querySelectorAll('.cls-3');
         svgElements.forEach(element => {
             element.style.display = checkbox.checked ? '' : 'none';
         });
     }
     if (checkbox.id === 'checkbox_5400' || checkbox.id === 'checkbox_5000' || checkbox.id === 'checkbox_0') {
-        const label = document.getElementById('text_label_somitic');
+        const label = document.getElementById('text_label_somitic_muscle');
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
-        const svgElements = svgOverlay.querySelectorAll('.cls-3, .cls-13');
+        const svgElements = svgOverlay.querySelectorAll('.cls-4');
         svgElements.forEach(element => {
             element.style.display = checkbox.checked ? '' : 'none';
         });
@@ -71,7 +71,7 @@ function toggleElementVisibility(checkbox, svgOverlay) {
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
-        const svgElements = svgOverlay.querySelectorAll('.cls-4, .cls-12');
+        const svgElements = svgOverlay.querySelectorAll('.cls-5');
         svgElements.forEach(element => {
             element.style.display = checkbox.checked ? '' : 'none';
         });
@@ -91,57 +91,47 @@ function toggleElementVisibility(checkbox, svgOverlay) {
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
-        const svgElements = svgOverlay.querySelectorAll('.cls-9, .cls-19');
-        svgElements.forEach(element => {
-            element.style.display = checkbox.checked ? '' : 'none';
-        });
-    }
-    if (checkbox.id === 'checkbox_6110' || checkbox.id === 'checkbox_6100' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
-        const label = document.getElementById('text_label_retinal_photoreceptor_layer');
-        if(label) {
-            label.style.display = checkbox.checked ? '' : 'none';
-        }
-        const svgElements = svgOverlay.querySelectorAll('.cls-5');
+        const svgElements = svgOverlay.querySelectorAll('.cls-9');
         svgElements.forEach(element => {
             element.style.display = checkbox.checked ? '' : 'none';
         });
     }
     if (checkbox.id === 'checkbox_6160' || checkbox.id === 'checkbox_6100' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
-        const label = document.getElementById('text_label_retinal_pigmented_epithelium');
+        const label = document.getElementById('text_label_retinal_photoreceptor_layers');
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
-        const svgElements = svgOverlay.querySelectorAll('.cls-16');
+        const svgElements = svgOverlay.querySelectorAll('.cls-10');
+        svgElements.forEach(element => {
+            element.style.display = checkbox.checked ? '' : 'none';
+        });
+    }
+    if (checkbox.id === 'checkbox_6170' || checkbox.id === 'checkbox_6100' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_retinal_pigment_epithelium');
+        if(label) {
+            label.style.display = checkbox.checked ? '' : 'none';
+        }
+        const svgElements = svgOverlay.querySelectorAll('.cls-6');
         svgElements.forEach(element => {
             element.style.display = checkbox.checked ? '' : 'none';
         });
     }
     if (checkbox.id === 'checkbox_6130' || checkbox.id === 'checkbox_6100' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
-        const label = document.getElementById('text_label_retinal_inner_plexiform');
+        const label = document.getElementById('text_label_retinal_inner_plexiform_layer');
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
-        const svgElements = svgOverlay.querySelectorAll('.cls-14, .cls-15');
+        const svgElements = svgOverlay.querySelectorAll('.cls-12');
         svgElements.forEach(element => {
             element.style.display = checkbox.checked ? '' : 'none';
         });
     }
-    if (checkbox.id === 'checkbox_6190' || checkbox.id === 'checkbox_6100' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
-        const label = document.getElementById('text_label_onh');
+    if (checkbox.id === 'checkbox_6600' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_spinal_cord');
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
         const svgElements = svgOverlay.querySelectorAll('.cls-2');
-        svgElements.forEach(element => {
-            element.style.display = checkbox.checked ? '' : 'none';
-        });
-    }
-    if (checkbox.id === 'checkbox_6191' || checkbox.id === 'checkbox_6100' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
-        const label = document.getElementById('text_label_och');
-        if(label) {
-            label.style.display = checkbox.checked ? '' : 'none';
-        }
-        const svgElements = svgOverlay.querySelectorAll('.cls-6');
         svgElements.forEach(element => {
             element.style.display = checkbox.checked ? '' : 'none';
         });
@@ -161,27 +151,17 @@ function toggleElementVisibility(checkbox, svgOverlay) {
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
-        const svgElements = svgOverlay.querySelectorAll('.cls-17');
-        svgElements.forEach(element => {
-            element.style.display = checkbox.checked ? '' : 'none';
-        });
-    }
-    if (checkbox.id === 'checkbox_6500' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
-        const label = document.getElementById('text_label_naris');
-        if(label) {
-            label.style.display = checkbox.checked ? '' : 'none';
-        }
         const svgElements = svgOverlay.querySelectorAll('.cls-1');
         svgElements.forEach(element => {
             element.style.display = checkbox.checked ? '' : 'none';
         });
     }
-    if (checkbox.id === 'checkbox_8140' || checkbox.id === 'checkbox_8100' || checkbox.id === 'checkbox_8000' || checkbox.id === 'checkbox_0') {
-        const label = document.getElementById('text_label_splanchnocranium');
+    if (checkbox.id === 'checkbox_6300' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_inner_ear');
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
-        const svgElements = svgOverlay.querySelectorAll('.cls-8, .cls-18');
+        const svgElements = svgOverlay.querySelectorAll('.cls-8');
         svgElements.forEach(element => {
             element.style.display = checkbox.checked ? '' : 'none';
         });
@@ -190,20 +170,18 @@ function toggleElementVisibility(checkbox, svgOverlay) {
 
 function addAnnotations(viewer) {
     const annotations = [
-        { id: 'yolk', title: 'Yolk', label: 'Yo', x: 3000, y: 900 },
-        { id: 'somitic', title: 'Somitic Muscle', label: 'Sm', x: 7900, y: 700 },
-        { id: 'rgl', title: 'retinal ganglion cell layer', label: 'Rgl', x: 1400, y: 300},
-        { id: 'len', title: 'Lens', label: 'Len', x: 1200, y: 200},
-        { id: 'rnl', title: 'retinal nuclear layer', label: 'Rnl', x: 1550, y: 300},
-        { id: 'rph', title: 'Retinal Photoreceptor Layer', label: 'Rph', x: 1520, y: 1300},
-        { id: 'rpe', title: 'Retinal Pigmented Epithelium', label: 'Rpe', x: 810, y: 1100},
-        { id: 'rip', title: 'Retinal Inner Plexiform Layer', label: 'Rip', x: 1000, y: 380},
-        { id: 'onh', title: 'Optic Nerve Head', label: 'Onh', x: 1200, y: 1250},
-        { id: 'och', title: 'Optic Chiasm', label: 'Och', x: 1200, y: 950},
-        { id: 'not', title: 'Notochord', label: 'Not', x: 8500, y: 800},
-        { id: 'br', title: 'Brain', label: 'Br', x: 800, y: 750},
-        { id: 'nar', title: 'Naris', label: 'Nar', x: 690, y: 450},
-        { id: 'spc', title: 'Splanchnocranium', label: 'Spc', x: 1400, y: 950}
+        { id: 'yolk', title: 'Yolk', label: 'Yo', x: 2500, y: 1200 },
+        { id: 'somitic', title: 'Somitic Muscle', label: 'Sm', x: 4500, y: 600 },
+        { id: 'rgl', title: 'Retinal Ganglion Cell Layer', label: 'Rgl', x: 320, y: 450 },
+        { id: 'lens', title: 'Lens', label: 'Len', x: 450, y: 650 },
+        { id: 'rnl', title: 'Retinal Nuclear Layers', label: 'Rnl', x: 550, y: 350 },
+        { id: 'rph', title: 'Retinal Photoreceptor Layers', label: 'Rph', x: 800, y: 780 },
+        { id: 'rpe', title: 'Retinal Pigment Epithelium', label: 'Rpe', x: 500, y: 280 },
+        { id: 'rip', title: 'Retinal Inner Plexiform Layer', label: 'Rip', x: 700, y: 600 },
+        { id: 'spinal', title: 'Spinal Cord', label: 'Sc', x: 4000, y: 250 },
+        { id: 'notochord', title: 'Notochord', label: 'Not', x: 3800, y: 450 },
+        { id: 'brain', title: 'Brain', label: 'Br', x: 800, y: 250},
+        { id: 'ie', title: 'Inner Ear', label: 'Ie', x: 1300, y: 500 },
     ];
 
     annotations.forEach(ann => {
