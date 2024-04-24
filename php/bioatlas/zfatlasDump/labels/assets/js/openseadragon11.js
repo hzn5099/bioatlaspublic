@@ -58,7 +58,7 @@ function toggleElementVisibility(checkbox, svgOverlay) {
         });
     }
     if (checkbox.id === 'checkbox_3110' || checkbox.id === 'checkbox_3100' || checkbox.id === 'checkbox_3000' || checkbox.id === 'checkbox_0') {
-        const label = document.getElementById('text_label_ponephric');
+        const label = document.getElementById('text_label_pronephric');
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
@@ -78,7 +78,7 @@ function toggleElementVisibility(checkbox, svgOverlay) {
         });
     }
     if (checkbox.id === 'checkbox_6600' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
-        const label = document.getElementById('text_label_notochord');
+        const label = document.getElementById('text_label_spinal');
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
         }
@@ -101,11 +101,11 @@ function toggleElementVisibility(checkbox, svgOverlay) {
 
 function addAnnotations(viewer) {
     const annotations = [
-        { id: 'intestine', title: 'Intestine', label: 'Int', x: 3000, y: 900 },
-        { id: 'pronephric', title: 'Pronephric Duct', label: 'Pnpd', x: 3000, y: 900 },
-        { id: 'somitic', title: 'Somitic Muscle', label: 'Sm', x: 3000, y: 900 },
-        { id: 'spinal', title: 'Spinal Chord', label: 'Sc', x: 3000, y: 900 },
-        { id: 'notochord', title: 'Notochord', label: 'Not', x: 3000, y: 900 },
+        { id: 'intestine', title: 'Intestine', label: 'Int', x: 800, y: 1020 },
+        { id: 'pronephric', title: 'Pronephric Duct', label: 'Pnpd', x: 760, y: 920 },
+        { id: 'somitic', title: 'Somitic Muscle', label: 'Sm', x: 680, y: 750 },
+        { id: 'spinal', title: 'Spinal Chord', label: 'Sc', x: 800, y: 400 },
+        { id: 'notochord', title: 'Notochord', label: 'Not', x: 780, y: 600 },
     ];
 
     annotations.forEach(ann => {

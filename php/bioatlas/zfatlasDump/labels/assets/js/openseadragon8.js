@@ -87,7 +87,7 @@ function toggleElementVisibility(checkbox, svgOverlay) {
             element.style.display = checkbox.checked ? '' : 'none';
         });
     }
-    if (checkbox.id === 'checkbox_6110' || checkbox.id === 'checkbox_6100' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
+    if (checkbox.id === 'checkbox_6160' || checkbox.id === 'checkbox_6100' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
         const label = document.getElementById('text_label_retinal_photoreceptor_layer');
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
@@ -97,7 +97,7 @@ function toggleElementVisibility(checkbox, svgOverlay) {
             element.style.display = checkbox.checked ? '' : 'none';
         });
     }
-    if (checkbox.id === 'checkbox_6160' || checkbox.id === 'checkbox_6100' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
+    if (checkbox.id === 'checkbox_6170' || checkbox.id === 'checkbox_6100' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
         const label = document.getElementById('text_label_retinal_pigmented_epithelium');
         if(label) {
             label.style.display = checkbox.checked ? '' : 'none';
@@ -141,15 +141,15 @@ function toggleElementVisibility(checkbox, svgOverlay) {
 
 function addAnnotations(viewer) {
     const annotations = [
-        { id: 'rgl', title: 'retinal ganglion cell layer', label: 'Rgl', x: 1400, y: 300},
-        { id: 'len', title: 'Lens', label: 'Len', x: 1200, y: 200},
-        { id: 'cornea', title: 'Cornea', label: 'Cor', x: 1550, y: 300},
-        { id: 'rnl', title: 'retinal nuclear layer', label: 'Rnl', x: 1550, y: 300},
-        { id: 'rph', title: 'Retinal Photoreceptor Layer', label: 'Rph', x: 1520, y: 1300},
-        { id: 'rpe', title: 'Retinal Pigmented Epithelium', label: 'Rpe', x: 810, y: 1100},
-        { id: 'rip', title: 'Retinal Inner Plexiform Layer', label: 'Rip', x: 1000, y: 380},
-        { id: 'br', title: 'Brain', label: 'Br', x: 800, y: 750},
-        { id: 'cho', title: 'Chondrocranium', label: 'Cho', x: 1400, y: 950}
+        { id: 'rgl', title: 'retinal ganglion cell layer', label: 'Rgl', x: 1200, y: 950},
+        { id: 'len', title: 'Lens', label: 'Len', x: 1400, y: 950},
+        { id: 'cornea', title: 'Cornea', label: 'Cor', x: 30, y: 850},
+        { id: 'rnl', title: 'retinal nuclear layer', label: 'Rnl', x: 500, y: 900},
+        { id: 'rph', title: 'Retinal Photoreceptor Layer', label: 'Rph', x: 570, y: 800},
+        { id: 'rpe', title: 'Retinal Pigmented Epithelium', label: 'Rpe', x: 580, y: 1000},
+        { id: 'rip', title: 'Retinal Inner Plexiform Layer', label: 'Rip', x: 430, y: 920},
+        { id: 'br', title: 'Brain', label: 'Br', x: 800, y: 500},
+        { id: 'cho', title: 'Chondrocranium', label: 'Cho', x: 750, y: 950}
     ];
 
     annotations.forEach(ann => {

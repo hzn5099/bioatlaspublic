@@ -127,18 +127,30 @@ function toggleElementVisibility(checkbox, svgOverlay) {
             element.style.display = checkbox.checked ? '' : 'none';
         });
     }
+
+    if (checkbox.id === 'checkbox_6311' || checkbox.id === 'checkbox_6000' || checkbox.id === 'checkbox_0') {
+        const label = document.getElementById('text_label_inner_ear');
+        if(label) {
+            label.style.display = checkbox.checked ? '' : 'none';
+        }
+        const svgElements = svgOverlay.querySelectorAll('.cls-3, .cls-5');
+        svgElements.forEach(element => {
+            element.style.display = checkbox.checked ? '' : 'none';
+        });
+    }
 }
 
 function addAnnotations(viewer) {
     const annotations = [
-        { id: 'heart', title: 'Heart', label: 'Ht', x: 3000, y: 900 },
-        { id: 'atrium', title: 'Atrium', label: 'At', x: 3000, y: 900 },
-        { id: 'ventricle', title: 'Ventricle', label: 'Vt', x: 3000, y: 900 },
-        { id: 'yolk', title: 'Yolk', label: 'Yo', x: 3000, y: 900 },
-        { id: 'esophagus', title: 'Yolk', label: 'Yo', x: 3000, y: 900 },
-        { id: 'notochord', title: 'Yolk', label: 'Yo', x: 3000, y: 900 },
-        { id: 'brain', title: 'Yolk', label: 'Yo', x: 3000, y: 900 },
-        { id: 'inner ear', title: 'Yolk', label: 'Yo', x: 3000, y: 900 },
+        { id: 'heart', title: 'Heart', label: 'Ht', x: 770, y: 1530 },
+        { id: 'atrium', title: 'Atrium', label: 'At', x: 900, y: 1520 },
+        { id: 'ventricle', title: 'Ventricle', label: 'Vt', x: 600, y: 1450 },
+        { id: 'yolk', title: 'Yolk', label: 'Yo', x: 800, y: 1200 },
+        { id: 'esophagus', title: 'Espohagus', label: 'Eso', x: 760, y: 830 },
+        { id: 'notochord', title: 'Notochord', label: 'Not', x: 750, y: 670 },
+        { id: 'brain', title: 'Brain', label: 'Br', x: 780, y: 300 },
+        { id: 'inner ear', title: 'Inner Ear', label: 'Ie', x: 400, y: 650 },
+        { id: 'Otolith', title: 'Otolith', label: 'Ot', x: 440, y: 530}
     ];
 
     annotations.forEach(ann => {

@@ -172,6 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
             checkbox.id = checkboxId;
             checkbox.className = 'show';
             checkbox.style = 'float: right;'; // Ensure some margin for aesthetic spacing
+            checkbox.checked = true;
             anchorTag.appendChild(checkbox); // Append checkbox to the anchor tag for better alignment
         }
 
@@ -187,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const categoryDiv = document.createElement('div');
         categoryDiv.className = 'collapsible unselectable show';
         categoryDiv.id = categoryId;
-        categoryDiv.style = 'color: rgb(255, 255, 255); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;';
+        categoryDiv.style = 'color: rgb(255, 255, 255); background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 10px 0px 10px 20px;';
 
         const categoryLink = document.createElement('a');
         categoryLink.className = 'show';
@@ -205,6 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
             checkbox.id = checkboxId;
             checkbox.className = 'show';
             checkbox.style = 'float: right;';
+            checkbox.checked = true;
             categoryDiv.appendChild(checkbox);
         }
 
@@ -220,13 +222,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const itemDiv = document.createElement('div');
         itemDiv.className = 'collapsible unselectable'; // Remove 'show' class to hide subcategories by default
         itemDiv.id = item.id;
-        itemDiv.style = 'color: ' + item.color + '; background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 0px 0px 0px 20px;';
+        itemDiv.style = 'color: ' + item.color + '; background-color: rgba(200, 200, 200, 0.5); border-left: thin solid; padding: 10px 0px 10px 20px;';
 
         if (item.checkboxId) {
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.id = item.checkboxId; // Use item.checkboxId for subcategories
             checkbox.style = 'float: right;';
+            checkbox.checked = true;
             itemDiv.appendChild(checkbox);
         }
 
@@ -253,14 +256,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function toggleVisibility(element) {
-        const subItems = element.querySelectorAll('.collapsible');
-        subItems.forEach(item => {
+        // Toggle visibility only for direct children that are collapsible
+        const childItems = Array.from(element.children).filter(child => child.classList.contains('collapsible'));
+        childItems.forEach(item => {
             if (item.classList.contains('show')) {
                 item.classList.remove('show');
+                item.style.display = 'none';
             } else {
                 item.classList.add('show');
+                item.style.display = ''; // Adjust this as needed, could be 'block' or other depending on CSS
             }
-            item.style.display = item.classList.contains('show') ? '' : 'none';
         });
     }
 });

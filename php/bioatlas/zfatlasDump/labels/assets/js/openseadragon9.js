@@ -131,14 +131,14 @@ function toggleElementVisibility(checkbox, svgOverlay) {
 
 function addAnnotations(viewer) {
     const annotations = [
-        { id: 'heart', title: 'Heart', label: 'Ht', x: 3000, y: 900 },
-        { id: 'atrium', title: 'Atrium', label: 'At', x: 3000, y: 900 },
-        { id: 'ventricle', title: 'Ventricle', label: 'Vt', x: 3000, y: 900 },
-        { id: 'yolk', title: 'Yolk', label: 'Yo', x: 3000, y: 900 },
-        { id: 'esophagus', title: 'Yolk', label: 'Yo', x: 3000, y: 900 },
-        { id: 'notochord', title: 'Yolk', label: 'Yo', x: 3000, y: 900 },
-        { id: 'brain', title: 'Yolk', label: 'Yo', x: 3000, y: 900 },
-        { id: 'inner ear', title: 'Yolk', label: 'Yo', x: 3000, y: 900 },
+        { id: 'heart', title: 'Heart', label: 'Ht', x: 800, y: 1350 },
+        { id: 'atrium', title: 'Atrium', label: 'At', x: 900, y: 1320 },
+        { id: 'ventricle', title: 'Ventricle', label: 'Vt', x: 700, y: 1300 },
+        { id: 'yolk', title: 'Yolk', label: 'Yo', x: 620, y: 1080 },
+        { id: 'esophagus', title: 'Espohagus', label: 'Eso', x: 780, y: 850 },
+        { id: 'notochord', title: 'Notochord', label: 'Not', x: 780, y: 700 },
+        { id: 'brain', title: 'Brain', label: 'Br', x: 780, y: 300 },
+        { id: 'inner ear', title: 'Inner Ear', label: 'Ie', x: 400, y: 650 },
     ];
 
     annotations.forEach(ann => {
