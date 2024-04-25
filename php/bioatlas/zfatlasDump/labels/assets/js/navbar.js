@@ -2037,7 +2037,8 @@ if (slideId == '35537') {
                                 { id: 'id_6180', name: 'optic choroid (Oc)', color: 'rgb(148, 0, 96)' },
                                 { id: 'id_6190', name: 'optic nerve head (Onh)', color: 'rgb(244, 0, 34)' },
                                 { id: 'id_6191', name: 'optic chiasm (Och)', color: 'rgb(244, 0, 42)' }
-                            ]
+                            ],
+                            checkboxId: 'checkbox_6100'
                         },
                         { id: 'id_6600', name: 'spinal cord (Sc)', color: 'rgb(180, 0, 42)' },
                         { id: 'id_6400', name: 'notochord (Not)', color: 'rgb(180, 0, 10)' },

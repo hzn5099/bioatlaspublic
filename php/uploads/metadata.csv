@@ -1,0 +1,2 @@
+﻿identifier *,power *,title *,description,notes,fix_date,scan_date,user_id,group_id,source_id,protocol_id,organism_sex,organism_age_in_hours,organism_type_id,atlas_id,atlas_position
+99999,40,3dpf coronal,,,2008-02-22,2009-05-22,1,1,1,1,,36,2,20,51

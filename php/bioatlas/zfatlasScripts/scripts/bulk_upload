@@ -108,7 +108,7 @@ function run_upload($metafile, $s_dir) {
           print("Running zoomlevels script");
           print("\n");
         }
-        $zoomlevels_sql=shell_exec("../../zfatlasScripts/scripts/zoomlevels -a 72000 $vipsloc.dzi");
+        $zoomlevels_sql=shell_exec("../../zfatlasScripts/scripts/zoomlevels -a 72000 $vipsloc");
 
         $v_s_sql = $zfatlas->prepare('INSERT INTO virtualslides (identifier, power, title, description, notes, fix_date, scan_date, user_id, group_id, source_id, protocol_id, organism_sex, organism_age_in_hours, organism_type_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
         $v_s_sql->bind_param('sissssssiiisii', $identifier, $power, $title, $description, $notes, $fix_date, $scan_date, $user_id, $group_id, $source_id, $protocol_id, $organism_sex, $organism_age_in_hours, $organism_type_id);

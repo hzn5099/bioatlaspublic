@@ -11,17 +11,16 @@ if (slideId == '35532') {
             showNavigator: true,
         });
 
-        viewer.addHandler('canvas-click', function (event) {
-            if (event.quick) {
-                event.stopPropagation();
-            }
+        // Handler for canvas-click to prevent default action
+        viewer.addHandler('canvas-click', function(event) {
+            event.preventDefaultAction = true;
         });
 
         // Fetch and apply the SVG overlay
         fetchAndApplyOverlay(viewer);
 
         // Add annotations once the viewer is open
-        viewer.addHandler('open', function () {
+        viewer.addHandler('open', function() {
             addAnnotations(viewer);
             setupNavigatorLabels(viewer);
         });
@@ -31,9 +30,8 @@ if (slideId == '35532') {
         fetch("http://localhost:8000/assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/20_1727_10-3dpfC10can.svg")
             .then(response => response.text())
             .then(svg => {
-                var svgOverlay = document.createElement("svg");
+                var svgOverlay = document.createElement("div");
                 svgOverlay.innerHTML = svg;
-                svgOverlay.className = 'svg-overlay'; // Added class for general styling and access
 
                 var overlayRect = viewer.viewport.imageToViewportRectangle(0, 0, 1, 1);
                 viewer.addOverlay({

@@ -24,7 +24,7 @@ svg {
 }
 
 #tool_bar img {
-    width: 3vw; /* Scale width based on viewport width */
+    width: 7vw; /* Scale width based on viewport width */
     height: 7vh; /* Maintain aspect ratio */
 }
 
@@ -47,12 +47,20 @@ svg {
     cursor: pointer;
 
 }
+#slice_idx_display{
+    letter-spacing: 4px;
+    background: rgba(0, 0, 0, 0.7);
+    position: absolute;
+    color: white;
+    bottom: 7%;
+    right: 0%;
+}
 #stack_indicator_line{
     position: fixed; /* Fixed positioning to keep it in view on scroll */
     bottom: 0; /* Align it to the bottom of the viewport */
     left: 50%; /* Start from the middle horizontally */
     transform: translateX(-30%); /* Center it horizontally */
-    width: 60vw; /* Maintain the original width or adjust as needed */
+    width: 50vw; /* Maintain the original width or adjust as needed */
     height: 14vh; /* Maintain the original height or adjust as needed */
     z-index: 1000; /* Make sure it's above other content but below the toolbar */
     font-size: 75%;
