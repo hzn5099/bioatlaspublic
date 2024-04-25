@@ -209,6 +209,12 @@ if (slideId == '35537') {
                 checkbox.style = 'float: right;'; // Ensure some margin for aesthetic spacing
                 checkbox.checked = true;
                 checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this title
+                    const childCheckboxes = titleDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
                     event.stopPropagation();
                 });
                 anchorTag.appendChild(checkbox); // Append checkbox to the anchor tag for better alignment
@@ -245,6 +251,14 @@ if (slideId == '35537') {
                 checkbox.className = 'show';
                 checkbox.style = 'float: right;';
                 checkbox.checked = true;
+                checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this category
+                    const childCheckboxes = categoryDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
+                });
                 categoryDiv.appendChild(checkbox);
             }
 
@@ -268,6 +282,14 @@ if (slideId == '35537') {
                 checkbox.id = item.checkboxId; // Use item.checkboxId for subcategories
                 checkbox.style = 'float: right;';
                 checkbox.checked = true;
+                checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this item
+                    const childCheckboxes = itemDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
+                });
                 itemDiv.appendChild(checkbox);
             }
 
@@ -486,6 +508,12 @@ if (slideId == '35537') {
                 checkbox.style = 'float: right;'; // Ensure some margin for aesthetic spacing
                 checkbox.checked = true;
                 checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this title
+                    const childCheckboxes = titleDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
                     event.stopPropagation();
                 });
                 anchorTag.appendChild(checkbox); // Append checkbox to the anchor tag for better alignment
@@ -522,6 +550,14 @@ if (slideId == '35537') {
                 checkbox.className = 'show';
                 checkbox.style = 'float: right;';
                 checkbox.checked = true;
+                checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this category
+                    const childCheckboxes = categoryDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
+                });
                 categoryDiv.appendChild(checkbox);
             }
 
@@ -545,6 +581,14 @@ if (slideId == '35537') {
                 checkbox.id = item.checkboxId; // Use item.checkboxId for subcategories
                 checkbox.style = 'float: right;';
                 checkbox.checked = true;
+                checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this item
+                    const childCheckboxes = itemDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
+                });
                 itemDiv.appendChild(checkbox);
             }
 
@@ -765,6 +809,12 @@ if (slideId == '35537') {
                 checkbox.style = 'float: right;'; // Ensure some margin for aesthetic spacing
                 checkbox.checked = true;
                 checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this title
+                    const childCheckboxes = titleDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
                     event.stopPropagation();
                 });
                 anchorTag.appendChild(checkbox); // Append checkbox to the anchor tag for better alignment
@@ -801,6 +851,14 @@ if (slideId == '35537') {
                 checkbox.className = 'show';
                 checkbox.style = 'float: right;';
                 checkbox.checked = true;
+                checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this category
+                    const childCheckboxes = categoryDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
+                });
                 categoryDiv.appendChild(checkbox);
             }
 
@@ -824,6 +882,14 @@ if (slideId == '35537') {
                 checkbox.id = item.checkboxId; // Use item.checkboxId for subcategories
                 checkbox.style = 'float: right;';
                 checkbox.checked = true;
+                checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this item
+                    const childCheckboxes = itemDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
+                });
                 itemDiv.appendChild(checkbox);
             }
 
@@ -1039,6 +1105,12 @@ if (slideId == '35537') {
                 checkbox.style = 'float: right;'; // Ensure some margin for aesthetic spacing
                 checkbox.checked = true;
                 checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this title
+                    const childCheckboxes = titleDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
                     event.stopPropagation();
                 });
                 anchorTag.appendChild(checkbox); // Append checkbox to the anchor tag for better alignment
@@ -1075,6 +1147,14 @@ if (slideId == '35537') {
                 checkbox.className = 'show';
                 checkbox.style = 'float: right;';
                 checkbox.checked = true;
+                checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this category
+                    const childCheckboxes = categoryDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
+                });
                 categoryDiv.appendChild(checkbox);
             }
 
@@ -1098,6 +1178,14 @@ if (slideId == '35537') {
                 checkbox.id = item.checkboxId; // Use item.checkboxId for subcategories
                 checkbox.style = 'float: right;';
                 checkbox.checked = true;
+                checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this item
+                    const childCheckboxes = itemDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
+                });
                 itemDiv.appendChild(checkbox);
             }
 
@@ -1316,6 +1404,12 @@ if (slideId == '35537') {
                 checkbox.style = 'float: right;'; // Ensure some margin for aesthetic spacing
                 checkbox.checked = true;
                 checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this title
+                    const childCheckboxes = titleDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
                     event.stopPropagation();
                 });
                 anchorTag.appendChild(checkbox); // Append checkbox to the anchor tag for better alignment
@@ -1352,6 +1446,14 @@ if (slideId == '35537') {
                 checkbox.className = 'show';
                 checkbox.style = 'float: right;';
                 checkbox.checked = true;
+                checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this category
+                    const childCheckboxes = categoryDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
+                });
                 categoryDiv.appendChild(checkbox);
             }
 
@@ -1375,6 +1477,14 @@ if (slideId == '35537') {
                 checkbox.id = item.checkboxId; // Use item.checkboxId for subcategories
                 checkbox.style = 'float: right;';
                 checkbox.checked = true;
+                checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this item
+                    const childCheckboxes = itemDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
+                });
                 itemDiv.appendChild(checkbox);
             }
 
@@ -1592,6 +1702,12 @@ if (slideId == '35537') {
                 checkbox.style = 'float: right;'; // Ensure some margin for aesthetic spacing
                 checkbox.checked = true;
                 checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this title
+                    const childCheckboxes = titleDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
                     event.stopPropagation();
                 });
                 anchorTag.appendChild(checkbox); // Append checkbox to the anchor tag for better alignment
@@ -1628,6 +1744,14 @@ if (slideId == '35537') {
                 checkbox.className = 'show';
                 checkbox.style = 'float: right;';
                 checkbox.checked = true;
+                checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this category
+                    const childCheckboxes = categoryDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
+                });
                 categoryDiv.appendChild(checkbox);
             }
 
@@ -1651,6 +1775,14 @@ if (slideId == '35537') {
                 checkbox.id = item.checkboxId; // Use item.checkboxId for subcategories
                 checkbox.style = 'float: right;';
                 checkbox.checked = true;
+                checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this item
+                    const childCheckboxes = itemDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
+                });
                 itemDiv.appendChild(checkbox);
             }
 
@@ -1865,6 +1997,12 @@ if (slideId == '35537') {
                 checkbox.style = 'float: right;'; // Ensure some margin for aesthetic spacing
                 checkbox.checked = true;
                 checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this title
+                    const childCheckboxes = titleDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
                     event.stopPropagation();
                 });
                 anchorTag.appendChild(checkbox); // Append checkbox to the anchor tag for better alignment
@@ -1901,6 +2039,14 @@ if (slideId == '35537') {
                 checkbox.className = 'show';
                 checkbox.style = 'float: right;';
                 checkbox.checked = true;
+                checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this category
+                    const childCheckboxes = categoryDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
+                });
                 categoryDiv.appendChild(checkbox);
             }
 
@@ -1924,6 +2070,14 @@ if (slideId == '35537') {
                 checkbox.id = item.checkboxId; // Use item.checkboxId for subcategories
                 checkbox.style = 'float: right;';
                 checkbox.checked = true;
+                checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this item
+                    const childCheckboxes = itemDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
+                });
                 itemDiv.appendChild(checkbox);
             }
 
@@ -2141,6 +2295,12 @@ if (slideId == '35537') {
                 checkbox.style = 'float: right;'; // Ensure some margin for aesthetic spacing
                 checkbox.checked = true;
                 checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this title
+                    const childCheckboxes = titleDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
                     event.stopPropagation();
                 });
                 anchorTag.appendChild(checkbox); // Append checkbox to the anchor tag for better alignment
@@ -2177,6 +2337,14 @@ if (slideId == '35537') {
                 checkbox.className = 'show';
                 checkbox.style = 'float: right;';
                 checkbox.checked = true;
+                checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this category
+                    const childCheckboxes = categoryDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
+                });
                 categoryDiv.appendChild(checkbox);
             }
 
@@ -2200,6 +2368,14 @@ if (slideId == '35537') {
                 checkbox.id = item.checkboxId; // Use item.checkboxId for subcategories
                 checkbox.style = 'float: right;';
                 checkbox.checked = true;
+                checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this item
+                    const childCheckboxes = itemDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
+                });
                 itemDiv.appendChild(checkbox);
             }
 
@@ -2416,6 +2592,12 @@ if (slideId == '35537') {
                 checkbox.style = 'float: right;'; // Ensure some margin for aesthetic spacing
                 checkbox.checked = true;
                 checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this title
+                    const childCheckboxes = titleDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
                     event.stopPropagation();
                 });
                 anchorTag.appendChild(checkbox); // Append checkbox to the anchor tag for better alignment
@@ -2452,6 +2634,14 @@ if (slideId == '35537') {
                 checkbox.className = 'show';
                 checkbox.style = 'float: right;';
                 checkbox.checked = true;
+                checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this category
+                    const childCheckboxes = categoryDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
+                });
                 categoryDiv.appendChild(checkbox);
             }
 
@@ -2475,6 +2665,14 @@ if (slideId == '35537') {
                 checkbox.id = item.checkboxId; // Use item.checkboxId for subcategories
                 checkbox.style = 'float: right;';
                 checkbox.checked = true;
+                checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this item
+                    const childCheckboxes = itemDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
+                });
                 itemDiv.appendChild(checkbox);
             }
 
@@ -2691,6 +2889,12 @@ if (slideId == '35537') {
                 checkbox.style = 'float: right;'; // Ensure some margin for aesthetic spacing
                 checkbox.checked = true;
                 checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this title
+                    const childCheckboxes = titleDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
                     event.stopPropagation();
                 });
                 anchorTag.appendChild(checkbox); // Append checkbox to the anchor tag for better alignment
@@ -2727,6 +2931,14 @@ if (slideId == '35537') {
                 checkbox.className = 'show';
                 checkbox.style = 'float: right;';
                 checkbox.checked = true;
+                checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this category
+                    const childCheckboxes = categoryDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
+                });
                 categoryDiv.appendChild(checkbox);
             }
 
@@ -2750,6 +2962,14 @@ if (slideId == '35537') {
                 checkbox.id = item.checkboxId; // Use item.checkboxId for subcategories
                 checkbox.style = 'float: right;';
                 checkbox.checked = true;
+                checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this item
+                    const childCheckboxes = itemDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
+                });
                 itemDiv.appendChild(checkbox);
             }
 
@@ -2965,6 +3185,12 @@ if (slideId == '35537') {
                 checkbox.style = 'float: right;'; // Ensure some margin for aesthetic spacing
                 checkbox.checked = true;
                 checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this title
+                    const childCheckboxes = titleDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
                     event.stopPropagation();
                 });
                 anchorTag.appendChild(checkbox); // Append checkbox to the anchor tag for better alignment
@@ -3001,6 +3227,14 @@ if (slideId == '35537') {
                 checkbox.className = 'show';
                 checkbox.style = 'float: right;';
                 checkbox.checked = true;
+                checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this category
+                    const childCheckboxes = categoryDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
+                });
                 categoryDiv.appendChild(checkbox);
             }
 
@@ -3024,6 +3258,14 @@ if (slideId == '35537') {
                 checkbox.id = item.checkboxId; // Use item.checkboxId for subcategories
                 checkbox.style = 'float: right;';
                 checkbox.checked = true;
+                checkbox.addEventListener('click', function(event) {
+                    // Get all checkboxes within this item
+                    const childCheckboxes = itemDiv.querySelectorAll('input[type="checkbox"]');
+                    // Set their checked status to match this checkbox
+                    childCheckboxes.forEach(childCheckbox => {
+                        childCheckbox.checked = checkbox.checked;
+                    });
+                });
                 itemDiv.appendChild(checkbox);
             }
 
