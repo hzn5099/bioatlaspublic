@@ -1,1 +1,0 @@
-999997 Slide was not created, possible error in csv metadata, skipping slide 

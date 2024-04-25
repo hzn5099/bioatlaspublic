@@ -87,7 +87,7 @@ function run_upload($metafile, $s_dir) {
         }
         $slide_loc = $slide_dir . $slide_files[$key];
         $vipformat = $identifier;
-        $vipformat .= '.v';
+        $vipformat = '.v';
         $vipsloc = $slide_dir . $vipformat;
         if ($logging_on) {
           print("Converting .tif to .v");
@@ -108,7 +108,7 @@ function run_upload($metafile, $s_dir) {
           print("Running zoomlevels script");
           print("\n");
         }
-        $zoomlevels_sql=shell_exec("../../zfatlasScripts/scripts/zoomlevels -a 72000 $vipsloc");
+        $zoomlevels_sql=shell_exec("../../zfatlasScripts/scripts/zoomlevels -a 72000 $vipsloc.dzi");
 
         $v_s_sql = $zfatlas->prepare('INSERT INTO virtualslides (identifier, power, title, description, notes, fix_date, scan_date, user_id, group_id, source_id, protocol_id, organism_sex, organism_age_in_hours, organism_type_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
         $v_s_sql->bind_param('sissssssiiisii', $identifier, $power, $title, $description, $notes, $fix_date, $scan_date, $user_id, $group_id, $source_id, $protocol_id, $organism_sex, $organism_age_in_hours, $organism_type_id);
