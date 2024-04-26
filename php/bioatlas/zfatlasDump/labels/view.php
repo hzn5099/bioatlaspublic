@@ -74,7 +74,6 @@ ini_set('display_errors', 1);
                 if ($result) {
                     $row = mysqli_fetch_row($result);
                     $atlas_id = $row[0];
-                    echo "Atlas ID found: " . $atlas_id;
                 } else {
                     echo "Error executing SQL query: " . mysqli_error($connection);
                 }

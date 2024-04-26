@@ -87,7 +87,7 @@ function run_upload($metafile, $s_dir) {
         }
         $slide_loc = $slide_dir . $slide_files[$key];
         $vipformat = $identifier;
-        $vipformat .= '.v';
+        $vipformat = '.v';
         $vipsloc = $slide_dir . $vipformat;
         if ($logging_on) {
           print("Converting .tif to .v");

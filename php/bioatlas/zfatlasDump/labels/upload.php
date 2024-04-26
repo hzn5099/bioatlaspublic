@@ -18,7 +18,16 @@ if (!file_exists($targetDir)) {
 $fileName = isset($_REQUEST["name"]) ? $_REQUEST["name"] : uniqid("file_");
 $fileName = basename($fileName);
 
-$filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName; 
+// Check if the file has a .dzi extension
+if (substr($fileName, -4) === '.dzi') {
+    // The file has a .dzi extension
+    $filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
+} else {
+    // The file does not have a .dzi extension
+    $filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
+}
+
+$filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
  
 // Chunking might be enabled 
 $chunk = isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0; 

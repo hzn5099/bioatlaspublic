@@ -65,13 +65,7 @@
         </div>
     </div>
 </div>
-{% if slide.id == '35532' and atlas.id == '20' %}
-<script src="../assets/js/navbar35532.js"></script>
-{% elseif slide.id == '35537' and atlas.id == '20' %}
-<script src="../assets/js/navbar35537.js"></script>
-{% elseif slide.id == '35536' and atlas.id == '20' %}
-<script src="../assets/js/navbar35536.js"></script>
-{% endif %}
+<script src="../assets/js/navbar.js"></script>
 
 
 <!-- <div class="dropdown"> -->
@@ -83,15 +77,9 @@
 <!-- </div> -->
 <!-- <div class="osd_container"> -->
 <div id="openseadragon1" class="openseadragon" style="width: 100%; left: 350px; height: 100%; filter: brightness(100%) contrast(100%); background-color: rgb(255, 255, 255);"></div>
-{% if slide.id == '35532' and atlas.id == '20' %}
 <script src="../assets/js/openseadragon1.js"></script>
-{% elseif slide.id == '35537' and atlas.id == '20' %}
-<script src="../assets/js/openseadragon2.js"></script>
-{% elseif slide.id == '35536' and atlas.id == '20' %}
-<script src="../assets/js/openseadragon3.js"></script>
-{% endif %}
-
-<div style="background: none transparent; border: none; margin: 0px; padding: 0px; position: absolute; right: 0px; top: 0px;">
+<!--<script src="../assets/js/openseadragontest.js"></script>-->
+<!-- style="background: none transparent; border: none; margin: 0px; padding: 0px; position: absolute; right: 0px; top: 0px;"-->
 
 
 <!-- <div id='nav_hover_button' tabindex="0"></div> -->
@@ -106,20 +94,30 @@
     <div id="nav_right_1" tabindex="0" onclick="next_button_1()"><img src="../assets/images/osd_assets/images/next_pressed.png"></div>
     <div id="nav_right_10" tabindex="0" onclick="next_button_10()"><img src="../assets/images/osd_assets/images/next_pressed_double.png"></div>
 </div>
-    {% if slide.id == '35532' and atlas.id == '20' %}
-    <script src="../assets/js/toolbar35532.js"></script>
-    {% elseif slide.id == '35537' and atlas.id == '20' %}
-    <script src="../assets/js/toolbar35537.js"></script>
-    {% elseif slide.id == '35536' and atlas.id == '20' %}
-    <script src="../assets/js/toolbar35536.js"></script>
-    {% endif %}
+    <script src="../assets/js/toolbar.js"></script>
 <div id="stack_indicator_line" class="openseadragon" tabindex="0"></div>
-    {% if slide.id == '35532' and atlas.id == '20' %}
+    {% if slide.id == '35532'%}
     <script src="../assets/js/stackindicatorline1727.js"></script>
-    {% elseif slide.id == '35537' and atlas.id == '20' %}
+    {% elseif slide.id == '35537'%}
     <script src="../assets/js/stackindicatorline1731.js"></script>
-    {% elseif slide.id == '35536' and atlas.id == '20' %}
+    {% elseif slide.id == '35536'%}
     <script src="../assets/js/stackindicatorline1728.js"></script>
+    {% elseif slide.id == '493' %}
+    <script src="../assets/js/stackindicatorline493.js"></script>
+    {% elseif slide.id == '494' %}
+    <script src="../assets/js/stackindicatorline494.js"></script>
+    {% elseif slide.id == '496' %}
+    <script src="../assets/js/stackindicatorline496.js"></script>
+    {% elseif slide.id == '282'%}
+    <script src="../assets/js/stackindicatorline282.js"></script>
+    {% elseif slide.id == '285'%}
+    <script src="../assets/js/stackindicatorline285.js"></script>
+    {% elseif slide.id == '291'%}
+    <script src="../assets/js/stackindicatorline291.js"></script>
+    {% elseif slide.id == '293'%}
+    <script src="../assets/js/stackindicatorline293.js"></script>
+    {% elseif slide.id == '306'%}
+    <script src="../assets/js/stackindicatorline306.js"></script>
     {% endif %}
 
 <!-- <div id='shopping_aisle_preview_div' tabindex="0"></div> -->
@@ -131,12 +129,295 @@
 <!-- <div id='brightness_overlay'tabindex="0"></div> -->
 <!-- <div id='contrast_indicator'tabindex="0"></div> -->
 <!-- <div id='contrast_overlay'tabindex="0"></d	iv> -->
-
-<div id="slice_idx_display" class="unselectable" style="letter-spacing: 4px; background: rgba(0, 0, 0, 0.7); position: absolute; color: white; top: 1193px; right: 0px;">2/3<br><a style="color:gray;font-size:7px;">20_1731_3-3dpfC3can</a><br>
+{% if slide.id == '35532'%}
+<div id="slice_idx_display" class="unselectable">2/3<br><a style="color:gray;font-size:7px;">20_1731_3-3dpfC3can</a><br>
     <span style="font-size:12px">Downloads<span><br><a style="color:white; font-size:12px" href="../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/20_1727_10-3dpfC10can.svg" target="_blank">vector file (1MB .svg)</a><a></a></span></span></div>
+<script>
+    // Create a new div element
+    var hiddenDiv = document.createElement('div');
 
-<div style="height: 1px; width: 1px; visibility: hidden; position: absolute; top: -9999px;"><embed src="../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/20_1727_10-3dpfC10can.svg" type="image/svg+xml" id="current_svg_20_1727_10-3dpfC10can">
-</div>
+    // Set the style attributes for the div
+    hiddenDiv.style.height = '100px';
+    hiddenDiv.style.width = '100px';
+    hiddenDiv.style.visibility = 'hidden';
+    hiddenDiv.style.position = 'absolute';
+    hiddenDiv.style.top = '-9999px';
+
+    // Create an embed element for the SVG
+    var embedElement = document.createElement('embed');
+    embedElement.src = '../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/20_1727_10-3dpfC10can.svg';
+    embedElement.type = 'image/svg+xml';
+    embedElement.id = 'current_svg_20_1727_10-3dpfC10can';
+
+    // Append the embed element to the hidden div
+    hiddenDiv.appendChild(embedElement);
+
+    // Append the hidden div to the document body
+    document.body.appendChild(hiddenDiv);
+
+</script>
+{% elseif slide.id == '35537'%}
+<div id="slice_idx_display" class="unselectable">1/3<br><a style="color:gray;font-size:7px;">20_1731_3-3dpfC3can</a><br>
+    <span style="font-size:12px">Downloads<span><br><a style="color:white; font-size:12px" href="../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/20_1731_3-3dpfC3can.svg" target="_blank">vector file (1MB .svg)</a><a></a></span></span></div>
+<script>
+    // Create a new div element
+    var hiddenDiv = document.createElement('div');
+
+    // Set the style attributes for the div
+    hiddenDiv.style.height = '1px';
+    hiddenDiv.style.width = '1px';
+    hiddenDiv.style.visibility = 'hidden';
+    hiddenDiv.style.position = 'absolute';
+    hiddenDiv.style.top = '-9999px';
+
+    // Create an embed element for the SVG
+    var embedElement = document.createElement('embed');
+    embedElement.src = '../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/20_1731_3-3dpfC3can.svg';
+    embedElement.type = 'image/svg+xml';
+    embedElement.id = 'current_svg_20_1731_3-3dpfC3can';
+
+    // Append the embed element to the hidden div
+    hiddenDiv.appendChild(embedElement);
+
+    // Append the hidden div to the document body
+    document.body.appendChild(hiddenDiv);
+</script>
+{% elseif slide.id == '35536'%}
+<div id="slice_idx_display" class="unselectable">3/3<br><a style="color:gray;font-size:7px;">20_1731_3-3dpfC3can</a><br>
+    <span style="font-size:12px">Downloads<span><br><a style="color:white; font-size:12px" href="../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/20_1728_11-3dpfC11can.svg" target="_blank">vector file (1MB .svg)</a><a></a></span></span></div>
+<script>
+    // Create a new div element
+    var hiddenDiv = document.createElement('div');
+
+    // Set the style attributes for the div
+    hiddenDiv.style.height = '1px';
+    hiddenDiv.style.width = '1px';
+    hiddenDiv.style.visibility = 'hidden';
+    hiddenDiv.style.position = 'absolute';
+    hiddenDiv.style.top = '-9999px';
+
+    // Create an embed element for the SVG
+    var embedElement = document.createElement('embed');
+    embedElement.src = '../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/20_1731_11-3dpfC11can.svg';
+    embedElement.type = 'image/svg+xml';
+    embedElement.id = 'current_svg_20_1731_3-3dpfC3can';
+
+    // Append the embed element to the hidden div
+    hiddenDiv.appendChild(embedElement);
+
+    // Append the hidden div to the document body
+    document.body.appendChild(hiddenDiv);
+</script>
+{% elseif slide.id == '493' %}
+<div id="slice_idx_display" class="unselectable">1/3<br><a style="color:gray;font-size:7px;">21_493_3-3dpfC3can</a><br>
+    <span style="font-size:12px">Downloads<span><br><a style="color:white; font-size:12px" href="../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/21_493_7-3dpfS7can.svg" target="_blank">vector file (1MB .svg)</a><a></a></span></span></div>
+<script>
+    // Create a new div element
+    var hiddenDiv = document.createElement('div');
+
+    // Set the style attributes for the div
+    hiddenDiv.style.height = '1px';
+    hiddenDiv.style.width = '1px';
+    hiddenDiv.style.visibility = 'hidden';
+    hiddenDiv.style.position = 'absolute';
+    hiddenDiv.style.top = '-9999px';
+
+    // Create an embed element for the SVG
+    var embedElement = document.createElement('embed');
+    embedElement.src = '../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/21_493_7-3dpfS7can.svg';
+    embedElement.type = 'image/svg+xml';
+    embedElement.id = 'current_svg_21_493_3-3dpfC3can';
+
+    // Append the embed element to the hidden div
+    hiddenDiv.appendChild(embedElement);
+
+    // Append the hidden div to the document body
+    document.body.appendChild(hiddenDiv);
+</script>
+{% elseif slide.id == '494' %}
+<div id="slice_idx_display" class="unselectable">3/3<br><a style="color:gray;font-size:7px;">21_493_3-3dpfC3can</a><br>
+    <span style="font-size:12px">Downloads<span><br><a style="color:white; font-size:12px" href="../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/21_494_12-3dfS12can.svg" target="_blank">vector file (1MB .svg)</a><a></a></span></span></div>
+<script>
+    // Create a new div element
+    var hiddenDiv = document.createElement('div');
+
+    // Set the style attributes for the div
+    hiddenDiv.style.height = '1px';
+    hiddenDiv.style.width = '1px';
+    hiddenDiv.style.visibility = 'hidden';
+    hiddenDiv.style.position = 'absolute';
+    hiddenDiv.style.top = '-9999px';
+
+    // Create an embed element for the SVG
+    var embedElement = document.createElement('embed');
+    embedElement.src = '../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/21_494_12-3dfS12can.svg';
+    embedElement.type = 'image/svg+xml';
+    embedElement.id = 'current_svg_21_494_3-3dpfC3can';
+
+    // Append the embed element to the hidden div
+    hiddenDiv.appendChild(embedElement);
+
+    // Append the hidden div to the document body
+    document.body.appendChild(hiddenDiv);
+</script>
+{% elseif slide.id == '496' %}
+<div id="slice_idx_display" class="unselectable">2/3<br><a style="color:gray;font-size:7px;">21_493_3-3dpfC3can</a><br>
+    <span style="font-size:12px">Downloads<span><br><a style="color:white; font-size:12px" href="../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/21_496_11-3dpfS11can.svg" target="_blank">vector file (1MB .svg)</a><a></a></span></span></div>
+<script>
+    // Create a new div element
+    var hiddenDiv = document.createElement('div');
+
+    // Set the style attributes for the div
+    hiddenDiv.style.height = '1px';
+    hiddenDiv.style.width = '1px';
+    hiddenDiv.style.visibility = 'hidden';
+    hiddenDiv.style.position = 'absolute';
+    hiddenDiv.style.top = '-9999px';
+
+    // Create an embed element for the SVG
+    var embedElement = document.createElement('embed');
+    embedElement.src = '../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/21_496_11-3dpfS11can.svg';
+    embedElement.type = 'image/svg+xml';
+    embedElement.id = 'current_svg_21_496_3-3dpfC3can';
+
+    // Append the embed element to the hidden div
+    hiddenDiv.appendChild(embedElement);
+
+    // Append the hidden div to the document body
+    document.body.appendChild(hiddenDiv);
+</script>
+{% elseif slide.id == '282'%}
+<div id="slice_idx_display" class="unselectable">1/5<br><a style="color:gray;font-size:7px;">22_282_3-3dpfC3can</a><br>
+    <span style="font-size:12px">Downloads<span><br><a style="color:white; font-size:12px" href="../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/22_282_3-3dpfT1can.svg" target="_blank">vector file (1MB .svg)</a><a></a></span></span></div>
+<script>
+    // Create a new div element
+    var hiddenDiv = document.createElement('div');
+
+    // Set the style attributes for the div
+    hiddenDiv.style.height = '1px';
+    hiddenDiv.style.width = '1px';
+    hiddenDiv.style.visibility = 'hidden';
+    hiddenDiv.style.position = 'absolute';
+    hiddenDiv.style.top = '-9999px';
+
+    // Create an embed element for the SVG
+    var embedElement = document.createElement('embed');
+    embedElement.src = '../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/22_282_3-3dpfT1can.svg';
+    embedElement.type = 'image/svg+xml';
+    embedElement.id = 'current_svg_22_282_3-3dpfC3can';
+
+    // Append the embed element to the hidden div
+    hiddenDiv.appendChild(embedElement);
+
+    // Append the hidden div to the document body
+    document.body.appendChild(hiddenDiv);
+</script>
+{% elseif slide.id == '285'%}
+<div id="slice_idx_display" class="unselectable">2/5<br><a style="color:gray;font-size:7px;">22_282_3-3dpfC3can</a><br>
+    <span style="font-size:12px">Downloads<span><br><a style="color:white; font-size:12px" href="../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/22_285_4-3dpfT4can.svg" target="_blank">vector file (1MB .svg)</a><a></a></span></span></div>
+<script>
+    // Create a new div element
+    var hiddenDiv = document.createElement('div');
+
+    // Set the style attributes for the div
+    hiddenDiv.style.height = '1px';
+    hiddenDiv.style.width = '1px';
+    hiddenDiv.style.visibility = 'hidden';
+    hiddenDiv.style.position = 'absolute';
+    hiddenDiv.style.top = '-9999px';
+
+    // Create an embed element for the SVG
+    var embedElement = document.createElement('embed');
+    embedElement.src = '../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/22_285_4-3dpfT4can.svg';
+    embedElement.type = 'image/svg+xml';
+    embedElement.id = 'current_svg_22_285_3-3dpfC3can';
+
+    // Append the embed element to the hidden div
+    hiddenDiv.appendChild(embedElement);
+
+    // Append the hidden div to the document body
+    document.body.appendChild(hiddenDiv);
+</script>
+{% elseif slide.id == '291'%}
+<div id="slice_idx_display" class="unselectable">3/5<br><a style="color:gray;font-size:7px;">22_282_3-3dpfC3can</a><br>
+    <span style="font-size:12px">Downloads<span><br><a style="color:white; font-size:12px" href="../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/22_291_10-3dpfT10can.svg" target="_blank">vector file (1MB .svg)</a><a></a></span></span></div>
+<script>
+    // Create a new div element
+    var hiddenDiv = document.createElement('div');
+
+    // Set the style attributes for the div
+    hiddenDiv.style.height = '1px';
+    hiddenDiv.style.width = '1px';
+    hiddenDiv.style.visibility = 'hidden';
+    hiddenDiv.style.position = 'absolute';
+    hiddenDiv.style.top = '-9999px';
+
+    // Create an embed element for the SVG
+    var embedElement = document.createElement('embed');
+    embedElement.src = '../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/22_291_10-3dpfT10can.svg';
+    embedElement.type = 'image/svg+xml';
+    embedElement.id = 'current_svg_22_291_3-3dpfC3can';
+
+    // Append the embed element to the hidden div
+    hiddenDiv.appendChild(embedElement);
+
+    // Append the hidden div to the document body
+    document.body.appendChild(hiddenDiv);
+</script>
+{% elseif slide.id == '293'%}
+<div id="slice_idx_display" class="unselectable">4/5<br><a style="color:gray;font-size:7px;">22_282_3-3dpfC3can</a><br>
+    <span style="font-size:12px">Downloads<span><br><a style="color:white; font-size:12px" href="../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/22_293_12-3dpfT12can.svg" target="_blank">vector file (1MB .svg)</a><a></a></span></span></div>
+<script>
+    // Create a new div element
+    var hiddenDiv = document.createElement('div');
+
+    // Set the style attributes for the div
+    hiddenDiv.style.height = '1px';
+    hiddenDiv.style.width = '1px';
+    hiddenDiv.style.visibility = 'hidden';
+    hiddenDiv.style.position = 'absolute';
+    hiddenDiv.style.top = '-9999px';
+
+    // Create an embed element for the SVG
+    var embedElement = document.createElement('embed');
+    embedElement.src = '../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/22_293_12-3dpfT12can.svg';
+    embedElement.type = 'image/svg+xml';
+    embedElement.id = 'current_svg_22_293_3-3dpfC3can';
+
+    // Append the embed element to the hidden div
+    hiddenDiv.appendChild(embedElement);
+
+    // Append the hidden div to the document body
+    document.body.appendChild(hiddenDiv);
+</script>
+{% elseif slide.id == '306'%}
+<div id="slice_idx_display" class="unselectable">5/5<br><a style="color:gray;font-size:7px;">22_282_3-3dpfC3can</a><br>
+    <span style="font-size:12px">Downloads<span><br><a style="color:white; font-size:12px" href="../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/22_306_25-3dpfT25can.svg" target="_blank">vector file (1MB .svg)</a><a></a></span></span></div>
+<script>
+    // Create a new div element
+    var hiddenDiv = document.createElement('div');
+
+    // Set the style attributes for the div
+    hiddenDiv.style.height = '1px';
+    hiddenDiv.style.width = '1px';
+    hiddenDiv.style.visibility = 'hidden';
+    hiddenDiv.style.position = 'absolute';
+    hiddenDiv.style.top = '-9999px';
+
+    // Create an embed element for the SVG
+    var embedElement = document.createElement('embed');
+    embedElement.src = '../../../assets/EC2/output/anatomical_reference_histology_zf/Coronal_3dpf_svg/22_306_25-3dpfT25can.svg';
+    embedElement.type = 'image/svg+xml';
+    embedElement.id = 'current_svg_22_306_3-3dpfC3can';
+
+    // Append the embed element to the hidden div
+    hiddenDiv.appendChild(embedElement);
+
+    // Append the hidden div to the document body
+    document.body.appendChild(hiddenDiv);
+</script>
+{% endif %}
+</body>
 
 <script src="../assets/js/openseadragon.js"></script>
 <script src="../assets/js/openseadragon.min.js"></script>
@@ -151,7 +432,34 @@
 <!-- <script src="../assets/js/tinyqueue.js"></script> -->
 <script src="../assets/js/polylabel_min.js"></script>
 <!-- <script src="./assets/js/openseadragonrgb.js"></script> -->
+<script>
+    document.addEventListener('keydown', function(event) {
+        switch (event.key) {
+            case 'f':
+                // Flip the image
+                var degrees = viewer.viewport.getRotation();
+                var newDegrees = (degrees + 180) % 360;
+                viewer.viewport.setRotation(newDegrees);
 
+                // Flip the SVG overlay
+                var svgOverlay = viewer.canvasOverlay.canvas();
+                svgOverlay.style.transform = `scaleY(-1)`;
+                svgOverlay.style.transformOrigin = 'center';
+                break;
+            case 'r':
+                // Rotate the image
+                var degrees = viewer.viewport.getRotation();
+                var newDegrees = (degrees + 90) % 360;
+                viewer.viewport.setRotation(newDegrees);
+
+                // Rotate the SVG overlay
+                var svgOverlay = viewer.canvasOverlay.canvas();
+                svgOverlay.style.transform = `rotate(${newDegrees}deg)`;
+                svgOverlay.style.transformOrigin = 'center';
+                break;
+        }
+    });
+</script>
 <script>
     function searchFunction() {
         // Declare variables
@@ -224,7 +532,5 @@
 </script>
 
 <!-- <script src="./assets/js/openseadragonrgb.js"></script> -->
-
-</body>
 <!-- <script src="../assets/js/openseadragon_2.5.js"></script> -->
 </html>
