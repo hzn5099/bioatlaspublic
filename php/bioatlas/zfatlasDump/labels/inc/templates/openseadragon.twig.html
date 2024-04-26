@@ -78,8 +78,8 @@
 <!-- <div class="osd_container"> -->
 <div id="openseadragon1" class="openseadragon" style="width: 100%; left: 350px; height: 100%; filter: brightness(100%) contrast(100%); background-color: rgb(255, 255, 255);"></div>
 <script src="../assets/js/openseadragon1.js"></script>
-
-< style="background: none transparent; border: none; margin: 0px; padding: 0px; position: absolute; right: 0px; top: 0px;">
+<!--<script src="../assets/js/openseadragontest.js"></script>-->
+<!-- style="background: none transparent; border: none; margin: 0px; padding: 0px; position: absolute; right: 0px; top: 0px;"-->
 
 
 <!-- <div id='nav_hover_button' tabindex="0"></div> -->
@@ -432,7 +432,34 @@
 <!-- <script src="../assets/js/tinyqueue.js"></script> -->
 <script src="../assets/js/polylabel_min.js"></script>
 <!-- <script src="./assets/js/openseadragonrgb.js"></script> -->
+<script>
+    document.addEventListener('keydown', function(event) {
+        switch (event.key) {
+            case 'f':
+                // Flip the image
+                var degrees = viewer.viewport.getRotation();
+                var newDegrees = (degrees + 180) % 360;
+                viewer.viewport.setRotation(newDegrees);
 
+                // Flip the SVG overlay
+                var svgOverlay = viewer.canvasOverlay.canvas();
+                svgOverlay.style.transform = `scaleY(-1)`;
+                svgOverlay.style.transformOrigin = 'center';
+                break;
+            case 'r':
+                // Rotate the image
+                var degrees = viewer.viewport.getRotation();
+                var newDegrees = (degrees + 90) % 360;
+                viewer.viewport.setRotation(newDegrees);
+
+                // Rotate the SVG overlay
+                var svgOverlay = viewer.canvasOverlay.canvas();
+                svgOverlay.style.transform = `rotate(${newDegrees}deg)`;
+                svgOverlay.style.transformOrigin = 'center';
+                break;
+        }
+    });
+</script>
 <script>
     function searchFunction() {
         // Declare variables
